@@ -43,5 +43,5 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>GUI.Login</exec.mainClass>
     </properties>
-    <name>escuela</name>
+    <name>escuelaAlt</name>
 </project>
