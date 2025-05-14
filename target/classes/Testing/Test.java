@@ -15,7 +15,7 @@ public class Test {
     
     public static void main(String[] args) {
         
-          Usuario currentUser1 = CurrentSession.getInstance().login(1, "1234");
+     CurrentSession.getInstance().login(1, "1234");
         
         /*
         =========================================================================

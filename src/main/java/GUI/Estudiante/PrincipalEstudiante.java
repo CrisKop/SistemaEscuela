@@ -7,6 +7,7 @@ package GUI.Estudiante;
 import Clases.Usuario;
 import GUI.Login;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import middlewares.CurrentSession;
 
 
@@ -26,17 +27,42 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
    
     public PrincipalEstudiante() {
         initComponents();
-        welcomeMessageName.setText(currentUser.getNombre());
+        welcomeMessageName.setText(currentUser.getNombre() + "!");
+        String[] columnasCursos = {"ID del curso", "Nombre del Curso"};
+        Crear_Modelo(columnasCursos, tableCursos);
+        
+        String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
+        Crear_Modelo(columnasEvals, tableEvals);
+        
+     
+        Crear_Modelo(columnasCursos, tableCursosDisponibles);
     }
     
-    private void cambiarTab(int index){
-        try{
-            TabbedContainer.setSelectedIndex(index);
-        } catch(Exception e){
-            System.out.println("Error al cambiar de tab (probablemente index no encontrado)");
-            System.out.println(e.getMessage());
+  private void cambiarTab(int index) {
+    try {
+        TabbedContainer.setSelectedIndex(index);
+
+        JButton[] tabsButtons = {TabBtn1, TabBtn2, TabBtn3};
+
+        for (int i = 0; i < tabsButtons.length; i++) {
+            if (i == index) {
+                // Botón activo
+                tabsButtons[i].setBackground(new java.awt.Color(255, 255, 255));
+                 tabsButtons[i].setForeground(new java.awt.Color(0,0,0));
+                
+            } else {
+                // Botones inactivos
+                tabsButtons[i].setBackground(new java.awt.Color(4, 205, 4));
+                tabsButtons[i].setForeground(new java.awt.Color(255, 255, 255));
+            }
         }
+
+    } catch (Exception e) {
+        System.out.println("Error al cambiar de tab (probablemente index no encontrado)");
+        System.out.println(e.getMessage());
     }
+}
+
     
     private void logout(){
           // Limpia sesión antes que nada
@@ -45,12 +71,10 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     // Cierra esta ventana
     this.dispose();
 
-    // Abre la ventana de login después
-    SwingUtilities.invokeLater(() -> {
-        Login login = new Login();
-        login.setLocationRelativeTo(null); // Centrado
-        login.setVisible(true);
-    });
+     Login login = new Login();
+  
+     login.setVisible(true);
+  
        
       
         
@@ -77,11 +101,25 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         welcomeMessageName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableCursos = new javax.swing.JTable();
+        BtnCursosVerDetalles = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableEvals = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        BtnCursosVerDetalles1 = new javax.swing.JButton();
         Tab2Container = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCursosDisponibles = new javax.swing.JTable();
+        btnInscribirse = new javax.swing.JButton();
         Tab3Container = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setEnabled(false);
         setMinimumSize(new java.awt.Dimension(1200, 750));
         setResizable(false);
 
@@ -147,29 +185,121 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         welcomeMessageName.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         welcomeMessageName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcomeMessageName.setText("!");
-        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 720, -1));
+        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 720, -1));
 
         jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
-        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 360, 10));
+        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
-        jLabel4.setText("Bienvenido");
-        Tab1Container.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel4.setText("Cursos Inscritos");
+        Tab1Container.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel5.setText("Bienvenido");
+        Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+
+        tableCursos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableCursos.setRowHeight(40);
+        jScrollPane1.setViewportView(tableCursos);
+
+        Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 660, 210));
+
+        BtnCursosVerDetalles.setBackground(new java.awt.Color(4, 205, 4));
+        BtnCursosVerDetalles.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        BtnCursosVerDetalles.setForeground(new java.awt.Color(255, 255, 255));
+        BtnCursosVerDetalles.setText("Ver detalles");
+        BtnCursosVerDetalles.setBorder(null);
+        BtnCursosVerDetalles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCursosVerDetallesActionPerformed(evt);
+            }
+        });
+        Tab1Container.add(BtnCursosVerDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 560, 210, 60));
+        Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 910, 10));
+
+        tableEvals.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tableEvals);
+
+        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 660, 210));
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel6.setText("Evaluaciones pendientes");
+        Tab1Container.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, -1));
+
+        BtnCursosVerDetalles1.setBackground(new java.awt.Color(4, 205, 4));
+        BtnCursosVerDetalles1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        BtnCursosVerDetalles1.setForeground(new java.awt.Color(255, 255, 255));
+        BtnCursosVerDetalles1.setText("Ver detalles");
+        BtnCursosVerDetalles1.setBorder(null);
+        BtnCursosVerDetalles1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCursosVerDetalles1ActionPerformed(evt);
+            }
+        });
+        Tab1Container.add(BtnCursosVerDetalles1, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 210, 60));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
         Tab2Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab2Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout Tab2ContainerLayout = new javax.swing.GroupLayout(Tab2Container);
-        Tab2Container.setLayout(Tab2ContainerLayout);
-        Tab2ContainerLayout.setHorizontalGroup(
-            Tab2ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 970, Short.MAX_VALUE)
-        );
-        Tab2ContainerLayout.setVerticalGroup(
-            Tab2ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 755, Short.MAX_VALUE)
-        );
+        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel7.setText("Cursos disponibles");
+        Tab2Container.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+
+        jSeparator3.setForeground(new java.awt.Color(62, 255, 59));
+        Tab2Container.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel8.setText("Cursos Disponibles");
+        Tab2Container.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        tableCursosDisponibles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tableCursosDisponibles);
+
+        Tab2Container.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 910, 470));
+
+        btnInscribirse.setBackground(new java.awt.Color(4, 205, 4));
+        btnInscribirse.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnInscribirse.setForeground(new java.awt.Color(255, 255, 255));
+        btnInscribirse.setText("Inscribirse");
+        btnInscribirse.setBorder(null);
+        btnInscribirse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInscribirseActionPerformed(evt);
+            }
+        });
+        Tab2Container.add(btnInscribirse, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 910, 60));
 
         TabbedContainer.addTab("Cursos disponibles", Tab2Container);
 
@@ -211,6 +341,18 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         cambiarTab(2);
     }//GEN-LAST:event_TabBtn3ActionPerformed
 
+    private void BtnCursosVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCursosVerDetallesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCursosVerDetallesActionPerformed
+
+    private void BtnCursosVerDetalles1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCursosVerDetalles1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCursosVerDetalles1ActionPerformed
+
+    private void btnInscribirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInscribirseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,14 +384,54 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PrincipalEstudiante().setVisible(true);
-            }
-        });
+        
     }
+    
+    
+    
+     DefaultTableModel modelo;
+ private void Crear_Modelo(String[] titulos, JTable tablaDestino) {
+    try {
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos) {
+
+            // Tipos de datos por columna (aquí todos String, puedes modificarlo)
+            Class[] types = new Class[titulos.length];
+            {
+                for (int i = 0; i < types.length; i++) {
+                    types[i] = String.class;
+                }
+            }
+
+            // Todas las celdas no editables
+            boolean[] canEdit = new boolean[titulos.length];
+            {
+                for (int i = 0; i < canEdit.length; i++) {
+                    canEdit[i] = false;
+                }
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        tablaDestino.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.toString() + " - Error al crear modelo de tabla");
+    }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnCursosVerDetalles;
+    private javax.swing.JButton BtnCursosVerDetalles1;
     private javax.swing.JPanel LeftBar;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
@@ -260,9 +442,22 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     private javax.swing.JButton TabBtn3;
     private javax.swing.JButton TabBtnLogOut;
     private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JButton btnInscribirse;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTable tableCursos;
+    private javax.swing.JTable tableCursosDisponibles;
+    private javax.swing.JTable tableEvals;
     private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }

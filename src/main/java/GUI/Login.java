@@ -56,9 +56,9 @@ public class Login extends javax.swing.JFrame {
        
        private void openRoleWindow(Usuario usuario){
                JFrame ventana = switch (usuario.getRol()) {
-                case "Estudiante" -> new PrincipalEstudiante();
-                case "Profesor" -> new PrincipalProfesor();
-                case "Administrador" -> new PrincipalAdministrador();
+                case "Estudiantes" -> new PrincipalEstudiante();
+                case "Profesores" -> new PrincipalProfesor();
+                case "Administradores" -> new PrincipalAdministrador();
                 default -> null;
             };
 
@@ -106,20 +106,28 @@ public class Login extends javax.swing.JFrame {
            var identificacion = Integer.parseInt(InputID.getText());
            String contra = String.valueOf(InputPassword.getPassword());
            
-           Usuario usuario = CurrentSession.getInstance().login(identificacion, contra);
+           boolean success = CurrentSession.getInstance().login(identificacion, contra);
            
-        //===========================================================================
-        
-           if(usuario == null){
-                 StatusText.setText("Inicio de sesión fallido");
-
-            // Timer que borra el texto después de 3 segundos (3000 ms)
-            new javax.swing.Timer(3000, e -> StatusText.setText("")).start();
-            return;
-           }
+           
+if (success) {
+    Usuario usuario = CurrentSession.getInstance().getCurrentSessionData();
+    System.out.println("Bienvenido: " + usuario.getNombre());
+    
+    //===========================================================================
+      
            
         
            openRoleWindow(usuario);
+} else {
+    System.out.println("Login fallido");
+      StatusText.setText("Inicio de sesión fallido");
+
+            // Timer que borra el texto después de 3 segundos (3000 ms)
+            new javax.swing.Timer(3000, e -> StatusText.setText("")).start();
+}
+         
+           
+        
            
            
            

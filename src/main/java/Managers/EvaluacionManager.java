@@ -118,6 +118,42 @@ public class EvaluacionManager {
             }
     }
          
+         
+         
+            public List<Evaluacion> listarEvaluacionesPorEstudiante (){
+        
+         String sql = "SELECT * FROM evaluacion";
+       
+         List<Evaluacion> lista = new ArrayList<>();
+        
+        try(Statement stmt = conexion.createStatement()){
+     
+            try(ResultSet rs = stmt.executeQuery(sql)){
+             
+                while(rs.next()){
+                    Evaluacion evaluacion = new Evaluacion(
+                            rs.getInt("idEvaluacion"),
+                             rs.getInt("idCurso"),
+                             rs.getInt("idProfesor"),
+                            rs.getString("titulo"),
+                            rs.getDate("fechaInicio"),
+                            rs.getDate("fechaFin"),
+                            rs.getString("tipo")
+                           
+                    );
+                    
+                    lista.add(evaluacion);
+                }
+               
+                return lista;
+            
+            }} catch (SQLException e){
+               
+                 System.err.println("Error al listar evaluacion: " + e.getMessage());
+                return null;
+            }
+    }
+         
           public boolean actualizarEvaluacion(Evaluacion evaluacion){
                String sql = "UPDATE Evaluacion SET idCurso = ?, idProfesor = ?, titulo = ?, fechaInicio = ?,fechaFin = ?, tipo = ? WHERE idEvaluacion = ?";
         
