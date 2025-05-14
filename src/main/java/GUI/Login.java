@@ -21,9 +21,22 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    public void verifySession(){
+           CurrentSession currentSession = CurrentSession.getInstance();
+           
+           if(currentSession.getCurrentSessionData() != null){
+               Usuario currentUser = currentSession.getCurrentSessionData();
+               
+               openRoleWindow(currentUser);
+               this.dispose();
+               System.out.println(currentUser);
+           }
+    }
+    
     public Login() {
         initComponents();
         ApplyFieldsOnlyNumbers();
+        verifySession();
     }
     
        private void ApplyFieldsOnlyNumbers(){
@@ -40,6 +53,29 @@ public class Login extends javax.swing.JFrame {
         });
     }
 }
+       
+       private void openRoleWindow(Usuario usuario){
+               JFrame ventana = switch (usuario.getRol()) {
+                case "Estudiante" -> new PrincipalEstudiante();
+                case "Profesor" -> new PrincipalProfesor();
+                case "Administrador" -> new PrincipalAdministrador();
+                default -> null;
+            };
+
+            if (ventana != null) {
+                StatusText.setText("¡Inicio de sesión exitoso!");
+                StatusText.setForeground(new Color(51,153,0));
+                 // Timer que borra el texto después de 3 segundos (3000 ms)
+                 new javax.swing.Timer(2000, e -> {
+                    ventana.setVisible(true);
+                    this.dispose();
+                }).start();
+
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Rol desconocido: " + usuario.getRol());
+            }
+       }
        
        private void login(){
            
@@ -82,27 +118,8 @@ public class Login extends javax.swing.JFrame {
             return;
            }
            
-            JFrame ventana = switch (usuario.getRol()) {
-                case "Estudiante" -> new PrincipalEstudiante();
-                case "Profesor" -> new PrincipalProfesor();
-                case "Administrador" -> new PrincipalAdministrador();
-                default -> null;
-            };
-
-            if (ventana != null) {
-                StatusText.setText("¡Inicio de sesión exitoso!");
-                StatusText.setForeground(new Color(51,153,0));
-                 // Timer que borra el texto después de 3 segundos (3000 ms)
-                 new javax.swing.Timer(2000, e -> {
-                    ventana.setVisible(true);
-                    this.dispose();
-                }).start();
-
-                
-            } else {
-                JOptionPane.showMessageDialog(this, "Rol desconocido: " + usuario.getRol());
-            }
-
+        
+           openRoleWindow(usuario);
            
            
            
@@ -276,6 +293,7 @@ public class Login extends javax.swing.JFrame {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
        login();
+        System.out.println("Test");
     }//GEN-LAST:event_button1ActionPerformed
 
     /**

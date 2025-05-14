@@ -4,6 +4,11 @@
  */
 package GUI.Estudiante;
 
+import Clases.Usuario;
+import GUI.Login;
+import javax.swing.*;
+import middlewares.CurrentSession;
+
 
 
 /**
@@ -15,8 +20,40 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    
+    CurrentSession currentSession = CurrentSession.getInstance();
+    Usuario currentUser = currentSession.getCurrentSessionData();
+   
     public PrincipalEstudiante() {
         initComponents();
+        welcomeMessageName.setText(currentUser.getNombre());
+    }
+    
+    private void cambiarTab(int index){
+        try{
+            TabbedContainer.setSelectedIndex(index);
+        } catch(Exception e){
+            System.out.println("Error al cambiar de tab (probablemente index no encontrado)");
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    private void logout(){
+          // Limpia sesión antes que nada
+    currentSession.logOut();
+
+    // Cierra esta ventana
+    this.dispose();
+
+    // Abre la ventana de login después
+    SwingUtilities.invokeLater(() -> {
+        Login login = new Login();
+        login.setLocationRelativeTo(null); // Centrado
+        login.setVisible(true);
+    });
+       
+      
+        
     }
 
     /**
@@ -28,22 +65,151 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1200, 750));
+        LeftBar = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        TabBtnLogOut = new javax.swing.JButton();
+        TabBtn1 = new javax.swing.JButton();
+        TabBtn2 = new javax.swing.JButton();
+        TabBtn3 = new javax.swing.JButton();
+        RightContainer = new javax.swing.JPanel();
+        TabbedContainer = new javax.swing.JTabbedPane();
+        Tab1Container = new javax.swing.JPanel();
+        welcomeMessageName = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
+        Tab2Container = new javax.swing.JPanel();
+        Tab3Container = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setEnabled(false);
+        setMinimumSize(new java.awt.Dimension(1200, 750));
+        setResizable(false);
+
+        LeftBar.setBackground(new java.awt.Color(4, 206, 4));
+        LeftBar.setMinimumSize(new java.awt.Dimension(230, 750));
+        LeftBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        LeftBar.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, -1));
+
+        TabBtnLogOut.setBackground(new java.awt.Color(174, 197, 177));
+        TabBtnLogOut.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        TabBtnLogOut.setForeground(new java.awt.Color(255, 255, 255));
+        TabBtnLogOut.setText("Cerrar Sesion");
+        TabBtnLogOut.setBorder(null);
+        TabBtnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TabBtnLogOutActionPerformed(evt);
+            }
+        });
+        LeftBar.add(TabBtnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 670, 210, 60));
+
+        TabBtn1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        TabBtn1.setText("Principal");
+        TabBtn1.setBorder(null);
+        TabBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TabBtn1ActionPerformed(evt);
+            }
+        });
+        LeftBar.add(TabBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 166, 210, 60));
+
+        TabBtn2.setBackground(new java.awt.Color(4, 205, 4));
+        TabBtn2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        TabBtn2.setForeground(new java.awt.Color(255, 255, 255));
+        TabBtn2.setText("Cursos Disponibles");
+        TabBtn2.setBorder(null);
+        TabBtn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TabBtn2ActionPerformed(evt);
+            }
+        });
+        LeftBar.add(TabBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 210, 60));
+
+        TabBtn3.setBackground(new java.awt.Color(4, 205, 4));
+        TabBtn3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        TabBtn3.setForeground(new java.awt.Color(255, 255, 255));
+        TabBtn3.setText("Configuracion");
+        TabBtn3.setBorder(null);
+        TabBtn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TabBtn3ActionPerformed(evt);
+            }
+        });
+        LeftBar.add(TabBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 210, 60));
+
+        getContentPane().add(LeftBar, java.awt.BorderLayout.LINE_START);
+
+        RightContainer.setBackground(new java.awt.Color(251, 251, 254));
+        RightContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Tab1Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab1Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        welcomeMessageName.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        welcomeMessageName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        welcomeMessageName.setText("!");
+        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 720, -1));
+
+        jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
+        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 360, 10));
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel4.setText("Bienvenido");
+        Tab1Container.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        TabbedContainer.addTab("Principal", Tab1Container);
+
+        Tab2Container.setBackground(new java.awt.Color(251, 251, 254));
+
+        javax.swing.GroupLayout Tab2ContainerLayout = new javax.swing.GroupLayout(Tab2Container);
+        Tab2Container.setLayout(Tab2ContainerLayout);
+        Tab2ContainerLayout.setHorizontalGroup(
+            Tab2ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 970, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+        Tab2ContainerLayout.setVerticalGroup(
+            Tab2ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 755, Short.MAX_VALUE)
         );
+
+        TabbedContainer.addTab("Cursos disponibles", Tab2Container);
+
+        Tab3Container.setBackground(new java.awt.Color(251, 251, 254));
+
+        javax.swing.GroupLayout Tab3ContainerLayout = new javax.swing.GroupLayout(Tab3Container);
+        Tab3Container.setLayout(Tab3ContainerLayout);
+        Tab3ContainerLayout.setHorizontalGroup(
+            Tab3ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 970, Short.MAX_VALUE)
+        );
+        Tab3ContainerLayout.setVerticalGroup(
+            Tab3ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 755, Short.MAX_VALUE)
+        );
+
+        TabbedContainer.addTab("Configuracion", Tab3Container);
+
+        RightContainer.add(TabbedContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, -1, 790));
+
+        getContentPane().add(RightContainer, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void TabBtnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtnLogOutActionPerformed
+       logout();
+    }//GEN-LAST:event_TabBtnLogOutActionPerformed
+
+    private void TabBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn2ActionPerformed
+           cambiarTab(1);
+    }//GEN-LAST:event_TabBtn2ActionPerformed
+
+    private void TabBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn1ActionPerformed
+          cambiarTab(0);
+    }//GEN-LAST:event_TabBtn1ActionPerformed
+
+    private void TabBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn3ActionPerformed
+        cambiarTab(2);
+    }//GEN-LAST:event_TabBtn3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -56,7 +222,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -84,5 +250,19 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel LeftBar;
+    private javax.swing.JPanel RightContainer;
+    private javax.swing.JPanel Tab1Container;
+    private javax.swing.JPanel Tab2Container;
+    private javax.swing.JPanel Tab3Container;
+    private javax.swing.JButton TabBtn1;
+    private javax.swing.JButton TabBtn2;
+    private javax.swing.JButton TabBtn3;
+    private javax.swing.JButton TabBtnLogOut;
+    private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }
