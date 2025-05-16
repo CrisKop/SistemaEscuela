@@ -30,7 +30,13 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     public PrincipalEstudiante() {
         initComponents();
         welcomeMessageName.setText(currentUser.getNombre() + "!");
-        String[] columnasCursos = {"ID del curso", "Nombre del Curso"};
+        cargarModeloTablas();
+        loadCurrentInformation();
+    }
+    
+    
+    private void cargarModeloTablas(){
+           String[] columnasCursos = {"ID del curso", "Nombre del Curso"};
         Crear_Modelo(columnasCursos, tableCursos);
         
         String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
@@ -38,8 +44,6 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         
      
         Crear_Modelo(columnasCursos, tableCursosDisponibles);
-        
-        loadCurrentInformation();
     }
     
   private void cambiarTab(int index) {
@@ -493,7 +497,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         currentUser.setEmail(email);
         currentUser.setTelefono(telefono);
         
-        if(isChangingPassword == true || currentUser.getPassword().equals(currentPassword)){
+        if(isChangingPassword == true && currentUser.getPassword().equals(currentPassword)){
                currentUser.setPassword(newPassword);
         }
         

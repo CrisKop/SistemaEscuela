@@ -4,11 +4,16 @@
  */
 package GUI.Administrador;
 
+import Clases.Escuela;
 import Clases.Usuario;
 import GUI.Login;
+import Managers.EscuelaManager;
 import Managers.UsuarioManager;
 import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.List;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import middlewares.CurrentSession;
 
 /**
@@ -27,7 +32,14 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     public PrincipalAdministrador() {
         initComponents();
          welcomeMessageName.setText(currentUser.getNombre() + "!");
+         cargarModeloTablas();
          loadCurrentInformation();
+         cargarTablasNecesarias();
+    }
+    
+     private void cargarModeloTablas(){
+           String[] columnasCursos = {"ID de escuela", "Nombre de escuela"};
+        Crear_Modelo(columnasCursos, tableEscuelas);
     }
     
      private void cambiarTab(int index) {
@@ -61,15 +73,12 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     currentSession.logOut();
 
     // Cierra esta ventana
-    this.dispose();
+    this.setVisible(false);
 
      Login login = new Login();
   
      login.setVisible(true);
   
-       
-      
-        
     }
 
     /**
@@ -95,7 +104,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        categorySelector = new javax.swing.JComboBox<>();
         btnGoDetails = new javax.swing.JButton();
         Tab2Container = new javax.swing.JPanel();
         statusText = new javax.swing.JLabel();
@@ -115,6 +124,21 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         settingsBtnApplyChanges = new javax.swing.JButton();
         changePasswordCheckBox = new javax.swing.JCheckBox();
         jLabel16 = new javax.swing.JLabel();
+        EscuelaManager = new javax.swing.JPanel();
+        jSeparator5 = new javax.swing.JSeparator();
+        inputEscuelaNombre = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableEscuelas = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
+        escuelasCounter = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        btnApplyEscuela = new javax.swing.JButton();
+        btnCreateEscuela = new javax.swing.JButton();
+        btnDeleteEscuela = new javax.swing.JButton();
+        statusTextEscuela = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1200, 750));
@@ -196,9 +220,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         Tab1Container.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 910, 230));
         Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 910, 10));
 
-        jComboBox1.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escuelas", "Departamentos", "Cursos", "Evaluaciones", "Estudiantes", "Profesores" }));
-        Tab1Container.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 910, 50));
+        categorySelector.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        categorySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escuelas", "Departamentos", "Cursos", "Evaluaciones", "Estudiantes", "Profesores" }));
+        Tab1Container.add(categorySelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 910, 50));
 
         btnGoDetails.setBackground(new java.awt.Color(4, 205, 4));
         btnGoDetails.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -212,7 +236,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         });
         Tab1Container.add(btnGoDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 520, 210, 60));
 
-        TabbedContainer.addTab("Configuracion", Tab1Container);
+        TabbedContainer.addTab("Principal", Tab1Container);
 
         Tab2Container.setBackground(new java.awt.Color(251, 251, 254));
         Tab2Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -294,6 +318,114 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
         TabbedContainer.addTab("Configuracion", Tab2Container);
 
+        EscuelaManager.setBackground(new java.awt.Color(251, 251, 254));
+        EscuelaManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator5.setForeground(new java.awt.Color(62, 255, 59));
+        EscuelaManager.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
+
+        inputEscuelaNombre.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EscuelaManager.add(inputEscuelaNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, 40));
+
+        jLabel23.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel23.setText("Nombre");
+        EscuelaManager.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel24.setText("Gestion de escuelas");
+        EscuelaManager.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        tableEscuelas.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        tableEscuelas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableEscuelas.setRowHeight(40);
+        tableEscuelas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEscuelasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableEscuelas);
+
+        EscuelaManager.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 870, 170));
+
+        jLabel18.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Click en una para editar");
+        EscuelaManager.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, -1, -1));
+
+        escuelasCounter.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        escuelasCounter.setText("0");
+        EscuelaManager.add(escuelasCounter, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 150, -1));
+
+        jLabel19.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel19.setText("Lista de escuelas:");
+        EscuelaManager.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        btnApplyEscuela.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyEscuela.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyEscuela.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyEscuela.setText("Aplicar");
+        btnApplyEscuela.setBorder(null);
+        btnApplyEscuela.setEnabled(false);
+        btnApplyEscuela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyEscuelaActionPerformed(evt);
+            }
+        });
+        EscuelaManager.add(btnApplyEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 90, 60));
+
+        btnCreateEscuela.setBackground(new java.awt.Color(4, 205, 4));
+        btnCreateEscuela.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCreateEscuela.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateEscuela.setText("Crear nuevo");
+        btnCreateEscuela.setBorder(null);
+        btnCreateEscuela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateEscuelaActionPerformed(evt);
+            }
+        });
+        EscuelaManager.add(btnCreateEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 660, 130, 60));
+
+        btnDeleteEscuela.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteEscuela.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteEscuela.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteEscuela.setText("Eliminar");
+        btnDeleteEscuela.setBorder(null);
+        btnDeleteEscuela.setEnabled(false);
+        btnDeleteEscuela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteEscuelaActionPerformed(evt);
+            }
+        });
+        EscuelaManager.add(btnDeleteEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 660, 90, 60));
+
+        statusTextEscuela.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextEscuela.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        EscuelaManager.add(statusTextEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 630, 340, 15));
+
+        jButton1.setBackground(new java.awt.Color(251, 251, 254));
+        jButton1.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
+        jButton1.setText("<");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        EscuelaManager.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
+
+        TabbedContainer.addTab("Configuracion", EscuelaManager);
+
         RightContainer.add(TabbedContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, -1, 790));
 
         getContentPane().add(RightContainer, java.awt.BorderLayout.CENTER);
@@ -302,7 +434,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGoDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoDetailsActionPerformed
-        
+        goToCategory();
     }//GEN-LAST:event_btnGoDetailsActionPerformed
 
     private void TabBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn1ActionPerformed
@@ -325,7 +457,214 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
          settingsNewPasswordInput.setEnabled(!settingsNewPasswordInput.isEnabled());
     }//GEN-LAST:event_changePasswordCheckBoxStateChanged
 
+    private void btnApplyEscuelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyEscuelaActionPerformed
+       updateEscuela();
+    }//GEN-LAST:event_btnApplyEscuelaActionPerformed
+
+    private void tableEscuelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEscuelasMouseClicked
+ int fila = tableEscuelas.getSelectedRow();
+    if (fila != -1) {
+        
+        habilitarBotones();
+        
+         Object id = tableEscuelas.getValueAt(fila, 0);
+            Object nombre = tableEscuelas.getValueAt(fila, 1);
+        inputEscuelaNombre.setText(nombre.toString());
+        
+    }
+    }//GEN-LAST:event_tableEscuelasMouseClicked
+
+    private void btnCreateEscuelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateEscuelaActionPerformed
+      createNewEscuela();
+    }//GEN-LAST:event_btnCreateEscuelaActionPerformed
+
+    private void btnDeleteEscuelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEscuelaActionPerformed
+        deleteEscuela();
+    }//GEN-LAST:event_btnDeleteEscuelaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       cambiarTab(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
+    
+    
+    private void goToCategory(){
+        JComboBox selector = categorySelector;
+        int selectedOption = selector.getSelectedIndex();
+        
+        cambiarTab(selectedOption + 2);
+    }
+    
+    
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE ESCUELAS
+    */
+    
+    //<editor-fold>
+    private void desabilitarBotones(){
+                   btnApplyEscuela.setBackground(new Color(242,242,242));
+        btnApplyEscuela.setEnabled(false);
+        btnDeleteEscuela.setBackground(new Color(242,242,242));
+        btnDeleteEscuela.setEnabled(false);
+    }
+    
+    private void habilitarBotones(){
+             btnApplyEscuela.setBackground(new Color(4,205,4));
+        btnApplyEscuela.setEnabled(true);
+        btnDeleteEscuela.setBackground(new Color(255,51,51));
+        btnDeleteEscuela.setEnabled(true);
+    }
+    
+    private void limpiarCampos(){
+        
+        JTextField[] inputs = {inputEscuelaNombre};
+        
+        for(JTextField input : inputs){
+            input.setText("");
+        }
+        
+    }
+    
+    EscuelaManager escuelaManager = new EscuelaManager();
+    
+    private void deleteEscuela(){
+             boolean accion = actionDeleteEscuela();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones();
+                   limpiarCampos();
+                   successText();
+    }
+    
+    
+    private void updateEscuela(){
+         boolean inputsValidados = validateEscuelaInputs();
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateEscuela();
+        if(accion == false) return;
+                
+                desabilitarBotones();
+                   limpiarCampos();
+                   successText();
+
+    }
+    
+    private void createNewEscuela(){
+        
+        boolean inputsValidados = validateEscuelaInputs();
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionCreateEscuela();
+        if(accion == false) return;
+        
+        
+           desabilitarBotones();
+           limpiarCampos();
+           successText();
+        
+    }
+    
+    
+    private void successText(){
+         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
+          statusTextEscuela.setText("Aplicado con éxito");
+        statusTextEscuela.setForeground(new Color(51, 153, 0)); // Verde
+    }
+    
+    private boolean validateEscuelaInputs(){
+        String nombre = inputEscuelaNombre.getText().trim();
+        
+        if(nombre.isEmpty()){
+              statusTextEscuela.setText("Campos faltantes");
+        statusTextEscuela.setForeground(new Color(204, 0, 51)); // Rojo
+        return false;
+        }
+        
+        return true;
+    }
+    
+    
+    private boolean actionCreateEscuela(){
+
+        
+            Escuela nuevaEscuela = new Escuela(0, inputEscuelaNombre.getText());
+            boolean accion = escuelaManager.insertarEscuela(nuevaEscuela);
+            
+            if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+            
+            cargarTablaEscuelas();
+            return true;
+            
+    
+    }
+    
+    private boolean actionUpdateEscuela(){
+           
+            int fila = tableEscuelas.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEscuelas.getValueAt(fila, 0);
+                  Object nombre = tableEscuelas.getValueAt(fila, 1);
+                 
+                  Escuela nuevaEscuela = new Escuela((int) id, inputEscuelaNombre.getText());
+                  
+                  
+                   boolean accion = escuelaManager.actualizarEscuela(nuevaEscuela);
+                   
+                    
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaEscuelas();
+            return true;
+    }
+    
+    private boolean actionDeleteEscuela(){
+         int fila = tableEscuelas.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEscuelas.getValueAt(fila, 0);
+                  
+                   boolean accion = escuelaManager.eliminarEscuela((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaEscuelas();
+            return true;
+    }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE ESCUELAS
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    /*
+    
+    =====================================================================
+    =====================================================================
+    ZONA DE CAMBIO DE INFORMACION DE USUARIO
+    */
+    
+     //<editor-fold>
      UsuarioManager usuarioManager = new UsuarioManager();
      
      
@@ -354,7 +693,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         boolean changesAppliedOnDB = applyChangesWithManager(nuevoObjeto);
         if(changesAppliedOnDB == false) return false;
         
-        
+        welcomeMessageName.setText(currentUser.getNombre() + "!");
         statusText.setText("Aplicado con éxito");
         statusText.setForeground(new Color(51, 153, 0)); // Verde
         return true;
@@ -372,7 +711,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         currentUser.setEmail(email);
         currentUser.setTelefono(telefono);
         
-        if(isChangingPassword == true || currentUser.getPassword().equals(currentPassword)){
+        if(isChangingPassword == true && currentUser.getPassword().equals(currentPassword)){
                currentUser.setPassword(newPassword);
         }
         
@@ -406,6 +745,14 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         return true;
     }
 }
+   
+    //</editor-fold>
+   
+     /*
+      ZONA DE CAMBIO DE INFORMACION DE USUARIO
+    =====================================================================
+    =====================================================================
+    */
     
     /**
      * @param args the command line arguments
@@ -442,8 +789,89 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
             }
         });
     }
+    
+
+    
+    private void cargarTablasNecesarias(){
+        cargarTablaEscuelas();
+     
+    }
+    
+    private void cargarTablaEscuelas(){
+           List<Escuela> listaEscuelas = escuelaManager.listarEscuelas();
+        
+        if(listaEscuelas != null) {
+            cargarTabla(tableEscuelas, listaEscuelas);
+            escuelasCounter.setText(String.valueOf(listaEscuelas.size()));
+        }
+    }
+    
+    public static void cargarTabla(JTable tabla, List<?> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);  // Limpiar tabla
+
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        Object ejemplo = lista.get(0);
+        Field[] campos = ejemplo.getClass().getDeclaredFields();
+
+        for (Object obj : lista) {
+            Object[] fila = new Object[campos.length];
+            try {
+                for (int i = 0; i < campos.length; i++) {
+                    campos[i].setAccessible(true);
+                    fila[i] = campos[i].get(obj);
+                }
+                modelo.addRow(fila);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+        DefaultTableModel modelo;
+ private void Crear_Modelo(String[] titulos, JTable tablaDestino) {
+    try {
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos) {
+
+            // Tipos de datos por columna (aquí todos String, puedes modificarlo)
+            Class[] types = new Class[titulos.length];
+            {
+                for (int i = 0; i < types.length; i++) {
+                    types[i] = String.class;
+                }
+            }
+
+            // Todas las celdas no editables
+            boolean[] canEdit = new boolean[titulos.length];
+            {
+                for (int i = 0; i < canEdit.length; i++) {
+                    canEdit[i] = false;
+                }
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        tablaDestino.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.toString() + " - Error al crear modelo de tabla");
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel EscuelaManager;
     private javax.swing.JPanel LeftBar;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
@@ -452,9 +880,15 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton TabBtn2;
     private javax.swing.JButton TabBtnLogOut;
     private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JButton btnApplyEscuela;
+    private javax.swing.JButton btnCreateEscuela;
+    private javax.swing.JButton btnDeleteEscuela;
     private javax.swing.JButton btnGoDetails;
+    private javax.swing.JComboBox<String> categorySelector;
     private javax.swing.JCheckBox changePasswordCheckBox;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel escuelasCounter;
+    private javax.swing.JTextField inputEscuelaNombre;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -463,12 +897,18 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JPasswordField settingsActualPasswordInput;
     private javax.swing.JButton settingsBtnApplyChanges;
     private javax.swing.JTextField settingsInputApellidos;
@@ -477,6 +917,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JTextField settingsInputTelefono;
     private javax.swing.JPasswordField settingsNewPasswordInput;
     private javax.swing.JLabel statusText;
+    private javax.swing.JLabel statusTextEscuela;
+    private javax.swing.JTable tableEscuelas;
     private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }

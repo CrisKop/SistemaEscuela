@@ -91,7 +91,7 @@ public class EscuelaManager {
             MÉTODO PARA LISTAR TODAS LAS ESCUELAS
     ==========================================================
     */
-    public List<Escuela> listtarEscuela(){
+    public List<Escuela> listarEscuelas(){
         
         //QUERY QUE SE EJECUTARÁ
          String sql = "SELECT * FROM escuelas";

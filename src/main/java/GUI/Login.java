@@ -68,7 +68,7 @@ public class Login extends javax.swing.JFrame {
                  // Timer que borra el texto después de 3 segundos (3000 ms)
                  new javax.swing.Timer(2000, e -> {
                     ventana.setVisible(true);
-                    this.dispose();
+                    this.setVisible(false);
                 }).start();
 
                 
