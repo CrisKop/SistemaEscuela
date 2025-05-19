@@ -9,9 +9,9 @@ public class Usuario {
     private String telefono;
     private String rol;
     private String password;
-    private boolean estado;
+    private int estado;
 
-    public Usuario(int idusuario, int identificacion, String nombre, String apellido, String email, String telefono, String rol, String password, boolean estado) {
+    public Usuario(int idusuario, int identificacion, String nombre, String apellido, String email, String telefono, String rol, String password, int estado) {
         this.idUsuario = idusuario;
         this.identificacion = identificacion;
         this.nombre = nombre;
@@ -89,11 +89,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public boolean getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 }

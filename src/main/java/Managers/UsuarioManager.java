@@ -40,31 +40,45 @@ public class UsuarioManager {
      MÉTODO INSERTAR USUARIO (NECESITA OBJETO USUARIO DE .clases/Usuario.java)
      ==========================================================
     */
-    public boolean insertarUsuario(Usuario usuario){
+   public Usuario insertarUsuario(Usuario usuario) {
+    // Consulta SQL con los parámetros para insertar el usuario
+    String sql = "INSERT INTO usuarios (identificacion, nombre, apellido, email, telefono, rol, password, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        // Reemplazar los parámetros con los valores del objeto Usuario
+        stmt.setInt(1, usuario.getIdentificacion());
+        stmt.setString(2, usuario.getNombre());
+        stmt.setString(3, usuario.getApellido());
+        stmt.setString(4, usuario.getEmail());
+        stmt.setString(5, usuario.getTelefono());
+        stmt.setString(6, usuario.getRol());
+        stmt.setString(7, usuario.getPassword());
+        stmt.setInt(8, usuario.getEstado());
         
-        //QUERY QUE SE EJECUTARÁ, CON ? PARA REEMPLAZAR
-        String sql = "INSERT INTO usuarios (identificacion, nombre, apellido, email, telefono, rol, password, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Ejecutar la consulta de inserción
+        int rowsAffected = stmt.executeUpdate();
         
-        //ZONA DE REEMPLAZO DE ? EN EL QUERY PREPARADO
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
-            //OBTENER Y REEMPLAZAR CADA DATO EN ORDEN DEL OBJETO BASE
-            stmt.setInt(1, usuario.getIdentificacion());
-            stmt.setString(2, usuario.getNombre());
-            stmt.setString(3, usuario.getApellido());
-            stmt.setString(4, usuario.getEmail());
-            stmt.setString(5, usuario.getTelefono());
-            stmt.setString(6, usuario.getRol());
-            stmt.setString(7, usuario.getPassword());
-            stmt.setBoolean(8, usuario.getEstado());
-                    
-            //TRUE SI SE EJECUTÓ EL QUERY SIN PROBLEMA
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            //FALSE SI HUBO ERROR
-             System.err.println("Error al crear usuario: " + e.getMessage());
-            return false;
+        // Si la inserción fue exitosa (al menos una fila afectada)
+        if (rowsAffected > 0) {
+            // Obtener las claves generadas automáticamente
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    // Recuperar el ID generado (se supone que el campo 'idUsuario' es AUTO_INCREMENT)
+                    int idUsuario = generatedKeys.getInt(1);  // El primer valor es el ID generado
+                    usuario.setIdUsuario(idUsuario);  // Establecer el ID generado en el objeto Usuario
+                }
+            }
         }
+        
+        // Devolver el objeto Usuario con el id generado
+        return usuario;
+        
+    } catch (SQLException e) {
+        System.err.println("Error al crear usuario: " + e.getMessage());
+        return null;  // Si hay un error, devolver null
     }
+}
+
     
     
     /*
@@ -99,7 +113,7 @@ public class UsuarioManager {
                             rs.getString("telefono"),
                             rs.getString("rol"),
                             rs.getString("password"),
-                            rs.getBoolean("estado")
+                            rs.getInt("estado")
                     );
                 }
             
@@ -153,7 +167,7 @@ public class UsuarioManager {
                             rs.getString("telefono"),
                             rs.getString("rol"),
                             rs.getString("password"),
-                            rs.getBoolean("estado")
+                            rs.getInt("estado")
                     );
                     
                     lista.add(usuario);
@@ -179,26 +193,41 @@ public class UsuarioManager {
             MÉTODO PARA ACTUALIZAR UN USUARIO
     ==========================================================
     */
-      public boolean actualizarUsuario(Usuario usuario){
-               String sql = "UPDATE Usuarios SET nombre = ?, apellido = ?, email = ?, telefono = ?, rol = ?, password = ?, estado = ? WHERE idUsuario = ?";
-        
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
-            stmt.setString(1, usuario.getNombre());
-            stmt.setString(2, usuario.getApellido());
-            stmt.setString(3, usuario.getEmail());
-            stmt.setString(4, usuario.getTelefono());
-            stmt.setString(5, usuario.getRol());
-            stmt.setString(6, usuario.getPassword());
-            stmt.setBoolean(7, usuario.getEstado());
-            
-            stmt.setInt(8, usuario.getIdUsuario()); // Este es el idUsuario del WHERE
-                    
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-             System.err.println("Error al crear usuario: " + e.getMessage());
-            return false;
-        }
+    public boolean actualizarUsuario(Usuario usuario) {
+    // Base de la consulta SQL
+    String sql = "UPDATE Usuarios SET identificacion = ?, nombre = ?, apellido = ?, email = ?, telefono = ?, estado = ? WHERE idUsuario = ?";
+    
+    // Si el password no está vacío, añadimos el campo de password a la consulta SQL
+    if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+        sql = "UPDATE Usuarios SET identificacion = ?, nombre = ?, apellido = ?, email = ?, telefono = ?, estado = ?, password = ? WHERE idUsuario = ?";
     }
+
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        // Establecer los parámetros comunes
+        stmt.setInt(1, usuario.getIdentificacion());
+        stmt.setString(2, usuario.getNombre());
+        stmt.setString(3, usuario.getApellido());
+        stmt.setString(4, usuario.getEmail());
+        stmt.setString(5, usuario.getTelefono());
+        stmt.setInt(6, usuario.getEstado());
+        
+        // Si el password no está vacío, añadimos el parámetro de password
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            stmt.setString(7, usuario.getPassword()); // password en el índice 7
+            stmt.setInt(8, usuario.getIdUsuario());   // El idUsuario en el índice 8
+        } else {
+            stmt.setInt(7, usuario.getIdUsuario());   // El idUsuario en el índice 7 (sin password)
+        }
+        
+        // Ejecutar la actualización
+        return stmt.executeUpdate() > 0;
+    } catch (SQLException e) {
+        System.err.println("Error al actualizar usuario: " + e.getMessage());
+        return false;
+    }
+}
+
+
       
       
           /*
@@ -285,7 +314,7 @@ public class UsuarioManager {
                             rs.getString("telefono"),
                             rs.getString("rol"),
                             rs.getString("password"),
-                            rs.getBoolean("estado")
+                            rs.getInt("estado")
                     );
                     
                     listaTemporal.add(usuario);

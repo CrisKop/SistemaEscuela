@@ -8,6 +8,7 @@ import Clases.Curso;
 import Clases.Departamento;
 import Clases.Escuela;
 import Clases.Estudiante;
+import Clases.Profesor;
 import Clases.Usuario;
 import GUI.Login;
 import Managers.CursoManager;
@@ -195,6 +196,38 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         checkBoxEstudianteChangePassword = new javax.swing.JCheckBox();
         inputEstudianteGrado = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
+        ProfesorManager = new javax.swing.JPanel();
+        jSeparator9 = new javax.swing.JSeparator();
+        inputProfesorIdentificacion = new javax.swing.JTextField();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tableProfesores = new javax.swing.JTable();
+        jLabel50 = new javax.swing.JLabel();
+        counterProfesores = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        btnApplyProfesor = new javax.swing.JButton();
+        btnCreateProfesor = new javax.swing.JButton();
+        btnDeleteProfesor = new javax.swing.JButton();
+        statusTextProfesor = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jLabel52 = new javax.swing.JLabel();
+        inputProfesorNombres = new javax.swing.JTextField();
+        inputProfesorApellidos = new javax.swing.JTextField();
+        jLabel53 = new javax.swing.JLabel();
+        inputProfesorEmail = new javax.swing.JTextField();
+        jLabel54 = new javax.swing.JLabel();
+        inputProfesorTelefono = new javax.swing.JTextField();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        inputProfesorPassword = new javax.swing.JPasswordField();
+        jLabel57 = new javax.swing.JLabel();
+        boxProfesorEstado = new javax.swing.JComboBox<>();
+        checkBoxProfesorChangePassword = new javax.swing.JCheckBox();
+        inputProfesorEspecialidad = new javax.swing.JTextField();
+        jLabel58 = new javax.swing.JLabel();
+        boxProfesorDepartamento = new javax.swing.JComboBox<>();
+        jLabel59 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1200, 750));
@@ -957,6 +990,189 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
         TabbedContainer.addTab("Escuelas", EstudianteManager);
 
+        ProfesorManager.setBackground(new java.awt.Color(251, 251, 254));
+        ProfesorManager.setMinimumSize(new java.awt.Dimension(970, 750));
+        ProfesorManager.setPreferredSize(new java.awt.Dimension(970, 750));
+        ProfesorManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator9.setForeground(new java.awt.Color(62, 255, 59));
+        ProfesorManager.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
+
+        inputProfesorIdentificacion.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, 40));
+
+        jLabel48.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel48.setText("Identificacion *");
+        ProfesorManager.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        jLabel49.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel49.setText("Gestion de Profesores");
+        ProfesorManager.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        tableProfesores.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        tableProfesores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableProfesores.setRowHeight(40);
+        tableProfesores.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProfesoresMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tableProfesores);
+
+        ProfesorManager.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 170));
+
+        jLabel50.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel50.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel50.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel50.setText("Click en una para editar");
+        ProfesorManager.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
+
+        counterProfesores.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterProfesores.setText("0");
+        ProfesorManager.add(counterProfesores, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 150, -1));
+
+        jLabel51.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel51.setText("Lista de profesores:");
+        ProfesorManager.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        btnApplyProfesor.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyProfesor.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyProfesor.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyProfesor.setText("Aplicar");
+        btnApplyProfesor.setBorder(null);
+        btnApplyProfesor.setEnabled(false);
+        btnApplyProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyProfesorActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(btnApplyProfesor, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 90, 60));
+
+        btnCreateProfesor.setBackground(new java.awt.Color(4, 205, 4));
+        btnCreateProfesor.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCreateProfesor.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateProfesor.setText("Crear nuevo");
+        btnCreateProfesor.setBorder(null);
+        btnCreateProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateProfesorActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(btnCreateProfesor, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 130, 60));
+
+        btnDeleteProfesor.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteProfesor.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteProfesor.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteProfesor.setText("Eliminar");
+        btnDeleteProfesor.setBorder(null);
+        btnDeleteProfesor.setEnabled(false);
+        btnDeleteProfesor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProfesorActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(btnDeleteProfesor, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 660, 90, 60));
+
+        statusTextProfesor.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextProfesor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ProfesorManager.add(statusTextProfesor, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 630, 340, 15));
+
+        jButton5.setBackground(new java.awt.Color(251, 251, 254));
+        jButton5.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
+        jButton5.setText("<");
+        jButton5.setBorder(null);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
+
+        jLabel52.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel52.setText("Nombres *");
+        ProfesorManager.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, -1, -1));
+
+        inputProfesorNombres.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        inputProfesorNombres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputProfesorNombresActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(inputProfesorNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 290, 40));
+
+        inputProfesorApellidos.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 390, 290, 40));
+
+        jLabel53.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel53.setText("Apellidos *");
+        ProfesorManager.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 360, -1, -1));
+
+        inputProfesorEmail.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 290, 40));
+
+        jLabel54.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel54.setText("Estado de Usuario *");
+        ProfesorManager.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, -1, -1));
+
+        inputProfesorTelefono.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 480, 290, 40));
+
+        jLabel55.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel55.setText("Teléfono *");
+        ProfesorManager.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, -1, -1));
+
+        jLabel56.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel56.setText("Contraseña");
+        ProfesorManager.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 540, -1, -1));
+
+        inputProfesorPassword.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 570, 290, 40));
+
+        jLabel57.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel57.setText("Email *");
+        ProfesorManager.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, -1));
+
+        boxProfesorEstado.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        boxProfesorEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        ProfesorManager.add(boxProfesorEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 290, 40));
+
+        checkBoxProfesorChangePassword.setBackground(new java.awt.Color(251, 251, 254));
+        checkBoxProfesorChangePassword.setText("Cambiar contraseña");
+        checkBoxProfesorChangePassword.setEnabled(false);
+        checkBoxProfesorChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxProfesorChangePasswordActionPerformed(evt);
+            }
+        });
+        ProfesorManager.add(checkBoxProfesorChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 620, -1, -1));
+
+        inputProfesorEspecialidad.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(inputProfesorEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 290, 40));
+
+        jLabel58.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel58.setText("Especialidad *");
+        ProfesorManager.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, -1));
+
+        boxProfesorDepartamento.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        ProfesorManager.add(boxProfesorDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 290, 40));
+
+        jLabel59.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel59.setText("Departamento *");
+        ProfesorManager.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 540, -1, -1));
+
+        TabbedContainer.addTab("Escuelas", ProfesorManager);
+
         RightContainer.add(TabbedContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, -1, 790));
 
         getContentPane().add(RightContainer, java.awt.BorderLayout.CENTER);
@@ -1195,7 +1411,92 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
     private void checkBoxEstudianteChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxEstudianteChangePasswordActionPerformed
               inputEstudiantePassword.setEnabled(!inputEstudiantePassword.isEnabled());
+              if(!checkBoxEstudianteChangePassword.isSelected()){
+                  inputEstudiantePassword.setText("");
+              }
     }//GEN-LAST:event_checkBoxEstudianteChangePasswordActionPerformed
+
+    private void tableProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProfesoresMouseClicked
+         JTable tabla = tableProfesores;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+                   JComponent[] inputsList = {inputProfesorIdentificacion, inputProfesorNombres, inputProfesorApellidos, inputProfesorEmail, inputProfesorTelefono, inputProfesorPassword, boxProfesorEstado, inputProfesorEspecialidad, boxProfesorDepartamento};
+            boolean[] needed = {true, true, true, true, true, checkBoxProfesorChangePassword.isSelected(), true, true, true};
+            JButton[] buttonsList = {btnApplyProfesor, btnCreateProfesor, btnDeleteProfesor};
+            habilitarBotones(buttonsList);
+            checkBoxProfesorChangePassword.setEnabled(true);
+            inputProfesorPassword.setEnabled(false);
+
+            Object id = tabla.getValueAt(fila, 0);
+            Object identificacion = tabla.getValueAt(fila, 1);
+            Object nombres = tabla.getValueAt(fila, 2);
+            Object apellidos = tabla.getValueAt(fila, 3);
+            Object email = tabla.getValueAt(fila, 4);
+            Object telefono = tabla.getValueAt(fila, 5);
+            Object rol = tabla.getValueAt(fila, 6);
+            Object estado = tabla.getValueAt(fila, 7);
+            Object departamentoId = tabla.getValueAt(fila, 8);
+            Object especialidad = tabla.getValueAt(fila, 9);
+
+            
+            for (int i = 0; i < boxProfesorEstado.getItemCount(); i++) {
+                String estadoBox = boxProfesorEstado.getItemAt(i);
+                if (estadoBox.equals(estado.toString())) {
+                    boxProfesorEstado.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            
+                    int idBuscado = (int) departamentoId;
+
+            for (int i = 0; i < boxProfesorDepartamento.getItemCount(); i++) {
+                Departamento departamento = boxProfesorDepartamento.getItemAt(i);
+                if (departamento.getIdDepartamentos() == idBuscado) {
+                    boxProfesorDepartamento.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            
+            inputProfesorIdentificacion.setText(identificacion.toString());
+            inputProfesorNombres.setText(nombres.toString());
+            inputProfesorApellidos.setText(apellidos.toString());
+            inputProfesorEmail.setText(email.toString());
+            inputProfesorTelefono.setText(telefono.toString());
+            inputProfesorEspecialidad.setText(especialidad.toString());
+            inputProfesorPassword.setText("");
+
+        }
+    }//GEN-LAST:event_tableProfesoresMouseClicked
+
+    private void btnApplyProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyProfesorActionPerformed
+       updateProfesor();
+    }//GEN-LAST:event_btnApplyProfesorActionPerformed
+
+    private void btnCreateProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProfesorActionPerformed
+       createNewProfesor();
+    }//GEN-LAST:event_btnCreateProfesorActionPerformed
+
+    private void btnDeleteProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProfesorActionPerformed
+        deleteProfesor();
+    }//GEN-LAST:event_btnDeleteProfesorActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        cambiarTab(0);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void checkBoxProfesorChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxProfesorChangePasswordActionPerformed
+                 inputProfesorPassword.setEnabled(!inputProfesorPassword.isEnabled());
+              if(!checkBoxProfesorChangePassword.isSelected()){
+                  inputProfesorPassword.setText("");
+              }
+    }//GEN-LAST:event_checkBoxProfesorChangePasswordActionPerformed
+
+    private void inputProfesorNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputProfesorNombresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputProfesorNombresActionPerformed
 
     
     
@@ -1242,7 +1543,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     
     
         private void ApplyFieldsOnlyNumbers(){
-    JTextField[] campos = {inputCursoMaxEstudiantes, inputCursoCreditos};
+    JTextField[] campos = {inputCursoMaxEstudiantes, inputCursoCreditos, inputEstudianteIdentificacion, inputEstudianteTelefono, inputProfesorIdentificacion, inputProfesorTelefono};
 
     for (JTextField campo : campos) {
         campo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1369,6 +1670,9 @@ private void limpiarCampos(JComponent[] inputs) {
         
            String[] columnasEstudiantes = {"ID de Usuario", "Identificacion", "Nombres", "Apellidos", "Email", "Teléfono", "Rol", "Estado", "Grado"};
         Crear_Modelo(columnasEstudiantes, tableEstudiantes);
+       
+              String[] columnasProfesor = {"ID de Usuario", "Identificacion", "Nombres", "Apellidos", "Email", "Teléfono", "Rol", "Estado", "Departamento", "Especialidad"};
+        Crear_Modelo(columnasProfesor, tableProfesores);
     }
     
       private void cargarTablasNecesarias(){
@@ -1376,6 +1680,8 @@ private void limpiarCampos(JComponent[] inputs) {
         cargarTablaDepartamentos();
         cargarTablaCursos();
         cargarTablaEstudiantes();
+        cargarTablaProfesores();
+      
      
     }
     
@@ -1412,6 +1718,15 @@ private void limpiarCampos(JComponent[] inputs) {
             if(listaEstudiantes != null) {
             cargarTablaConDetallesDeUsuario(tableEstudiantes, listaEstudiantes);
             counterEstudiantes.setText(String.valueOf(listaEstudiantes.size()));
+        }
+     }
+     
+          private void cargarTablaProfesores(){
+         List<Profesor> listaProfesores = profesorManager.listarProfesor();
+         
+            if(listaProfesores != null) {
+            cargarTablaConDetallesDeUsuario(tableProfesores, listaProfesores);
+            counterProfesores.setText(String.valueOf(listaProfesores.size()));
         }
      }
     
@@ -1481,7 +1796,7 @@ private void limpiarCampos(JComponent[] inputs) {
                 Object valor = campo.get(usuarioObj);
 
                 if (nombreCampo.equals("estado")) {
-                    fila[columna] = (Boolean.TRUE.equals(valor)) ? "Activo" : "Inactivo";
+                    fila[columna] = ((int) valor == 1) ? "Activo" : "Inactivo";
                 } else {
                     fila[columna] = valor;
                 }
@@ -1574,7 +1889,7 @@ private void limpiarCampos(JComponent[] inputs) {
  
  private void cargarComboBoxes(){
      
-     JComboBox[] boxes = {boxDepartamentoEscuela, boxJefeDepartamento, boxCursoDepartamento};
+     JComboBox[] boxes = {boxDepartamentoEscuela, boxJefeDepartamento, boxCursoDepartamento, boxProfesorDepartamento};
      
      List<Escuela> escuelas = getEscuelas();
      List<Departamento> departamentos = getDepartamentos();
@@ -1592,6 +1907,11 @@ private void limpiarCampos(JComponent[] inputs) {
      //Listar DEPARTAMENTOS para poder seleccionar en CURSOS
      for (Departamento departamento : departamentos){
          boxes[2].addItem(departamento);
+     }
+     
+          //Listar DEPARTAMENTOS para poder seleccionar en CURSOS
+     for (Departamento departamento : departamentos){
+         boxes[3].addItem(departamento);
      }
      
  }
@@ -2057,14 +2377,17 @@ private void limpiarCampos(JComponent[] inputs) {
     
     private void deleteEstudiante(){
         
-            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
-            boolean[] needed = {true, true, true, true, true, true, true, false};
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudiantePassword, boxEstudianteEstado, inputEstudianteGrado};
+            boolean[] needed = {true, true, true, true, true, checkBoxEstudianteChangePassword.isSelected(), true, true};
             JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
         
-             boolean accion = actionDeleteEstudiante();
-        if(accion == false) return;
+            boolean accionEliminarEstudiante = actionDeleteEstudiante();
+            if(accionEliminarEstudiante == false) return;
+
+            boolean accionEliminarUsuario = actionDeleteUsuario(tableEstudiantes);
+            if(accionEliminarUsuario == false) return;
         
-        
+                   cargarTablaEstudiantes();
                    desabilitarBotones(buttonsList);
                    checkBoxEstudianteChangePassword.setEnabled(false);
                    checkBoxEstudianteChangePassword.setSelected(false);
@@ -2075,17 +2398,21 @@ private void limpiarCampos(JComponent[] inputs) {
     
     private void updateEstudiante(){
         
-            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
-            boolean[] needed = {true, true, true, true, true, true, true, checkBoxEstudianteChangePassword.isSelected()};
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudiantePassword, boxEstudianteEstado, inputEstudianteGrado};
+            boolean[] needed = {true, true, true, true, true, checkBoxEstudianteChangePassword.isSelected(), true, true};
             JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
     
          boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEstudiante);
         if(inputsValidados == false) return;
         
-        boolean accion = actionUpdateEstudiante();
-        if(accion == false) return;
+        boolean accionActualizarUsuario = actionUpdateUsuario(tableEstudiantes, inputsList);
+        if(accionActualizarUsuario == false) return;
+        
+        boolean accionActualizarEstudiante = actionUpdateEstudiante();
+        if(accionActualizarEstudiante == false) return;
+        
                 
-
+                cargarTablaEstudiantes();
                 desabilitarBotones(buttonsList);
                 checkBoxEstudianteChangePassword.setEnabled(false);
                 checkBoxEstudianteChangePassword.setSelected(false);
@@ -2096,17 +2423,21 @@ private void limpiarCampos(JComponent[] inputs) {
     
     private void createNewEstudiante(){
         
-            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudiantePassword, boxEstudianteEstado, inputEstudianteGrado};
             boolean[] needed = {true, true, true, true, true, true, true, true};
             JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
         
         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEstudiante);
         if(inputsValidados == false) return;
         
-        boolean accion = actionCreateEstudiante();
-        if(accion == false) return;
+        int accionCrearUsuario = actionCreateUsuario(inputsList, "Estudiantes");
+        if(accionCrearUsuario == -1) return;
         
-       
+        boolean accionCrearEstudiante = actionCreateEstudiante(accionCrearUsuario);
+        if(accionCrearEstudiante == false) return;
+        
+        
+            cargarTablaEstudiantes();
            desabilitarBotones(buttonsList);
            checkBoxEstudianteChangePassword.setEnabled(false);
            checkBoxEstudianteChangePassword.setSelected(false);
@@ -2116,10 +2447,10 @@ private void limpiarCampos(JComponent[] inputs) {
     }
     
     
-    private boolean actionCreateEstudiante(){
+    private boolean actionCreateEstudiante(int idUsuario){
 
         
-            Estudiante nuevoObjeto = new Estudiante(0, 0, Integer.parseInt(inputEstudianteGrado.getText()));
+            Estudiante nuevoObjeto = new Estudiante(0, idUsuario, Integer.parseInt(inputEstudianteGrado.getText()));
             boolean accion = estudianteManager.insertarEstudiantes(nuevoObjeto);
             
             if(accion == false){
@@ -2127,7 +2458,6 @@ private void limpiarCampos(JComponent[] inputs) {
                 return false;
             }
             
-            cargarTablaEstudiantes();
             return true;
             
     
@@ -2139,7 +2469,7 @@ private void limpiarCampos(JComponent[] inputs) {
             if (fila != -1) {
                   Object id = tableEstudiantes.getValueAt(fila, 0);
                  
-                  Estudiante nuevoObjeto = new Estudiante((int) id, 0, Integer.parseInt(inputEstudianteGrado.getText()));
+                  Estudiante nuevoObjeto = new Estudiante(0, (int) id, Integer.parseInt(inputEstudianteGrado.getText()));
                   
                   
                    boolean accion = estudianteManager.actualizarEstudiante(nuevoObjeto);
@@ -2150,8 +2480,7 @@ private void limpiarCampos(JComponent[] inputs) {
                     return false;
                 }       
             }
-            
-            cargarTablaEstudiantes();
+          
             return true;
     }
     
@@ -2168,7 +2497,6 @@ private void limpiarCampos(JComponent[] inputs) {
                 }       
             }
             
-            cargarTablaEstudiantes();
             return true;
     }
     //</editor-fold>
@@ -2191,10 +2519,280 @@ private void limpiarCampos(JComponent[] inputs) {
      ZONA DE GESTION DE PROFESORES (DAO5 DAOPROFESORES)
     */
     
+       //<editor-fold>
+      ProfesorManager profesorManager = new ProfesorManager();
+    
+ 
+    
+    private void deleteProfesor(){
+        
+            JComponent[] inputsList = {inputProfesorIdentificacion, inputProfesorNombres, inputProfesorApellidos, inputProfesorEmail, inputProfesorTelefono, inputProfesorPassword, boxProfesorEstado, inputProfesorEspecialidad, boxProfesorDepartamento};
+            boolean[] needed = {true, true, true, true, true, checkBoxProfesorChangePassword.isSelected(), true, true, true};
+            JButton[] buttonsList = {btnApplyProfesor, btnCreateProfesor, btnDeleteProfesor};
+        
+            boolean accionEliminarProfesor = actionDeleteProfesor();
+            if(accionEliminarProfesor == false) return;
 
+            boolean accionEliminarUsuario = actionDeleteUsuario(tableProfesores);
+            if(accionEliminarUsuario == false) return;
+        
+                   cargarTablaProfesores();
+                   desabilitarBotones(buttonsList);
+                   checkBoxProfesorChangePassword.setEnabled(false);
+                   checkBoxProfesorChangePassword.setSelected(false);
+                   limpiarCampos(inputsList);
+                   successText(statusTextProfesor);
+    }
+    
+    
+    private void updateProfesor(){
+        
+            JComponent[] inputsList = {inputProfesorIdentificacion, inputProfesorNombres, inputProfesorApellidos, inputProfesorEmail, inputProfesorTelefono, inputProfesorPassword, boxProfesorEstado, inputProfesorEspecialidad, boxProfesorDepartamento};
+            boolean[] needed = {true, true, true, true, true, checkBoxProfesorChangePassword.isSelected(), true, true, true};
+            JButton[] buttonsList = {btnApplyProfesor, btnCreateProfesor, btnDeleteProfesor};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextProfesor);
+        if(inputsValidados == false) return;
+        
+        boolean accionActualizarUsuario = actionUpdateUsuario(tableProfesores, inputsList);
+        if(accionActualizarUsuario == false) return;
+        
+        boolean accionActualizarProfesor = actionUpdateProfesor();
+        if(accionActualizarProfesor == false) return;
+        
+                
+                cargarTablaProfesores();
+                desabilitarBotones(buttonsList);
+                checkBoxProfesorChangePassword.setEnabled(false);
+                checkBoxProfesorChangePassword.setSelected(false);
+                limpiarCampos(inputsList);
+                successText(statusTextProfesor);
+
+    }
+    
+    private void createNewProfesor(){
+        
+            JComponent[] inputsList = {inputProfesorIdentificacion, inputProfesorNombres, inputProfesorApellidos, inputProfesorEmail, inputProfesorTelefono, inputProfesorPassword, boxProfesorEstado, inputProfesorEspecialidad, boxProfesorDepartamento};
+            boolean[] needed = {true, true, true, true, true, checkBoxProfesorChangePassword.isSelected(), true, true, true};
+            JButton[] buttonsList = {btnApplyProfesor, btnCreateProfesor, btnDeleteProfesor};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextProfesor);
+        if(inputsValidados == false) return;
+        
+        int accionCrearUsuario = actionCreateUsuario(inputsList, "Estudiantes");
+        if(accionCrearUsuario == -1) return;
+        
+        boolean accionCrearProfesor = actionCreateProfesor(accionCrearUsuario);
+        if(accionCrearProfesor == false) return;
+        
+        
+            cargarTablaProfesores();
+           desabilitarBotones(buttonsList);
+           checkBoxProfesorChangePassword.setEnabled(false);
+           checkBoxProfesorChangePassword.setSelected(false);
+           limpiarCampos(inputsList);
+           successText(statusTextProfesor);
+        
+    }
+    
+    
+    private boolean actionCreateProfesor(int idUsuario){
+
+            Departamento departamentoSeleccionado = (Departamento) boxProfesorDepartamento.getSelectedItem();
+            Profesor nuevoObjeto = new Profesor(0, idUsuario, departamentoSeleccionado.getIdDepartamentos(), inputProfesorEspecialidad.getText());
+            boolean accion = profesorManager.insertarProfesor(nuevoObjeto);
+            
+            if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+            
+            return true;
+            
+    
+    }
+    
+    private boolean actionUpdateProfesor(){
+           
+            int fila = tableProfesores.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableProfesores.getValueAt(fila, 0);
+                    Departamento departamentoSeleccionado = (Departamento) boxProfesorDepartamento.getSelectedItem();
+                 
+                  Profesor nuevoObjeto = new Profesor(0, (int) id, departamentoSeleccionado.getIdDepartamentos(), inputProfesorEspecialidad.getText());
+                  
+                  
+                   boolean accion = profesorManager.actualizarProfesor(nuevoObjeto);
+                   
+                    
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+          
+            return true;
+    }
+    
+    private boolean actionDeleteProfesor(){
+         int fila = tableProfesores.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableProfesores.getValueAt(fila, 0);
+                  
+                   boolean accion = profesorManager.eliminarProfesor((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            return true;
+    }
+   //</editor-fold>
     
        /*
       ZONA DE GESTION DE PROFESORES
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+          //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+    
+      
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE USUARIOS (DAO6 DAOUSUARIOS)
+    (CONTINUACION DE DAO DE LOS ROLES)
+    */
+    
+    //<editor-fold>
+    
+    UsuarioManager usuarioManager = new UsuarioManager();
+    
+    
+    private int actionCreateUsuario(JComponent[] inputs, String rol){
+
+        System.out.println("Creando usuario");
+   
+
+                // Recoge los valores de los inputs
+                String identificacion = ((JTextField) inputs[0]).getText();  // Cast a JTextField
+                String nombres = ((JTextField) inputs[1]).getText();  // Cast a JTextField
+                String apellidos = ((JTextField) inputs[2]).getText();  // Cast a JTextField
+                String email = ((JTextField) inputs[3]).getText();  // Cast a JTextField
+                String telefono = ((JTextField) inputs[4]).getText();  // Cast a JTextField
+                String password = ((JTextField) inputs[5]).getText();  // Cast a JTextField
+
+                // Comparación segura de "Activo" usando equals
+                int estado = "Activo".equals(((JComboBox) inputs[6]).getSelectedItem().toString()) ? 1 : 0;  // Cast a JComboBox
+
+                // Verifica si la identificación es un número entero
+                int identificacionInt;
+                try {
+                    identificacionInt = Integer.parseInt(identificacion); // Si identificacion es un String, deberías parsearlo a int
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "La identificación no es un número válido.");
+                    return -1;
+                }
+
+                // Crea el objeto Usuario con los valores
+                Usuario nuevoObjeto = new Usuario(0, identificacionInt, nombres, apellidos, email, telefono, rol, password, estado);
+
+                // Llama al método actualizarEstudiante y maneja el resultado
+                Usuario accion = usuarioManager.insertarUsuario(nuevoObjeto);
+                     System.out.println(accion);
+
+                if (accion == null) {
+                    JOptionPane.showMessageDialog(null, "Error al efectuar acción");
+                    return -1;
+                }       
+
+
+            
+        return accion.getIdUsuario();
+        
+   
+    }
+    
+    
+    
+    
+    
+        private boolean actionUpdateUsuario(JTable tablaTrabajada, JComponent[] inputs) {
+
+         int fila = tablaTrabajada.getSelectedRow();
+
+         if (fila != -1) {
+             // Obtén el ID de la tabla, asegurándote de que el valor es un entero
+             Object idObject = tablaTrabajada.getValueAt(fila, 0);
+             int id = (idObject instanceof Integer) ? (Integer) idObject : Integer.parseInt(idObject.toString());
+
+             // Recoge los valores de los inputs
+             String identificacion = ((JTextField) inputs[0]).getText();  // Cast a JTextField
+             String nombres = ((JTextField) inputs[1]).getText();  // Cast a JTextField
+             String apellidos = ((JTextField) inputs[2]).getText();  // Cast a JTextField
+             String email = ((JTextField) inputs[3]).getText();  // Cast a JTextField
+             String telefono = ((JTextField) inputs[4]).getText();  // Cast a JTextField
+             String password = ((JTextField) inputs[5]).getText();  // Cast a JTextField
+
+             // Comparación segura de "Activo" usando equals
+             int estado = "Activo".equals(((JComboBox) inputs[6]).getSelectedItem().toString()) ? 1 : 0;  // Cast a JComboBox
+
+             // Verifica si la identificación es un número entero
+             int identificacionInt;
+             try {
+                 identificacionInt = Integer.parseInt(identificacion); // Si identificacion es un String, deberías parsearlo a int
+             } catch (NumberFormatException e) {
+                 JOptionPane.showMessageDialog(null, "La identificación no es un número válido.");
+                 return false;
+             }
+
+             // Crea el objeto Usuario con los valores
+             Usuario nuevoObjeto = new Usuario(id, identificacionInt, nombres, apellidos, email, telefono, "Rol", password, estado);
+
+             // Llama al método actualizarEstudiante y maneja el resultado
+             boolean accion = usuarioManager.actualizarUsuario(nuevoObjeto);
+             
+
+             if (!accion) {
+                 JOptionPane.showMessageDialog(null, "Error al efectuar acción");
+                 return false;
+             }       
+         }
+
+         return true;
+     }
+
+
+
+        private boolean actionDeleteUsuario(JTable tablaTrabajada){
+             int fila = tablaTrabajada.getSelectedRow();
+                if (fila != -1) {
+                      Object id = tablaTrabajada.getValueAt(fila, 0);
+
+                       boolean accion = usuarioManager.eliminarUsuario((int) id);
+
+                    if(accion == false){
+                        JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                        return false;
+                    }       
+                }
+
+                return true;
+        }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE USUARIOS
     =====================================================================
     =====================================================================
     */
@@ -2214,7 +2812,6 @@ private void limpiarCampos(JComponent[] inputs) {
     */
     
      //<editor-fold>
-     UsuarioManager usuarioManager = new UsuarioManager();
      
      
          private void loadCurrentInformation(){
@@ -2349,6 +2946,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JPanel EscuelaManager;
     private javax.swing.JPanel EstudianteManager;
     private javax.swing.JPanel LeftBar;
+    private javax.swing.JPanel ProfesorManager;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
     private javax.swing.JPanel Tab2Container;
@@ -2362,26 +2960,33 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JComboBox<Escuela> boxDepartamentoEscuela;
     private javax.swing.JComboBox<String> boxEstudianteEstado;
     private javax.swing.JComboBox<String> boxJefeDepartamento;
+    private javax.swing.JComboBox<Departamento> boxProfesorDepartamento;
+    private javax.swing.JComboBox<String> boxProfesorEstado;
     private javax.swing.JButton btnApplyCurso;
     private javax.swing.JButton btnApplyDepartamento;
     private javax.swing.JButton btnApplyEscuela;
     private javax.swing.JButton btnApplyEstudiante;
+    private javax.swing.JButton btnApplyProfesor;
     private javax.swing.JButton btnCreateCurso;
     private javax.swing.JButton btnCreateDepartamento;
     private javax.swing.JButton btnCreateEscuela;
     private javax.swing.JButton btnCreateEstudiante;
+    private javax.swing.JButton btnCreateProfesor;
     private javax.swing.JButton btnDeleteCurso;
     private javax.swing.JButton btnDeleteDepartamento;
     private javax.swing.JButton btnDeleteEscuela;
     private javax.swing.JButton btnDeleteEstudiante;
+    private javax.swing.JButton btnDeleteProfesor;
     private javax.swing.JButton btnGoDetails;
     private javax.swing.JComboBox<String> categorySelector;
     private javax.swing.JCheckBox changePasswordCheckBox;
     private javax.swing.JCheckBox checkBoxEstudianteChangePassword;
+    private javax.swing.JCheckBox checkBoxProfesorChangePassword;
     private javax.swing.JLabel counterCursos;
     private javax.swing.JLabel counterDepartamentos;
     private javax.swing.JLabel counterEscuelas;
     private javax.swing.JLabel counterEstudiantes;
+    private javax.swing.JLabel counterProfesores;
     private javax.swing.JTextField inputCursoCreditos;
     private javax.swing.JTextField inputCursoMaxEstudiantes;
     private javax.swing.JTextField inputCursoNombre;
@@ -2394,10 +2999,18 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JTextField inputEstudianteNombres;
     private javax.swing.JPasswordField inputEstudiantePassword;
     private javax.swing.JTextField inputEstudianteTelefono;
+    private javax.swing.JTextField inputProfesorApellidos;
+    private javax.swing.JTextField inputProfesorEmail;
+    private javax.swing.JTextField inputProfesorEspecialidad;
+    private javax.swing.JTextField inputProfesorIdentificacion;
+    private javax.swing.JTextField inputProfesorNombres;
+    private javax.swing.JPasswordField inputProfesorPassword;
+    private javax.swing.JTextField inputProfesorTelefono;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2436,7 +3049,19 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -2445,6 +3070,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
@@ -2452,6 +3078,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JPasswordField settingsActualPasswordInput;
     private javax.swing.JButton settingsBtnApplyChanges;
     private javax.swing.JTextField settingsInputApellidos;
@@ -2464,10 +3091,12 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JLabel statusTextDepartamento;
     private javax.swing.JLabel statusTextEscuela;
     private javax.swing.JLabel statusTextEstudiante;
+    private javax.swing.JLabel statusTextProfesor;
     private javax.swing.JTable tableCursos;
     private javax.swing.JTable tableDepartamentos;
     private javax.swing.JTable tableEscuelas;
     private javax.swing.JTable tableEstudiantes;
+    private javax.swing.JTable tableProfesores;
     private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }

@@ -90,7 +90,7 @@ public class CurrentSession {
                     rs.getString("telefono"),
                     rs.getString("rol"),
                     rs.getString("password"),
-                    rs.getBoolean("estado")
+                    rs.getInt("estado")
                 );
             }
         }

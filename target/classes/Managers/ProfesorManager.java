@@ -51,13 +51,13 @@ public class ProfesorManager {
     public boolean insertarProfesor(Profesor profesor){
         
         //QUERY QUE SE EJECUTARÁ, CON ? PARA REEMPLAZAR
-        String sql = "INSERT INTO profesores (idUsuario, idDepartamento, especialidad) VALUES (?)";
+        String sql = "INSERT INTO profesores (idUsuario, idDepartamento, especialidad) VALUES (?, ?, ?)";
         
         //ZONA DE REEMPLAZO DE ? EN EL QUERY PREPARADO
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             //OBTENER Y REEMPLAZAR CADA DATO EN ORDEN DEL OBJETO BASE
             stmt.setInt(1, profesor.getIdUsuario());
-            stmt.setInt(2, profesor.getIdProfesor());
+            stmt.setInt(2, profesor.getIdDepartamento());
             stmt.setString(3, profesor.getEspecialidad());
             
                     
@@ -174,17 +174,18 @@ public class ProfesorManager {
     ==========================================================
     */
       public boolean actualizarProfesor(Profesor profesor){
-               String sql = "UPDATE profesores SET especialidad = ? WHERE idProfesor = ?";
+               String sql = "UPDATE profesores SET especialidad = ?, idDepartamento = ? WHERE idUsuario = ?";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             stmt.setString(1, profesor.getEspecialidad());
+            stmt.setInt(2, profesor.getIdDepartamento());
             
-            stmt.setInt(2, profesor.getIdProfesor()); // Este es el idProfesor del WHERE
+            stmt.setInt(3, profesor.getIdUsuario()); // Este es el idProfesor del WHERE
             
                     
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-             System.err.println("Error al crear profesor: " + e.getMessage());
+             System.err.println("Error al actualizar profesor: " + e.getMessage());
             return false;
         }
     }
@@ -196,7 +197,7 @@ public class ProfesorManager {
     ==========================================================
     */
         public boolean eliminarProfesor(int id) {
-        String sql = "DELETE FROM profesores WHERE idProfesor = ?";
+        String sql = "DELETE FROM profesores WHERE idUsuario = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;

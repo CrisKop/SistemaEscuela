@@ -102,11 +102,11 @@ public class EstudiantesManager {
     }
 
        public boolean actualizarEstudiante(Estudiante estudiante){
-               String sql = "UPDATE estudiantes SET grado = ?,  WHERE idEstudiante = ?";
+               String sql = "UPDATE estudiantes SET grado = ? WHERE idUsuario = ?";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
              stmt.setInt(1, estudiante.getGrado());
-             stmt.setInt(2, estudiante.getIdEstudiante());
+             stmt.setInt(2, estudiante.getIdUsuario());
             
                     
             return stmt.executeUpdate() > 0;
@@ -116,7 +116,7 @@ public class EstudiantesManager {
         }
     }
         public boolean eliminarEstudiante(int id) {
-        String sql = "DELETE FROM estudiantes WHERE idEstudiante = ?";
+        String sql = "DELETE FROM estudiantes WHERE idUsuario = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
