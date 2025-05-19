@@ -166,6 +166,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jLabel35 = new javax.swing.JLabel();
         boxCursoHoraFinal = new javax.swing.JComboBox<>();
         jLabel36 = new javax.swing.JLabel();
+        btnCursoAsignarProfesores = new javax.swing.JButton();
         EstudianteManager = new javax.swing.JPanel();
         jSeparator8 = new javax.swing.JSeparator();
         inputEstudianteIdentificacion = new javax.swing.JTextField();
@@ -817,6 +818,19 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jLabel36.setText("Hora de Fin *");
         CursoManager.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, -1));
 
+        btnCursoAsignarProfesores.setBackground(new java.awt.Color(242, 242, 242));
+        btnCursoAsignarProfesores.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCursoAsignarProfesores.setForeground(new java.awt.Color(255, 255, 255));
+        btnCursoAsignarProfesores.setText("Asignar Profesores");
+        btnCursoAsignarProfesores.setBorder(null);
+        btnCursoAsignarProfesores.setEnabled(false);
+        btnCursoAsignarProfesores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCursoAsignarProfesoresActionPerformed(evt);
+            }
+        });
+        CursoManager.add(btnCursoAsignarProfesores, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 660, 190, 60));
+
         TabbedContainer.addTab("Departamentos", CursoManager);
 
         EstudianteManager.setBackground(new java.awt.Color(251, 251, 254));
@@ -1289,7 +1303,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
             JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
             boolean[] needed = {true, true, true, true, true, true};
-            JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+            JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso, btnCursoAsignarProfesores};
             habilitarBotones(buttonsList);
 
             Object id = tabla.getValueAt(fila, 0);
@@ -1497,6 +1511,24 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private void inputProfesorNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputProfesorNombresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputProfesorNombresActionPerformed
+
+    private void btnCursoAsignarProfesoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoAsignarProfesoresActionPerformed
+          JTable tabla = tableCursos;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+          Curso cursoADetallar = cursoManager.obtenerCursoPorID((int) tabla.getValueAt(fila, 0));
+          
+          if(cursoADetallar != null){
+           AsignarProfesoresACurso ventana = new AsignarProfesoresACurso(cursoADetallar);
+            ventana.setLocationRelativeTo(this);
+            ventana.setVisible(true);
+          } else {
+                JOptionPane.showMessageDialog(null, "Error en la acción");
+          }
+         
+        }
+    }//GEN-LAST:event_btnCursoAsignarProfesoresActionPerformed
 
     
     
@@ -2230,7 +2262,7 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
         boolean[] needed = {true, true, true, true, true, true};
-        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso, btnCursoAsignarProfesores};
         
              boolean accion = actionDeleteCurso();
         if(accion == false) return;
@@ -2246,7 +2278,7 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
         boolean[] needed = {true, true, true, true, true, true};
-        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso, btnCursoAsignarProfesores};
     
          boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCurso);
         if(inputsValidados == false) return;
@@ -2265,7 +2297,7 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
         boolean[] needed = {true, true, true, true, true, true};
-        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso, btnCursoAsignarProfesores};
         
         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCurso);
         if(inputsValidados == false) return;
@@ -2972,6 +3004,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JButton btnCreateEscuela;
     private javax.swing.JButton btnCreateEstudiante;
     private javax.swing.JButton btnCreateProfesor;
+    private javax.swing.JButton btnCursoAsignarProfesores;
     private javax.swing.JButton btnDeleteCurso;
     private javax.swing.JButton btnDeleteDepartamento;
     private javax.swing.JButton btnDeleteEscuela;

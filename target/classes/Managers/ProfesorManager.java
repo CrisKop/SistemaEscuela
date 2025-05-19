@@ -206,6 +206,60 @@ public class ProfesorManager {
             return false;
         }
     }
+        
+        
+        
+          /*
+    =====================MET 6================================
+        MÉTODO PARA LISTAR LOS PROFESORES DE UN DEPARTAMENTO ESPECÍFICO
+    ==========================================================
+    */
+    public List<Profesor> listarProfesorPorDepartamento(int idDepartamento){
+        
+        //QUERY QUE SE EJECUTARÁ
+         String sql = "SELECT * FROM profesores WHERE idDepartamento = ?";
+         
+         //LISTA VACIA QUE ALMACENARÁ LOS RESULTADOS
+         List<Profesor> lista = new ArrayList<>();
+        
+         //(CREATESTATEMENT PORQUE NO HUBO UN PREPARESTATEMENT)
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idDepartamento);
+           
+            //ZONA DE OBTENCIÓN DE RESULTADO DE QUERY
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                /*
+                YA QUE HAY VARIOS RESULTADOS, UN WHILE POR CADA RESULTADO
+                CADA RESULTADO SE CONVIERTE EN UN OBJETO (.clases/Profesor.java)
+                Y SE AGREGA A 'lista'
+                */
+                while(rs.next()){
+                    Profesor profesor = new Profesor(
+                            rs.getInt("idProfesor"),
+                            rs.getInt("idUsuario"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("especialidad")
+                    );
+                    
+                    lista.add(profesor);
+                }
+                
+                //EL MÉTODO DEVUELVE EL LISTADO
+                System.out.println("Lista:" + lista);
+                System.out.println("Query: " + sql);
+                return lista;
+            
+            }} catch (SQLException e){
+                /*
+                SI HAY ERROR DEVOLVER NULL
+                (ALTERNATIVA A UN ARRAYLIST PARA ERROR)
+                */
+                 System.err.println("Error al listar profesores: " + e.getMessage());
+                return null;
+            }
+    }
     
     
 }

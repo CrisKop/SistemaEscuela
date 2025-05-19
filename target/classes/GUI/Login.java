@@ -70,6 +70,7 @@ public class Login extends javax.swing.JFrame {
     try {
         Thread.sleep(2000);
         SwingUtilities.invokeLater(() -> {
+            ventana.setLocationRelativeTo(this);
             ventana.setVisible(true);
             this.dispose();
         });
