@@ -36,8 +36,8 @@ public class CursoManager {
             
             stmt.setInt(1, curso.getIdDepartamento());
             stmt.setString(2, curso.getNombre());
-            stmt.setDate  (3, curso.gethoraInicial());
-            stmt.setDate  (4, curso.gethoraFinal());
+            stmt.setTime  (3, curso.gethoraInicial());
+            stmt.setTime  (4, curso.gethoraFinal());
             stmt.setInt   (5, curso.getmaxEstudiantes());
             stmt.setInt   (6, curso.getcreditos());
             
@@ -68,8 +68,8 @@ public class CursoManager {
                             rs.getInt("idCurso"),
                             rs.getInt("idDepartamento"),
                             rs.getString("nombre"),
-                            rs.getDate("horaInicial"),
-                            rs.getDate("horaFinal"),
+                            rs.getTime("horaInicial"),
+                            rs.getTime("horaFinal"),
                             rs.getInt("maxEstudiantes"),
                             rs.getInt("creditos")
                             
@@ -103,8 +103,8 @@ public class CursoManager {
                             rs.getInt("idCurso"),
                             rs.getInt("idDepartamento"),
                             rs.getString("nombre"),
-                            rs.getDate("horaInicial"),
-                            rs.getDate("horaFinal"),
+                            rs.getTime("horaInicial"),
+                            rs.getTime("horaFinal"),
                             rs.getInt("maxEstudiantes"),
                             rs.getInt("creditos")
                             
@@ -132,8 +132,8 @@ public class CursoManager {
             
             stmt.setInt   (1, curso.getIdDepartamento());
             stmt.setString(2, curso.getNombre());
-            stmt.setDate  (3, curso.gethoraInicial());
-            stmt.setDate  (4, curso.gethoraFinal());
+            stmt.setTime  (3, curso.gethoraInicial());
+            stmt.setTime  (4, curso.gethoraFinal());
             stmt.setInt   (5, curso.getmaxEstudiantes());
             stmt.setInt   (6, curso.getcreditos());
             stmt.setInt   (7, curso.getIdCurso());

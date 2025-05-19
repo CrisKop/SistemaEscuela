@@ -34,4 +34,9 @@ public class Escuela {
     }
     
     
+        @Override
+    public String toString() {
+        return idEscuela + " - " + nombre;
+    }
+    
 }

@@ -66,10 +66,17 @@ public class Login extends javax.swing.JFrame {
                 StatusText.setText("¡Inicio de sesión exitoso!");
                 StatusText.setForeground(new Color(51,153,0));
                  // Timer que borra el texto después de 3 segundos (3000 ms)
-                 new javax.swing.Timer(2000, e -> {
-                    ventana.setVisible(true);
-                    this.setVisible(false);
-                }).start();
+              new Thread(() -> {
+    try {
+        Thread.sleep(2000);
+        SwingUtilities.invokeLater(() -> {
+            ventana.setVisible(true);
+            this.dispose();
+        });
+    } catch (InterruptedException ex) {
+        ex.printStackTrace();
+    }
+}).start();
 
                 
             } else {

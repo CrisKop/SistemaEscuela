@@ -13,13 +13,12 @@ public class Estudiante {
     private int idEstudiante;
     private int idUsuario;
     private int Grado;
-    private float promedio;
 
-    public Estudiante(int idEstudiante, int idUsuario, int Grado, float promedio) {
+
+    public Estudiante(int idEstudiante, int idUsuario, int Grado) {
         this.idEstudiante = idEstudiante;
         this.idUsuario = idUsuario;
         this.Grado = Grado;
-        this.promedio = promedio;
     }
 
     public int getIdEstudiante() {
@@ -44,22 +43,6 @@ public class Estudiante {
 
     public void setGrado(int Grado) {
         this.Grado = Grado;
-    }
-
-    public float getPromedio() {
-        return promedio;
-    }
-
-    public void setPromedio(float promedio) {
-        this.promedio = promedio;
-    }
-
-    public float getidUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public int getidEstudiante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

@@ -4,13 +4,21 @@
  */
 package GUI.Administrador;
 
+import Clases.Curso;
+import Clases.Departamento;
 import Clases.Escuela;
+import Clases.Estudiante;
 import Clases.Usuario;
 import GUI.Login;
+import Managers.CursoManager;
+import Managers.DepartamentosManager;
 import Managers.EscuelaManager;
+import Managers.EstudiantesManager;
+import Managers.ProfesorManager;
 import Managers.UsuarioManager;
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.sql.Time;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -35,37 +43,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
          cargarModeloTablas();
          loadCurrentInformation();
          cargarTablasNecesarias();
+         ApplyFieldsOnlyNumbers();
     }
     
-     private void cargarModeloTablas(){
-           String[] columnasCursos = {"ID de escuela", "Nombre de escuela"};
-        Crear_Modelo(columnasCursos, tableEscuelas);
-    }
-    
-     private void cambiarTab(int index) {
-    try {
-        TabbedContainer.setSelectedIndex(index);
-
-        JButton[] tabsButtons = {TabBtn1, TabBtn2};
-
-        for (int i = 0; i < tabsButtons.length; i++) {
-            if (i == index) {
-                // Botón activo
-                tabsButtons[i].setBackground(new java.awt.Color(255, 255, 255));
-                 tabsButtons[i].setForeground(new java.awt.Color(0,0,0));
-                
-            } else {
-                // Botones inactivos
-                tabsButtons[i].setBackground(new java.awt.Color(4, 205, 4));
-                tabsButtons[i].setForeground(new java.awt.Color(255, 255, 255));
-            }
-        }
-
-    } catch (Exception e) {
-        System.out.println("Error al cambiar de tab (probablemente index no encontrado)");
-        System.out.println(e.getMessage());
-    }
-}
 
     
     private void logout(){
@@ -132,13 +112,89 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEscuelas = new javax.swing.JTable();
         jLabel18 = new javax.swing.JLabel();
-        escuelasCounter = new javax.swing.JLabel();
+        counterEscuelas = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         btnApplyEscuela = new javax.swing.JButton();
         btnCreateEscuela = new javax.swing.JButton();
         btnDeleteEscuela = new javax.swing.JButton();
         statusTextEscuela = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        DepartamentoManager = new javax.swing.JPanel();
+        jSeparator6 = new javax.swing.JSeparator();
+        inputDepartamentoNombre = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableDepartamentos = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        counterDepartamentos = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        btnApplyDepartamento = new javax.swing.JButton();
+        btnCreateDepartamento = new javax.swing.JButton();
+        btnDeleteDepartamento = new javax.swing.JButton();
+        statusTextDepartamento = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        boxDepartamentoEscuela = new javax.swing.JComboBox<>();
+        boxJefeDepartamento = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        CursoManager = new javax.swing.JPanel();
+        jSeparator7 = new javax.swing.JSeparator();
+        inputCursoNombre = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCursos = new javax.swing.JTable();
+        jLabel22 = new javax.swing.JLabel();
+        counterCursos = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        btnApplyCurso = new javax.swing.JButton();
+        btnCreateCurso = new javax.swing.JButton();
+        btnDeleteCurso = new javax.swing.JButton();
+        statusTextCurso = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel32 = new javax.swing.JLabel();
+        boxCursoDepartamento = new javax.swing.JComboBox<>();
+        boxCursoHoraInicial = new javax.swing.JComboBox<>();
+        jLabel33 = new javax.swing.JLabel();
+        inputCursoMaxEstudiantes = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        inputCursoCreditos = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
+        boxCursoHoraFinal = new javax.swing.JComboBox<>();
+        jLabel36 = new javax.swing.JLabel();
+        EstudianteManager = new javax.swing.JPanel();
+        jSeparator8 = new javax.swing.JSeparator();
+        inputEstudianteIdentificacion = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tableEstudiantes = new javax.swing.JTable();
+        jLabel39 = new javax.swing.JLabel();
+        counterEstudiantes = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        btnApplyEstudiante = new javax.swing.JButton();
+        btnCreateEstudiante = new javax.swing.JButton();
+        btnDeleteEstudiante = new javax.swing.JButton();
+        statusTextEstudiante = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jLabel41 = new javax.swing.JLabel();
+        inputEstudianteNombres = new javax.swing.JTextField();
+        inputEstudianteApellidos = new javax.swing.JTextField();
+        jLabel42 = new javax.swing.JLabel();
+        inputEstudianteEmail = new javax.swing.JTextField();
+        jLabel43 = new javax.swing.JLabel();
+        inputEstudianteTelefono = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        inputEstudiantePassword = new javax.swing.JPasswordField();
+        jLabel46 = new javax.swing.JLabel();
+        boxEstudianteEstado = new javax.swing.JComboBox<>();
+        checkBoxEstudianteChangePassword = new javax.swing.JCheckBox();
+        inputEstudianteGrado = new javax.swing.JTextField();
+        jLabel47 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1200, 750));
@@ -188,6 +244,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         RightContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tab1Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab1Container.setMinimumSize(new java.awt.Dimension(970, 750));
+        Tab1Container.setPreferredSize(new java.awt.Dimension(970, 750));
         Tab1Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
@@ -221,7 +279,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 910, 10));
 
         categorySelector.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        categorySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escuelas", "Departamentos", "Cursos", "Evaluaciones", "Estudiantes", "Profesores" }));
+        categorySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escuelas", "Departamentos", "Cursos", "Estudiantes", "Profesores" }));
         Tab1Container.add(categorySelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 910, 50));
 
         btnGoDetails.setBackground(new java.awt.Color(4, 205, 4));
@@ -239,6 +297,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         TabbedContainer.addTab("Principal", Tab1Container);
 
         Tab2Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab2Container.setMinimumSize(new java.awt.Dimension(970, 750));
+        Tab2Container.setPreferredSize(new java.awt.Dimension(970, 750));
         Tab2Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         statusText.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -319,6 +379,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         TabbedContainer.addTab("Configuracion", Tab2Container);
 
         EscuelaManager.setBackground(new java.awt.Color(251, 251, 254));
+        EscuelaManager.setMinimumSize(new java.awt.Dimension(970, 750));
+        EscuelaManager.setPreferredSize(new java.awt.Dimension(970, 750));
         EscuelaManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jSeparator5.setForeground(new java.awt.Color(62, 255, 59));
@@ -348,6 +410,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
             }
         ));
         tableEscuelas.setRowHeight(40);
+        tableEscuelas.setSelectionBackground(new java.awt.Color(0, 204, 51));
         tableEscuelas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableEscuelasMouseClicked(evt);
@@ -355,17 +418,17 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableEscuelas);
 
-        EscuelaManager.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 870, 170));
+        EscuelaManager.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 170));
 
         jLabel18.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(174, 197, 177));
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel18.setText("Click en una para editar");
-        EscuelaManager.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, -1, -1));
+        EscuelaManager.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
 
-        escuelasCounter.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        escuelasCounter.setText("0");
-        EscuelaManager.add(escuelasCounter, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 150, -1));
+        counterEscuelas.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterEscuelas.setText("0");
+        EscuelaManager.add(counterEscuelas, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 150, -1));
 
         jLabel19.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel19.setText("Lista de escuelas:");
@@ -382,7 +445,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 btnApplyEscuelaActionPerformed(evt);
             }
         });
-        EscuelaManager.add(btnApplyEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 660, 90, 60));
+        EscuelaManager.add(btnApplyEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 90, 60));
 
         btnCreateEscuela.setBackground(new java.awt.Color(4, 205, 4));
         btnCreateEscuela.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -394,7 +457,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 btnCreateEscuelaActionPerformed(evt);
             }
         });
-        EscuelaManager.add(btnCreateEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 660, 130, 60));
+        EscuelaManager.add(btnCreateEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 130, 60));
 
         btnDeleteEscuela.setBackground(new java.awt.Color(242, 242, 242));
         btnDeleteEscuela.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -407,7 +470,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 btnDeleteEscuelaActionPerformed(evt);
             }
         });
-        EscuelaManager.add(btnDeleteEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 660, 90, 60));
+        EscuelaManager.add(btnDeleteEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 660, 90, 60));
 
         statusTextEscuela.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         statusTextEscuela.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -424,7 +487,475 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         });
         EscuelaManager.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
 
-        TabbedContainer.addTab("Configuracion", EscuelaManager);
+        TabbedContainer.addTab("Escuelas", EscuelaManager);
+
+        DepartamentoManager.setBackground(new java.awt.Color(251, 251, 254));
+        DepartamentoManager.setMinimumSize(new java.awt.Dimension(970, 750));
+        DepartamentoManager.setPreferredSize(new java.awt.Dimension(970, 750));
+        DepartamentoManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator6.setForeground(new java.awt.Color(62, 255, 59));
+        DepartamentoManager.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 470, 10));
+
+        inputDepartamentoNombre.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        DepartamentoManager.add(inputDepartamentoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 290, 40));
+
+        jLabel25.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel25.setText("Escuela *");
+        DepartamentoManager.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        jLabel26.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel26.setText("Gestion de departamentos");
+        DepartamentoManager.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        tableDepartamentos.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        tableDepartamentos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableDepartamentos.setRowHeight(40);
+        tableDepartamentos.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableDepartamentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDepartamentosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tableDepartamentos);
+
+        DepartamentoManager.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 170));
+
+        jLabel20.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel20.setText("Click en uno para editar");
+        DepartamentoManager.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
+
+        counterDepartamentos.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterDepartamentos.setText("0");
+        DepartamentoManager.add(counterDepartamentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, 150, -1));
+
+        jLabel21.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel21.setText("Lista de departamentos:");
+        DepartamentoManager.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        btnApplyDepartamento.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyDepartamento.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyDepartamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyDepartamento.setText("Aplicar");
+        btnApplyDepartamento.setBorder(null);
+        btnApplyDepartamento.setEnabled(false);
+        btnApplyDepartamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyDepartamentoActionPerformed(evt);
+            }
+        });
+        DepartamentoManager.add(btnApplyDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 90, 60));
+
+        btnCreateDepartamento.setBackground(new java.awt.Color(4, 205, 4));
+        btnCreateDepartamento.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCreateDepartamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateDepartamento.setText("Crear nuevo");
+        btnCreateDepartamento.setBorder(null);
+        btnCreateDepartamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateDepartamentoActionPerformed(evt);
+            }
+        });
+        DepartamentoManager.add(btnCreateDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 130, 60));
+
+        btnDeleteDepartamento.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteDepartamento.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteDepartamento.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteDepartamento.setText("Eliminar");
+        btnDeleteDepartamento.setBorder(null);
+        btnDeleteDepartamento.setEnabled(false);
+        btnDeleteDepartamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteDepartamentoActionPerformed(evt);
+            }
+        });
+        DepartamentoManager.add(btnDeleteDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 660, 90, 60));
+
+        statusTextDepartamento.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextDepartamento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        DepartamentoManager.add(statusTextDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 630, 340, 15));
+
+        jButton2.setBackground(new java.awt.Color(251, 251, 254));
+        jButton2.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
+        jButton2.setText("<");
+        jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        DepartamentoManager.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+
+        DepartamentoManager.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 740, 10, 10));
+
+        jLabel27.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel27.setText("Nombre *");
+        DepartamentoManager.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, -1, -1));
+
+        boxDepartamentoEscuela.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        DepartamentoManager.add(boxDepartamentoEscuela, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, 40));
+
+        boxJefeDepartamento.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        DepartamentoManager.add(boxJefeDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 390, 290, 40));
+
+        jLabel28.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel28.setText("Jefe del departamento");
+        DepartamentoManager.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 360, -1, -1));
+
+        TabbedContainer.addTab("Departamentos", DepartamentoManager);
+
+        CursoManager.setBackground(new java.awt.Color(251, 251, 254));
+        CursoManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator7.setForeground(new java.awt.Color(62, 255, 59));
+        CursoManager.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 470, 10));
+
+        inputCursoNombre.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        CursoManager.add(inputCursoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 290, 40));
+
+        jLabel29.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel29.setText("Departamento *");
+        CursoManager.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        jLabel30.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel30.setText("Gestion de cursos");
+        CursoManager.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        tableCursos.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        tableCursos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableCursos.setRowHeight(40);
+        tableCursos.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableCursos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCursosMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tableCursos);
+
+        CursoManager.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 170));
+
+        jLabel22.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel22.setText("Click en uno para editar");
+        CursoManager.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
+
+        counterCursos.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterCursos.setText("0");
+        CursoManager.add(counterCursos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 150, -1));
+
+        jLabel31.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel31.setText("Lista de cursos:");
+        CursoManager.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        btnApplyCurso.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyCurso.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyCurso.setText("Aplicar");
+        btnApplyCurso.setBorder(null);
+        btnApplyCurso.setEnabled(false);
+        btnApplyCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyCursoActionPerformed(evt);
+            }
+        });
+        CursoManager.add(btnApplyCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 90, 60));
+
+        btnCreateCurso.setBackground(new java.awt.Color(4, 205, 4));
+        btnCreateCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCreateCurso.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateCurso.setText("Crear nuevo");
+        btnCreateCurso.setBorder(null);
+        btnCreateCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateCursoActionPerformed(evt);
+            }
+        });
+        CursoManager.add(btnCreateCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 130, 60));
+
+        btnDeleteCurso.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteCurso.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteCurso.setText("Eliminar");
+        btnDeleteCurso.setBorder(null);
+        btnDeleteCurso.setEnabled(false);
+        btnDeleteCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCursoActionPerformed(evt);
+            }
+        });
+        CursoManager.add(btnDeleteCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 660, 90, 60));
+
+        statusTextCurso.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextCurso.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CursoManager.add(statusTextCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 630, 340, 15));
+
+        jButton3.setBackground(new java.awt.Color(251, 251, 254));
+        jButton3.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
+        jButton3.setText("<");
+        jButton3.setBorder(null);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        CursoManager.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+
+        CursoManager.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 740, 10, 10));
+
+        jLabel32.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel32.setText("Nombre *");
+        CursoManager.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, -1, -1));
+
+        boxCursoDepartamento.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        CursoManager.add(boxCursoDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, 40));
+
+        boxCursoHoraInicial.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        boxCursoHoraInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00:00:00", "00:15:00", "00:30:00", "00:45:00", "01:00:00", "01:15:00", "01:30:00", "01:45:00", "02:00:00", "02:15:00", "02:30:00", "02:45:00", "03:00:00", "03:15:00", "03:30:00", "03:45:00", "04:00:00", "04:15:00", "04:30:00", "04:45:00", "05:00:00", "05:15:00", "05:30:00", "05:45:00", "06:00:00", "06:15:00", "06:30:00", "06:45:00", "07:00:00", "07:15:00", "07:30:00", "07:45:00", "08:00:00", "08:15:00", "08:30:00", "08:45:00", "09:00:00", "09:15:00", "09:30:00", "09:45:00", "10:00:00", "10:15:00", "10:30:00", "10:45:00", "11:00:00", "11:15:00", "11:30:00", "11:45:00", "12:00:00", "12:15:00", "12:30:00", "12:45:00", "13:00:00", "13:15:00", "13:30:00", "13:45:00", "14:00:00", "14:15:00", "14:30:00", "14:45:00", "15:00:00", "15:15:00", "15:30:00", "15:45:00", "16:00:00", "16:15:00", "16:30:00", "16:45:00", "17:00:00", "17:15:00", "17:30:00", "17:45:00", "18:00:00", "18:15:00", "18:30:00", "18:45:00", "19:00:00", "19:15:00", "19:30:00", "19:45:00", "20:00:00", "20:15:00", "20:30:00", "20:45:00", "21:00:00", "21:15:00", "21:30:00", "21:45:00", "22:00:00", "22:15:00", "22:30:00", "22:45:00", "23:00:00", "23:15:00", "23:30:00", "23:45:00" }));
+        CursoManager.add(boxCursoHoraInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 390, 290, 40));
+
+        jLabel33.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel33.setText("Hora de Inicio *");
+        CursoManager.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 360, -1, -1));
+
+        inputCursoMaxEstudiantes.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        CursoManager.add(inputCursoMaxEstudiantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 290, 40));
+
+        jLabel34.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel34.setText("Máximo de estudiantes *");
+        CursoManager.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, -1));
+
+        inputCursoCreditos.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        CursoManager.add(inputCursoCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 480, 290, 40));
+
+        jLabel35.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel35.setText("Créditos *");
+        CursoManager.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, -1, -1));
+
+        boxCursoHoraFinal.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        boxCursoHoraFinal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00:00:00", "00:15:00", "00:30:00", "00:45:00", "01:00:00", "01:15:00", "01:30:00", "01:45:00", "02:00:00", "02:15:00", "02:30:00", "02:45:00", "03:00:00", "03:15:00", "03:30:00", "03:45:00", "04:00:00", "04:15:00", "04:30:00", "04:45:00", "05:00:00", "05:15:00", "05:30:00", "05:45:00", "06:00:00", "06:15:00", "06:30:00", "06:45:00", "07:00:00", "07:15:00", "07:30:00", "07:45:00", "08:00:00", "08:15:00", "08:30:00", "08:45:00", "09:00:00", "09:15:00", "09:30:00", "09:45:00", "10:00:00", "10:15:00", "10:30:00", "10:45:00", "11:00:00", "11:15:00", "11:30:00", "11:45:00", "12:00:00", "12:15:00", "12:30:00", "12:45:00", "13:00:00", "13:15:00", "13:30:00", "13:45:00", "14:00:00", "14:15:00", "14:30:00", "14:45:00", "15:00:00", "15:15:00", "15:30:00", "15:45:00", "16:00:00", "16:15:00", "16:30:00", "16:45:00", "17:00:00", "17:15:00", "17:30:00", "17:45:00", "18:00:00", "18:15:00", "18:30:00", "18:45:00", "19:00:00", "19:15:00", "19:30:00", "19:45:00", "20:00:00", "20:15:00", "20:30:00", "20:45:00", "21:00:00", "21:15:00", "21:30:00", "21:45:00", "22:00:00", "22:15:00", "22:30:00", "22:45:00", "23:00:00", "23:15:00", "23:30:00", "23:45:00" }));
+        CursoManager.add(boxCursoHoraFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 290, 40));
+
+        jLabel36.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel36.setText("Hora de Fin *");
+        CursoManager.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, -1));
+
+        TabbedContainer.addTab("Departamentos", CursoManager);
+
+        EstudianteManager.setBackground(new java.awt.Color(251, 251, 254));
+        EstudianteManager.setMinimumSize(new java.awt.Dimension(970, 750));
+        EstudianteManager.setPreferredSize(new java.awt.Dimension(970, 750));
+        EstudianteManager.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator8.setForeground(new java.awt.Color(62, 255, 59));
+        EstudianteManager.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
+
+        inputEstudianteIdentificacion.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 290, 40));
+
+        jLabel37.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel37.setText("Identificacion *");
+        EstudianteManager.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, -1, -1));
+
+        jLabel38.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
+        jLabel38.setText("Gestion de Estudiantes");
+        EstudianteManager.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+
+        tableEstudiantes.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        tableEstudiantes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tableEstudiantes.setRowHeight(40);
+        tableEstudiantes.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableEstudiantes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEstudiantesMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tableEstudiantes);
+
+        EstudianteManager.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 170));
+
+        jLabel39.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel39.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel39.setText("Click en una para editar");
+        EstudianteManager.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
+
+        counterEstudiantes.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterEstudiantes.setText("0");
+        EstudianteManager.add(counterEstudiantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 150, -1));
+
+        jLabel40.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel40.setText("Lista de estudiantes:");
+        EstudianteManager.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        btnApplyEstudiante.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyEstudiante.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyEstudiante.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyEstudiante.setText("Aplicar");
+        btnApplyEstudiante.setBorder(null);
+        btnApplyEstudiante.setEnabled(false);
+        btnApplyEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyEstudianteActionPerformed(evt);
+            }
+        });
+        EstudianteManager.add(btnApplyEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 660, 90, 60));
+
+        btnCreateEstudiante.setBackground(new java.awt.Color(4, 205, 4));
+        btnCreateEstudiante.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCreateEstudiante.setForeground(new java.awt.Color(255, 255, 255));
+        btnCreateEstudiante.setText("Crear nuevo");
+        btnCreateEstudiante.setBorder(null);
+        btnCreateEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateEstudianteActionPerformed(evt);
+            }
+        });
+        EstudianteManager.add(btnCreateEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 130, 60));
+
+        btnDeleteEstudiante.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteEstudiante.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteEstudiante.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteEstudiante.setText("Eliminar");
+        btnDeleteEstudiante.setBorder(null);
+        btnDeleteEstudiante.setEnabled(false);
+        btnDeleteEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteEstudianteActionPerformed(evt);
+            }
+        });
+        EstudianteManager.add(btnDeleteEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 660, 90, 60));
+
+        statusTextEstudiante.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextEstudiante.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        EstudianteManager.add(statusTextEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(551, 630, 340, 15));
+
+        jButton4.setBackground(new java.awt.Color(251, 251, 254));
+        jButton4.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
+        jButton4.setText("<");
+        jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        EstudianteManager.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
+
+        jLabel41.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel41.setText("Nombres *");
+        EstudianteManager.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, -1, -1));
+
+        inputEstudianteNombres.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 290, 40));
+
+        inputEstudianteApellidos.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 390, 290, 40));
+
+        jLabel42.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel42.setText("Apellidos *");
+        EstudianteManager.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 360, -1, -1));
+
+        inputEstudianteEmail.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 290, 40));
+
+        jLabel43.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel43.setText("Estado de Usuario *");
+        EstudianteManager.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, -1, -1));
+
+        inputEstudianteTelefono.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 480, 290, 40));
+
+        jLabel44.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel44.setText("Teléfono *");
+        EstudianteManager.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, -1, -1));
+
+        jLabel45.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel45.setText("Contraseña");
+        EstudianteManager.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 540, -1, -1));
+
+        inputEstudiantePassword.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudiantePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 570, 290, 40));
+
+        jLabel46.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel46.setText("Email *");
+        EstudianteManager.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, -1));
+
+        boxEstudianteEstado.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        boxEstudianteEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        EstudianteManager.add(boxEstudianteEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 290, 40));
+
+        checkBoxEstudianteChangePassword.setBackground(new java.awt.Color(251, 251, 254));
+        checkBoxEstudianteChangePassword.setText("Cambiar contraseña");
+        checkBoxEstudianteChangePassword.setEnabled(false);
+        checkBoxEstudianteChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxEstudianteChangePasswordActionPerformed(evt);
+            }
+        });
+        EstudianteManager.add(checkBoxEstudianteChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 620, -1, -1));
+
+        inputEstudianteGrado.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        EstudianteManager.add(inputEstudianteGrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 480, 290, 40));
+
+        jLabel47.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel47.setText("Grado *");
+        EstudianteManager.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, -1, -1));
+
+        TabbedContainer.addTab("Escuelas", EstudianteManager);
 
         RightContainer.add(TabbedContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, -1, 790));
 
@@ -435,6 +966,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
     private void btnGoDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoDetailsActionPerformed
         goToCategory();
+        cargarComboBoxes();
     }//GEN-LAST:event_btnGoDetailsActionPerformed
 
     private void TabBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn1ActionPerformed
@@ -462,13 +994,15 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnApplyEscuelaActionPerformed
 
     private void tableEscuelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEscuelasMouseClicked
- int fila = tableEscuelas.getSelectedRow();
-    if (fila != -1) {
+        JTable tabla = tableEscuelas;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
         
-        habilitarBotones();
-        
-         Object id = tableEscuelas.getValueAt(fila, 0);
-            Object nombre = tableEscuelas.getValueAt(fila, 1);
+        JButton[] buttonsEscuela = {btnApplyEscuela, btnCreateEscuela, btnDeleteEscuela};
+        habilitarBotones(buttonsEscuela);
+
+            Object nombre = tabla.getValueAt(fila, 1);
+
         inputEscuelaNombre.setText(nombre.toString());
         
     }
@@ -486,8 +1020,218 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
        cambiarTab(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void tableDepartamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDepartamentosMouseClicked
+        JTable tabla = tableDepartamentos;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JComponent[] inputsList = {inputDepartamentoNombre, boxDepartamentoEscuela, boxJefeDepartamento };
+            boolean[] needed = {true, true, false};
+            JButton[] buttonsList = {btnApplyDepartamento, btnCreateDepartamento, btnDeleteDepartamento};
+            habilitarBotones(buttonsList);
+
+            Object id = tabla.getValueAt(fila, 0);
+            Object escuelaId = tabla.getValueAt(fila, 1);
+            Object nombre = tabla.getValueAt(fila, 2);
+
+            int idBuscado = (int) escuelaId;
+
+            for (int i = 0; i < boxDepartamentoEscuela.getItemCount(); i++) {
+                Escuela escuela = boxDepartamentoEscuela.getItemAt(i);
+                if (escuela.getIdEscuela() == idBuscado) {
+                    boxDepartamentoEscuela.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            //falta lo mismo con profesores
+            inputDepartamentoNombre.setText(nombre.toString());
+
+        }
+    }//GEN-LAST:event_tableDepartamentosMouseClicked
+
+    private void btnApplyDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDepartamentoActionPerformed
+      updateDepartamento();
+    }//GEN-LAST:event_btnApplyDepartamentoActionPerformed
+
+    private void btnCreateDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateDepartamentoActionPerformed
+        createNewDepartamento();
+    }//GEN-LAST:event_btnCreateDepartamentoActionPerformed
+
+    private void btnDeleteDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDepartamentoActionPerformed
+       deleteDepartamento();
+    }//GEN-LAST:event_btnDeleteDepartamentoActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+            cambiarTab(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tableCursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursosMouseClicked
+        JTable tabla = tableCursos;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
+            boolean[] needed = {true, true, true, true, true, true};
+            JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+            habilitarBotones(buttonsList);
+
+            Object id = tabla.getValueAt(fila, 0);
+            Object departamentoId = tabla.getValueAt(fila, 1);
+            Object nombre = tabla.getValueAt(fila, 2);
+            Object horaInicial = tabla.getValueAt(fila, 3);
+            Object horaFinal = tabla.getValueAt(fila, 4);
+            Object maxEstudiantes = tabla.getValueAt(fila, 5);
+            Object creditos = tabla.getValueAt(fila, 6);
+
+            int idBuscado = (int) departamentoId;
+
+            for (int i = 0; i < boxCursoDepartamento.getItemCount(); i++) {
+                Departamento departamento = boxCursoDepartamento.getItemAt(i);
+                if (departamento.getIdDepartamentos() == idBuscado) {
+                    boxCursoDepartamento.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            for (int i = 0; i < boxCursoHoraInicial.getItemCount(); i++) {
+                String hora = boxCursoHoraInicial.getItemAt(i);
+                if (hora.equals(horaInicial.toString())) {
+                    boxCursoHoraInicial.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            
+            for (int i = 0; i < boxCursoHoraFinal.getItemCount(); i++) {
+                String hora = boxCursoHoraFinal.getItemAt(i);
+                if (hora.equals(horaFinal.toString())) {
+                    boxCursoHoraFinal.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            inputCursoMaxEstudiantes.setText(maxEstudiantes.toString());
+            inputCursoCreditos.setText(creditos.toString());
+            inputCursoNombre.setText(nombre.toString());
+
+        }
+    }//GEN-LAST:event_tableCursosMouseClicked
+
+    private void btnApplyCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyCursoActionPerformed
+       updateCurso();
+    }//GEN-LAST:event_btnApplyCursoActionPerformed
+
+    private void btnCreateCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateCursoActionPerformed
+        createNewCurso();
+    }//GEN-LAST:event_btnCreateCursoActionPerformed
+
+    private void btnDeleteCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCursoActionPerformed
+        deleteCurso();
+    }//GEN-LAST:event_btnDeleteCursoActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        cambiarTab(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tableEstudiantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEstudiantesMouseClicked
+        JTable tabla = tableEstudiantes;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
+            boolean[] needed = {true, true, true, true, true, true, true, false};
+            JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
+            habilitarBotones(buttonsList);
+            checkBoxEstudianteChangePassword.setEnabled(true);
+            inputEstudiantePassword.setEnabled(false);
+
+            Object id = tabla.getValueAt(fila, 0);
+            Object identificacion = tabla.getValueAt(fila, 1);
+            Object nombres = tabla.getValueAt(fila, 2);
+            Object apellidos = tabla.getValueAt(fila, 3);
+            Object email = tabla.getValueAt(fila, 4);
+            Object telefono = tabla.getValueAt(fila, 5);
+            Object rol = tabla.getValueAt(fila, 6);
+            Object estado = tabla.getValueAt(fila, 7);
+            Object grado = tabla.getValueAt(fila, 8);
+
+            
+            for (int i = 0; i < boxEstudianteEstado.getItemCount(); i++) {
+                String estadoBox = boxEstudianteEstado.getItemAt(i);
+                if (estadoBox.equals(estado.toString())) {
+                    boxEstudianteEstado.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            
+            inputEstudianteIdentificacion.setText(identificacion.toString());
+            inputEstudianteNombres.setText(nombres.toString());
+            inputEstudianteApellidos.setText(apellidos.toString());
+            inputEstudianteEmail.setText(email.toString());
+            inputEstudianteTelefono.setText(telefono.toString());
+            inputEstudianteGrado.setText(grado.toString());
+            inputEstudiantePassword.setText("");
+
+        }
+    }//GEN-LAST:event_tableEstudiantesMouseClicked
+
+    private void btnApplyEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyEstudianteActionPerformed
+        updateEstudiante();
+    }//GEN-LAST:event_btnApplyEstudianteActionPerformed
+
+    private void btnCreateEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateEstudianteActionPerformed
+        createNewEstudiante();
+    }//GEN-LAST:event_btnCreateEstudianteActionPerformed
+
+    private void btnDeleteEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEstudianteActionPerformed
+        deleteEstudiante();
+    }//GEN-LAST:event_btnDeleteEstudianteActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       cambiarTab(0);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void checkBoxEstudianteChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxEstudianteChangePasswordActionPerformed
+              inputEstudiantePassword.setEnabled(!inputEstudiantePassword.isEnabled());
+    }//GEN-LAST:event_checkBoxEstudianteChangePasswordActionPerformed
+
     
     
+    
+         /*
+    =====================================================================
+    =====================================================================
+     MÉTODOS UTILES
+    */
+    
+    //<editor-fold>
+    
+      private void cambiarTab(int index) {
+    try {
+        TabbedContainer.setSelectedIndex(index);
+
+        JButton[] tabsButtons = {TabBtn1, TabBtn2};
+
+        for (int i = 0; i < tabsButtons.length; i++) {
+            if (i == index) {
+                // Botón activo
+                tabsButtons[i].setBackground(new java.awt.Color(255, 255, 255));
+                 tabsButtons[i].setForeground(new java.awt.Color(0,0,0));
+                
+            } else {
+                // Botones inactivos
+                tabsButtons[i].setBackground(new java.awt.Color(4, 205, 4));
+                tabsButtons[i].setForeground(new java.awt.Color(255, 255, 255));
+            }
+        }
+
+    } catch (Exception e) {
+        System.out.println("Error al cambiar de tab (probablemente index no encontrado)");
+        System.out.println(e.getMessage());
+    }
+}
     
     private void goToCategory(){
         JComboBox selector = categorySelector;
@@ -497,95 +1241,444 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }
     
     
-     /*
-    =====================================================================
-    =====================================================================
-     ZONA DE GESTION DE ESCUELAS
-    */
+        private void ApplyFieldsOnlyNumbers(){
+    JTextField[] campos = {inputCursoMaxEstudiantes, inputCursoCreditos};
+
+    for (JTextField campo : campos) {
+        campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    evt.consume(); // Bloquea si NO es un número
+                }
+            }
+        });
+    }
+}
     
-    //<editor-fold>
-    private void desabilitarBotones(){
-                   btnApplyEscuela.setBackground(new Color(242,242,242));
-        btnApplyEscuela.setEnabled(false);
-        btnDeleteEscuela.setBackground(new Color(242,242,242));
-        btnDeleteEscuela.setEnabled(false);
+    
+     private void desabilitarBotones(JButton[] botones){
+        
+         for(JButton btn : botones){
+             
+               if(!btn.getText().equals("Crear nuevo")){
+            btn.setBackground(new Color(242,242,242));
+            btn.setEnabled(false);
+               }
+        }
+         
     }
     
-    private void habilitarBotones(){
-             btnApplyEscuela.setBackground(new Color(4,205,4));
-        btnApplyEscuela.setEnabled(true);
-        btnDeleteEscuela.setBackground(new Color(255,51,51));
-        btnDeleteEscuela.setEnabled(true);
-    }
-    
-    private void limpiarCampos(){
+    private void habilitarBotones(JButton[] botones){
         
-        JTextField[] inputs = {inputEscuelaNombre};
-        
-        for(JTextField input : inputs){
-            input.setText("");
+        for(JButton btn : botones){
+            if(btn.getText().equals("Eliminar")){
+                btn.setBackground(new Color(255,51,51));
+                btn.setEnabled(true);
+            } else {
+                btn.setBackground(new Color(4,205,4));
+                btn.setEnabled(true);
+            }
         }
         
     }
     
+private void limpiarCampos(JComponent[] inputs) {
+    for (JComponent input : inputs) {
+        if (input instanceof JTextField) {
+            ((JTextField) input).setText("");
+        } else if (input instanceof JComboBox) {
+            ((JComboBox<?>) input).setSelectedIndex(-1); // Deselecciona todo
+        }
+    }
+}
+
+    
+    
+     private void successText(JLabel statusLabel){
+         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
+          statusLabel.setText("Aplicado con éxito");
+        statusLabel.setForeground(new Color(51, 153, 0)); // Verde
+    }
+    
+   private boolean validateAdminCRUDInputs(JComponent[] inputs, boolean[] needed, JLabel statusLabel) {
+    boolean validationStatus = true;
+
+    int reps = 0;
+    for (JComponent input : inputs) {
+        if (input instanceof JTextField) {
+            String text = ((JTextField) input).getText().trim();
+            if (text.isEmpty() && needed[reps] == true) {
+                validationStatus = false;
+                break;
+            }
+        } else if (input instanceof JComboBox) {
+            Object selectedItem = ((JComboBox<?>) input).getSelectedItem();
+            if (needed[reps] == true && (selectedItem == null || selectedItem.toString().trim().isEmpty())) {
+                validationStatus = false;
+                break;
+            }
+        }
+        reps += 1;
+    }
+
+    if (!validationStatus) {
+        statusLabel.setText("Campos faltantes");
+        statusLabel.setForeground(new Color(204, 0, 51)); // Rojo
+    }
+
+    return validationStatus;
+}
+
+    
+        //</editor-fold>
+    
+       /*
+      MÉTODOS UTILES
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+    
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+    
+             /*
+    =====================================================================
+    =====================================================================
+     GESTION DE TABLAS
+    */
+    
+    //<editor-fold>
+    
+      private void cargarModeloTablas(){
+           String[] columnasEscuelas = {"ID de escuela", "Nombre de escuela"};
+        Crear_Modelo(columnasEscuelas, tableEscuelas);
+        
+               String[] columnasDepartamentos = {"ID de departamento", "Escuela", "Nombre", "Jefe"};
+        Crear_Modelo(columnasDepartamentos, tableDepartamentos);
+        
+           String[] columnasCursos = {"ID de curso", "Departamento", "Nombre", "Hora Inicial", "Hora Final", "Maximo de estudiantes", "Créditos"};
+        Crear_Modelo(columnasCursos, tableCursos);
+        
+           String[] columnasEstudiantes = {"ID de Usuario", "Identificacion", "Nombres", "Apellidos", "Email", "Teléfono", "Rol", "Estado", "Grado"};
+        Crear_Modelo(columnasEstudiantes, tableEstudiantes);
+    }
+    
+      private void cargarTablasNecesarias(){
+        cargarTablaEscuelas();
+        cargarTablaDepartamentos();
+        cargarTablaCursos();
+        cargarTablaEstudiantes();
+     
+    }
+    
+    private void cargarTablaEscuelas(){
+           List<Escuela> listaEscuelas = escuelaManager.listarEscuelas();
+        
+        if(listaEscuelas != null) {
+            cargarTabla(tableEscuelas, listaEscuelas);
+            counterEscuelas.setText(String.valueOf(listaEscuelas.size()));
+        }
+    }
+    
+     private void cargarTablaDepartamentos(){
+           List<Departamento> listaDepartamentos = departamentoManager.listarDepartamentos();
+        
+        if(listaDepartamentos != null) {
+            cargarTabla(tableDepartamentos, listaDepartamentos);
+            counterDepartamentos.setText(String.valueOf(listaDepartamentos.size()));
+        }
+    }
+     
+     private void cargarTablaCursos(){
+           List<Curso> listaCursos = cursoManager.listarCursos();
+        
+        if(listaCursos != null) {
+            cargarTabla(tableCursos, listaCursos);
+            counterCursos.setText(String.valueOf(listaCursos.size()));
+        }
+     }
+     
+     private void cargarTablaEstudiantes(){
+         List<Estudiante> listaEstudiantes = estudianteManager.listarEstudiante();
+         
+            if(listaEstudiantes != null) {
+            cargarTablaConDetallesDeUsuario(tableEstudiantes, listaEstudiantes);
+            counterEstudiantes.setText(String.valueOf(listaEstudiantes.size()));
+        }
+     }
+    
+    public static void cargarTabla(JTable tabla, List<?> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);  // Limpiar tabla
+
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        Object ejemplo = lista.get(0);
+        Field[] campos = ejemplo.getClass().getDeclaredFields();
+
+        for (Object obj : lista) {
+            Object[] fila = new Object[campos.length];
+            try {
+                for (int i = 0; i < campos.length; i++) {
+                    campos[i].setAccessible(true);
+                    fila[i] = campos[i].get(obj);
+                }
+                modelo.addRow(fila);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+    //Método para cargar los datos de Usuario + Rol en una tabla, en base en la lista de el rol.
+  public void cargarTablaConDetallesDeUsuario(JTable tabla, List<?> lista){
+    DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+    modelo.setRowCount(0);  // Limpiar tabla
+
+    List<Usuario> listaUsuariosEnBaseTabla = usuarioManager.listarUsuariosEnBaseAOtraLista(lista);
+
+    if (lista == null || lista.isEmpty() || listaUsuariosEnBaseTabla == null || listaUsuariosEnBaseTabla.isEmpty()) {
+        return;
+    }
+
+    Usuario ejemploUsuario = listaUsuariosEnBaseTabla.get(0);
+      System.out.println(ejemploUsuario.getIdentificacion());
+    Field[] camposClaseUsuario = ejemploUsuario.getClass().getDeclaredFields();
+
+    Object ejemploRolClase = lista.get(0);
+    Field[] camposRolClase = ejemploRolClase.getClass().getDeclaredFields();
+
+    for (int i = 0; i < lista.size(); i++) {
+        Object rolObj = lista.get(i);
+        Usuario usuarioObj = listaUsuariosEnBaseTabla.get(i);
+        
+  
+
+        Object[] fila = new Object[camposClaseUsuario.length + camposRolClase.length - 2];
+
+        try {
+         int columna = 0; // Índice real de columna en la fila
+
+            for (Field campo : camposClaseUsuario) {
+                campo.setAccessible(true);
+                String nombreCampo = campo.getName();
+
+                if (nombreCampo.equals("password")) {
+                    continue; // Saltar campo contraseña
+                }
+
+                Object valor = campo.get(usuarioObj);
+
+                if (nombreCampo.equals("estado")) {
+                    fila[columna] = (Boolean.TRUE.equals(valor)) ? "Activo" : "Inactivo";
+                } else {
+                    fila[columna] = valor;
+                }
+
+                System.out.println("Campo: " + nombreCampo + " = " + valor);
+                columna++; // Solo incrementar si no se salta
+            }
+
+
+            // Campos del Rol/relacionado (ignorando idUsuario y id)
+           columna = camposClaseUsuario.length - 1;
+            int j = 0;
+            for (Field campo : camposRolClase) {
+                    if (j < 2) { // Saltar los primeros dos campos (idUsuario y id)
+                        j++;
+                        continue;
+                    }
+
+                campo.setAccessible(true);
+                fila[columna] = campo.get(rolObj);
+                System.out.println("Campo: " + campo.getName() + " = " + campo.get(rolObj) + " Columna: " + columna);
+                columna++;
+                j++;
+            }
+
+            
+
+            modelo.addRow(fila);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+    
+    
+    public Usuario buscarUsuarioPorID(int id){
+        return usuarioManager.obtenerUsuarioPorID(id);
+    }
+    
+        DefaultTableModel modelo;
+ private void Crear_Modelo(String[] titulos, JTable tablaDestino) {
+    try {
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos) {
+
+            // Tipos de datos por columna (aquí todos String, puedes modificarlo)
+            Class[] types = new Class[titulos.length];
+            {
+                for (int i = 0; i < types.length; i++) {
+                    types[i] = String.class;
+                }
+            }
+
+            // Todas las celdas no editables
+            boolean[] canEdit = new boolean[titulos.length];
+            {
+                for (int i = 0; i < canEdit.length; i++) {
+                    canEdit[i] = false;
+                }
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        tablaDestino.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.toString() + " - Error al crear modelo de tabla");
+    }
+}
+ 
+ 
+ 
+ private List<Escuela> getEscuelas(){
+        return escuelaManager.listarEscuelas();
+ }
+ 
+ private List<Departamento> getDepartamentos(){
+    return departamentoManager.listarDepartamentos();
+}
+ 
+ 
+ private void cargarComboBoxes(){
+     
+     JComboBox[] boxes = {boxDepartamentoEscuela, boxJefeDepartamento, boxCursoDepartamento};
+     
+     List<Escuela> escuelas = getEscuelas();
+     List<Departamento> departamentos = getDepartamentos();
+     
+     for( JComboBox box : boxes){
+         box.removeAllItems();
+     }
+     
+     
+     //Listar ESCUELAS para poder seleccionar en DEPARTAMENTOS
+     for (Escuela escuela : escuelas){
+         boxes[0].addItem(escuela);
+     }
+     
+     //Listar DEPARTAMENTOS para poder seleccionar en CURSOS
+     for (Departamento departamento : departamentos){
+         boxes[2].addItem(departamento);
+     }
+     
+ }
+ 
+ 
+         //</editor-fold>
+    
+       /*
+      GESTIÓN DE TABLAS
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+    
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+    
+    
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE ESCUELAS (DAO1 DAOESCUELAS)
+    */
+    
+    //<editor-fold>
+    
     EscuelaManager escuelaManager = new EscuelaManager();
     
+ 
+    
     private void deleteEscuela(){
+        
+        JComponent[] inputsList = {inputEscuelaNombre};
+        JButton[] buttonsList = {btnApplyEscuela, btnCreateEscuela, btnDeleteEscuela};
+        
              boolean accion = actionDeleteEscuela();
         if(accion == false) return;
         
         
-                    desabilitarBotones();
-                   limpiarCampos();
-                   successText();
+                    desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextEscuela);
     }
     
     
     private void updateEscuela(){
-         boolean inputsValidados = validateEscuelaInputs();
+        
+        JComponent[] inputsList = {inputEscuelaNombre};
+        boolean[] needed = {true};
+        JButton[] buttonsList = {btnApplyEscuela, btnCreateEscuela, btnDeleteEscuela};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEscuela);
         if(inputsValidados == false) return;
         
         boolean accion = actionUpdateEscuela();
         if(accion == false) return;
                 
-                desabilitarBotones();
-                   limpiarCampos();
-                   successText();
+
+                desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextEscuela);
 
     }
     
     private void createNewEscuela(){
         
-        boolean inputsValidados = validateEscuelaInputs();
+        JComponent[] inputsList = {inputEscuelaNombre};
+              boolean[] needed = {true};
+        JButton[] buttonsList = {btnApplyEscuela, btnCreateEscuela, btnDeleteEscuela};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEscuela);
         if(inputsValidados == false) return;
         
         boolean accion = actionCreateEscuela();
         if(accion == false) return;
         
+       
+           desabilitarBotones(buttonsList);
+           limpiarCampos(inputsList);
+           successText(statusTextEscuela);
         
-           desabilitarBotones();
-           limpiarCampos();
-           successText();
-        
-    }
-    
-    
-    private void successText(){
-         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
-          statusTextEscuela.setText("Aplicado con éxito");
-        statusTextEscuela.setForeground(new Color(51, 153, 0)); // Verde
-    }
-    
-    private boolean validateEscuelaInputs(){
-        String nombre = inputEscuelaNombre.getText().trim();
-        
-        if(nombre.isEmpty()){
-              statusTextEscuela.setText("Campos faltantes");
-        statusTextEscuela.setForeground(new Color(204, 0, 51)); // Rojo
-        return false;
-        }
-        
-        return true;
     }
     
     
@@ -655,6 +1748,462 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     
     
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE DEPARTAMENTOS (DAO2 DAODEPARTAMENTOS)
+    */
+    
+    //<editor-fold>
+    
+    DepartamentosManager departamentoManager = new DepartamentosManager();
+    
+ 
+    
+    private void deleteDepartamento(){
+        
+        JComponent[] inputsList = {inputDepartamentoNombre, boxDepartamentoEscuela, boxJefeDepartamento };
+              boolean[] needed = {true, true, false};
+        JButton[] buttonsList = {btnApplyDepartamento, btnCreateDepartamento, btnDeleteDepartamento};
+        
+             boolean accion = actionDeleteDepartamento();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextDepartamento);
+    }
+    
+    
+    private void updateDepartamento(){
+        
+        JComponent[] inputsList = {inputDepartamentoNombre, boxDepartamentoEscuela, boxJefeDepartamento };
+                  boolean[] needed = {true, true, false};
+        JButton[] buttonsList = {btnApplyDepartamento, btnCreateDepartamento, btnDeleteDepartamento};
+        
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextDepartamento);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateDepartamento();
+        if(accion == false) return;
+                
+                desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextDepartamento);
+
+    }
+    
+    private void createNewDepartamento(){
+        
+        JComponent[] inputsList = {inputDepartamentoNombre, boxDepartamentoEscuela, boxJefeDepartamento };
+                  boolean[] needed = {true, true, false};
+        JButton[] buttonsList = {btnApplyDepartamento, btnCreateDepartamento, btnDeleteDepartamento};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextDepartamento);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionCreateDepartamento();
+        if(accion == false) return;
+        
+        
+           desabilitarBotones(buttonsList);
+           limpiarCampos(inputsList);
+           successText(statusTextDepartamento);
+        
+    }
+    
+    
+    private boolean actionCreateDepartamento(){
+
+            Escuela escuelaSeleccionada = (Escuela) boxDepartamentoEscuela.getSelectedItem();
+            Departamento nuevoObjeto = new Departamento(0, escuelaSeleccionada.getIdEscuela(), inputDepartamentoNombre.getText(), 0);
+            boolean accion = departamentoManager.insertarDepartamentos(nuevoObjeto);
+            
+            if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+            
+            cargarTablaDepartamentos();
+            return true;
+            
+    
+    }
+    
+    private boolean actionUpdateDepartamento(){
+           
+            int fila = tableDepartamentos.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableDepartamentos.getValueAt(fila, 0);
+                   Escuela escuelaSeleccionada = (Escuela) boxDepartamentoEscuela.getSelectedItem();
+                 
+                  Departamento nuevoObjeto = new Departamento((int) id, escuelaSeleccionada.getIdEscuela(), inputDepartamentoNombre.getText(), 0);
+                  
+                  
+                   boolean accion = departamentoManager.actualizarDepartamento(nuevoObjeto);
+                   
+                    
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaDepartamentos();
+            return true;
+    }
+    
+    private boolean actionDeleteDepartamento(){
+         int fila = tableDepartamentos.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableDepartamentos.getValueAt(fila, 0);
+                  
+                   boolean accion = departamentoManager.eliminarDepartamento((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaDepartamentos();
+            return true;
+    }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE DEPARTAMENTOS
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+    
+    
+       //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+    
+    
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE CURSOS (DAO3 DAOCURSOS)
+    */
+    
+    //<editor-fold>
+    
+    CursoManager cursoManager = new CursoManager();
+    
+ 
+    
+    private void deleteCurso(){
+        
+        JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
+        boolean[] needed = {true, true, true, true, true, true};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+        
+             boolean accion = actionDeleteCurso();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextCurso);
+    }
+    
+    
+    private void updateCurso(){
+        
+        JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
+        boolean[] needed = {true, true, true, true, true, true};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCurso);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateCurso();
+        if(accion == false) return;
+                
+
+                desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextCurso);
+
+    }
+    
+    private void createNewCurso(){
+        
+        JComponent[] inputsList = {boxCursoDepartamento, inputCursoNombre, boxCursoHoraInicial, boxCursoHoraFinal, inputCursoMaxEstudiantes, inputCursoCreditos};
+        boolean[] needed = {true, true, true, true, true, true};
+        JButton[] buttonsList = {btnApplyCurso, btnCreateCurso, btnDeleteCurso};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCurso);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionCreateCurso();
+        if(accion == false) return;
+        
+       
+           desabilitarBotones(buttonsList);
+           limpiarCampos(inputsList);
+           successText(statusTextCurso);
+        
+    }
+    
+    
+    private boolean actionCreateCurso(){
+
+        
+         Departamento departamentoSeleccionado = (Departamento) boxCursoDepartamento.getSelectedItem();
+         String horaInicialSeleccionada = (String) boxCursoHoraInicial.getSelectedItem();
+         String horaFinalSeleccionada = (String) boxCursoHoraFinal.getSelectedItem();
+            Curso nuevoObjeto = new Curso(0, departamentoSeleccionado.getIdDepartamentos(), inputCursoNombre.getText(), Time.valueOf(horaInicialSeleccionada), Time.valueOf(horaFinalSeleccionada), Integer.parseInt(inputCursoMaxEstudiantes.getText()), Integer.parseInt(inputCursoCreditos.getText()));
+            boolean accion = cursoManager.insertarCurso(nuevoObjeto);
+            
+            if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+            
+            cargarTablaCursos();
+            return true;
+            
+    
+    }
+    
+    private boolean actionUpdateCurso(){
+           
+            int fila = tableCursos.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableCursos.getValueAt(fila, 0);
+                 
+                  
+                  Departamento departamentoSeleccionado = (Departamento) boxCursoDepartamento.getSelectedItem();
+                  String horaInicialSeleccionada = (String) boxCursoHoraInicial.getSelectedItem();
+                  String horaFinalSeleccionada = (String) boxCursoHoraFinal.getSelectedItem();
+          
+                  Curso nuevoObjeto = new Curso((int) id, departamentoSeleccionado.getIdDepartamentos(), inputCursoNombre.getText(), Time.valueOf(horaInicialSeleccionada), Time.valueOf(horaFinalSeleccionada), Integer.parseInt(inputCursoMaxEstudiantes.getText()), Integer.parseInt(inputCursoCreditos.getText()));
+                  
+                  
+                   boolean accion = cursoManager.actualizarCurso(nuevoObjeto);
+                   
+                    
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaCursos();
+            return true;
+    }
+    
+    private boolean actionDeleteCurso(){
+         int fila = tableCursos.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableCursos.getValueAt(fila, 0);
+                  
+                   boolean accion = cursoManager.eliminarCurso((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaCursos();
+            return true;
+    }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE CURSOS
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+    
+      //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+    
+    
+    
+      
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE ESTUDIANTES (DAO4 DAOESTUDIANTES)
+    */
+    
+    //<editor-fold>
+    
+    EstudiantesManager estudianteManager = new EstudiantesManager();
+    
+ 
+    
+    private void deleteEstudiante(){
+        
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
+            boolean[] needed = {true, true, true, true, true, true, true, false};
+            JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
+        
+             boolean accion = actionDeleteEstudiante();
+        if(accion == false) return;
+        
+        
+                   desabilitarBotones(buttonsList);
+                   checkBoxEstudianteChangePassword.setEnabled(false);
+                   checkBoxEstudianteChangePassword.setSelected(false);
+                   limpiarCampos(inputsList);
+                   successText(statusTextEstudiante);
+    }
+    
+    
+    private void updateEstudiante(){
+        
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
+            boolean[] needed = {true, true, true, true, true, true, true, checkBoxEstudianteChangePassword.isSelected()};
+            JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEstudiante);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateEstudiante();
+        if(accion == false) return;
+                
+
+                desabilitarBotones(buttonsList);
+                checkBoxEstudianteChangePassword.setEnabled(false);
+                checkBoxEstudianteChangePassword.setSelected(false);
+                limpiarCampos(inputsList);
+                successText(statusTextEstudiante);
+
+    }
+    
+    private void createNewEstudiante(){
+        
+            JComponent[] inputsList = {inputEstudianteIdentificacion, inputEstudianteNombres, inputEstudianteApellidos, inputEstudianteEmail, inputEstudianteTelefono, inputEstudianteGrado, boxEstudianteEstado, inputEstudiantePassword};
+            boolean[] needed = {true, true, true, true, true, true, true, true};
+            JButton[] buttonsList = {btnApplyEstudiante, btnCreateEstudiante, btnDeleteEstudiante};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEstudiante);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionCreateEstudiante();
+        if(accion == false) return;
+        
+       
+           desabilitarBotones(buttonsList);
+           checkBoxEstudianteChangePassword.setEnabled(false);
+           checkBoxEstudianteChangePassword.setSelected(false);
+           limpiarCampos(inputsList);
+           successText(statusTextEstudiante);
+        
+    }
+    
+    
+    private boolean actionCreateEstudiante(){
+
+        
+            Estudiante nuevoObjeto = new Estudiante(0, 0, Integer.parseInt(inputEstudianteGrado.getText()));
+            boolean accion = estudianteManager.insertarEstudiantes(nuevoObjeto);
+            
+            if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+            
+            cargarTablaEstudiantes();
+            return true;
+            
+    
+    }
+    
+    private boolean actionUpdateEstudiante(){
+           
+            int fila = tableEstudiantes.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEstudiantes.getValueAt(fila, 0);
+                 
+                  Estudiante nuevoObjeto = new Estudiante((int) id, 0, Integer.parseInt(inputEstudianteGrado.getText()));
+                  
+                  
+                   boolean accion = estudianteManager.actualizarEstudiante(nuevoObjeto);
+                   
+                    
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaEstudiantes();
+            return true;
+    }
+    
+    private boolean actionDeleteEstudiante(){
+         int fila = tableEstudiantes.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEstudiantes.getValueAt(fila, 0);
+                  
+                   boolean accion = estudianteManager.eliminarEstudiante((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaEstudiantes();
+            return true;
+    }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE ESTUDIANTES
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+          //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
+    
+     /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE PROFESORES (DAO5 DAOPROFESORES)
+    */
+    
+
+    
+       /*
+      ZONA DE GESTION DE PROFESORES
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+    
+    
+          //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    
     
     
     /*
@@ -792,86 +2341,13 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     
 
     
-    private void cargarTablasNecesarias(){
-        cargarTablaEscuelas();
-     
-    }
-    
-    private void cargarTablaEscuelas(){
-           List<Escuela> listaEscuelas = escuelaManager.listarEscuelas();
-        
-        if(listaEscuelas != null) {
-            cargarTabla(tableEscuelas, listaEscuelas);
-            escuelasCounter.setText(String.valueOf(listaEscuelas.size()));
-        }
-    }
-    
-    public static void cargarTabla(JTable tabla, List<?> lista) {
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        modelo.setRowCount(0);  // Limpiar tabla
-
-        if (lista == null || lista.isEmpty()) {
-            return;
-        }
-
-        Object ejemplo = lista.get(0);
-        Field[] campos = ejemplo.getClass().getDeclaredFields();
-
-        for (Object obj : lista) {
-            Object[] fila = new Object[campos.length];
-            try {
-                for (int i = 0; i < campos.length; i++) {
-                    campos[i].setAccessible(true);
-                    fila[i] = campos[i].get(obj);
-                }
-                modelo.addRow(fila);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-        DefaultTableModel modelo;
- private void Crear_Modelo(String[] titulos, JTable tablaDestino) {
-    try {
-        DefaultTableModel modelo = new DefaultTableModel(null, titulos) {
-
-            // Tipos de datos por columna (aquí todos String, puedes modificarlo)
-            Class[] types = new Class[titulos.length];
-            {
-                for (int i = 0; i < types.length; i++) {
-                    types[i] = String.class;
-                }
-            }
-
-            // Todas las celdas no editables
-            boolean[] canEdit = new boolean[titulos.length];
-            {
-                for (int i = 0; i < canEdit.length; i++) {
-                    canEdit[i] = false;
-                }
-            }
-
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return types[columnIndex];
-            }
-
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
-        };
-
-        tablaDestino.setModel(modelo);
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.toString() + " - Error al crear modelo de tabla");
-    }
-}
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CursoManager;
+    private javax.swing.JPanel DepartamentoManager;
     private javax.swing.JPanel EscuelaManager;
+    private javax.swing.JPanel EstudianteManager;
     private javax.swing.JPanel LeftBar;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
@@ -880,15 +2356,48 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton TabBtn2;
     private javax.swing.JButton TabBtnLogOut;
     private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JComboBox<Departamento> boxCursoDepartamento;
+    private javax.swing.JComboBox<String> boxCursoHoraFinal;
+    private javax.swing.JComboBox<String> boxCursoHoraInicial;
+    private javax.swing.JComboBox<Escuela> boxDepartamentoEscuela;
+    private javax.swing.JComboBox<String> boxEstudianteEstado;
+    private javax.swing.JComboBox<String> boxJefeDepartamento;
+    private javax.swing.JButton btnApplyCurso;
+    private javax.swing.JButton btnApplyDepartamento;
     private javax.swing.JButton btnApplyEscuela;
+    private javax.swing.JButton btnApplyEstudiante;
+    private javax.swing.JButton btnCreateCurso;
+    private javax.swing.JButton btnCreateDepartamento;
     private javax.swing.JButton btnCreateEscuela;
+    private javax.swing.JButton btnCreateEstudiante;
+    private javax.swing.JButton btnDeleteCurso;
+    private javax.swing.JButton btnDeleteDepartamento;
     private javax.swing.JButton btnDeleteEscuela;
+    private javax.swing.JButton btnDeleteEstudiante;
     private javax.swing.JButton btnGoDetails;
     private javax.swing.JComboBox<String> categorySelector;
     private javax.swing.JCheckBox changePasswordCheckBox;
-    private javax.swing.JLabel escuelasCounter;
+    private javax.swing.JCheckBox checkBoxEstudianteChangePassword;
+    private javax.swing.JLabel counterCursos;
+    private javax.swing.JLabel counterDepartamentos;
+    private javax.swing.JLabel counterEscuelas;
+    private javax.swing.JLabel counterEstudiantes;
+    private javax.swing.JTextField inputCursoCreditos;
+    private javax.swing.JTextField inputCursoMaxEstudiantes;
+    private javax.swing.JTextField inputCursoNombre;
+    private javax.swing.JTextField inputDepartamentoNombre;
     private javax.swing.JTextField inputEscuelaNombre;
+    private javax.swing.JTextField inputEstudianteApellidos;
+    private javax.swing.JTextField inputEstudianteEmail;
+    private javax.swing.JTextField inputEstudianteGrado;
+    private javax.swing.JTextField inputEstudianteIdentificacion;
+    private javax.swing.JTextField inputEstudianteNombres;
+    private javax.swing.JPasswordField inputEstudiantePassword;
+    private javax.swing.JTextField inputEstudianteTelefono;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -899,16 +2408,50 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
     private javax.swing.JPasswordField settingsActualPasswordInput;
     private javax.swing.JButton settingsBtnApplyChanges;
     private javax.swing.JTextField settingsInputApellidos;
@@ -917,8 +2460,14 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JTextField settingsInputTelefono;
     private javax.swing.JPasswordField settingsNewPasswordInput;
     private javax.swing.JLabel statusText;
+    private javax.swing.JLabel statusTextCurso;
+    private javax.swing.JLabel statusTextDepartamento;
     private javax.swing.JLabel statusTextEscuela;
+    private javax.swing.JLabel statusTextEstudiante;
+    private javax.swing.JTable tableCursos;
+    private javax.swing.JTable tableDepartamentos;
     private javax.swing.JTable tableEscuelas;
+    private javax.swing.JTable tableEstudiantes;
     private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }

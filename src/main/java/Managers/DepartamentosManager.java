@@ -5,7 +5,7 @@
 package Managers;
 
 import DB.Conexion;
-import Clases.Departamentos;
+import Clases.Departamento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -24,15 +24,23 @@ public class DepartamentosManager {
     public DepartamentosManager(){
        this.conexion = Conexion.getConexion();
     }
-    public boolean insertarDepartamentos(Departamentos departamentos){
+    public boolean insertarDepartamentos(Departamento departamentos){
         
-      String sql = "INSERT INTO departamentos (idEscuela, nombre, jefe) VALUES (?,?,?)";
+      String sql;
+      
+      if(departamentos.getJefe() == 0){
+          sql = "INSERT INTO departamentos (idEscuela, nombre) VALUES (?,?)";
+      } else {
+        sql = "INSERT INTO departamentos (idEscuela, nombre, jefe) VALUES (?,?,?)";
+    }
       
       try(PreparedStatement stmt = conexion.prepareStatement(sql)){
           
-          stmt.setInt(1, departamentos.getidEscuela());
+          stmt.setInt(1, departamentos.getIdEscuela());
           stmt.setString(2, departamentos.getNombre());
+                if(departamentos.getJefe() != 0){
           stmt.setInt(3, departamentos.getJefe());
+                }
            
           
             return stmt.executeUpdate() > 0;
@@ -45,7 +53,7 @@ public class DepartamentosManager {
      
     
     
-     public Departamentos obtenerDepartamentoPorID(int id){
+     public Departamento obtenerDepartamentoPorID(int id){
               
         String sql = "SELECT * FROM departamentos WHERE idDepartamento = ?";      
        
@@ -56,7 +64,7 @@ public class DepartamentosManager {
             try(ResultSet rs = stmt.executeQuery()){
                              
                 if(rs.next()){
-                    return new Departamentos(
+                    return new Departamento(
                              rs.getInt("idDepartamento"),
                              rs.getInt("idEscuela"),
                             rs.getString("nombre"),
@@ -76,18 +84,18 @@ public class DepartamentosManager {
     
     }
      
-      public List<Departamentos> listarDepartamentos(){
+      public List<Departamento> listarDepartamentos(){
         
          String sql = "SELECT * FROM departamentos";
        
-         List<Departamentos> lista = new ArrayList<>();
+         List<Departamento> lista = new ArrayList<>();
         
         try(Statement stmt = conexion.createStatement()){
      
             try(ResultSet rs = stmt.executeQuery(sql)){
              
                 while(rs.next()){
-                    Departamentos departamentos = new Departamentos(
+                    Departamento departamentos = new Departamento(
                              rs.getInt("idDepartamento"),
                              rs.getInt("idEscuela"),
                             rs.getString("nombre"),
@@ -109,15 +117,23 @@ public class DepartamentosManager {
     
     
       
-      public boolean actualizarDepartamento(Departamentos departamentos){
-               String sql = "UPDATE Departamento SET idEscuela = ?, nombre = ?, jefe = ? WHERE idDepartamento = ?";
+      public boolean actualizarDepartamento(Departamento departamentos){
+               String sql;
+               
+                 if(departamentos.getJefe() == 0){
+          sql = "UPDATE departamentos SET idEscuela = ?, nombre = ? WHERE idDepartamento = ?";
+      } else {
+        sql = "UPDATE departamentos SET idEscuela = ?, nombre = ?, jefe = ? WHERE idDepartamento = ?";
+    }
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
-               stmt.setInt(1, departamentos.getidEscuela());
+               stmt.setInt(1, departamentos.getIdEscuela());
             stmt.setString(2, departamentos.getNombre());
-            stmt.setInt(3, departamentos.getJefe());
+                   if(departamentos.getJefe() != 0){
+          stmt.setInt(3, departamentos.getJefe());
+                }
           
-               stmt.setInt(4, departamentos.getIdDepartamentos());
+               stmt.setInt(departamentos.getJefe() == 0 ? 3 : 4, departamentos.getIdDepartamentos());
            
                     
             return stmt.executeUpdate() > 0;
@@ -129,7 +145,7 @@ public class DepartamentosManager {
       
       
      public boolean eliminarDepartamento(int id) {
-        String sql = "DELETE FROM Departametos WHERE idDepartamento = ?";
+        String sql = "DELETE FROM departamentos WHERE idDepartamento = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;

@@ -105,7 +105,7 @@ public class CurrentSession {
     String sql = "SELECT * FROM " + tabla + " WHERE idUsuario = ?";
 
     try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-        stmt.setInt(1, user.getIdusuario());
+        stmt.setInt(1, user.getIdUsuario());
 
         try (ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
@@ -114,8 +114,7 @@ public class CurrentSession {
                         return new Estudiante(
                             rs.getInt("idEstudiante"),
                             rs.getInt("idUsuario"),
-                            rs.getInt("grado"),
-                            rs.getFloat("promedio")
+                            rs.getInt("grado")
                         );
                     case "Profesores":
                         return new Profesor(

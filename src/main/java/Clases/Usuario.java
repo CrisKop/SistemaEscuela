@@ -1,7 +1,7 @@
 package Clases;
 
 public class Usuario {
-     private int idusuario;
+     private int idUsuario;
      private int identificacion;
     private String nombre;
     private String apellido;
@@ -12,7 +12,8 @@ public class Usuario {
     private boolean estado;
 
     public Usuario(int idusuario, int identificacion, String nombre, String apellido, String email, String telefono, String rol, String password, boolean estado) {
-        this.idusuario = idusuario;
+        this.idUsuario = idusuario;
+        this.identificacion = identificacion;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -32,12 +33,12 @@ public class Usuario {
     
     
 
-    public int getIdusuario() {
-        return idusuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdusuario(int idusuario) {
-        this.idusuario = idusuario;
+    public void setIdUsuario(int idusuario) {
+        this.idUsuario = idusuario;
     }
 
     public String getNombre() {

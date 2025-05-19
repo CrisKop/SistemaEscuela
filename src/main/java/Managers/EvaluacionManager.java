@@ -6,7 +6,7 @@ package Managers;
 
 import DB.Conexion;
 import Clases.Calificacion;
-import Clases.Departamentos;
+import Clases.Departamento;
 import Clases.Evaluacion;
 import java.sql.Connection;
 import java.sql.Date;

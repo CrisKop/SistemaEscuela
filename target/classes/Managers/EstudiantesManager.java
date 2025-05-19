@@ -5,7 +5,6 @@
 package Managers;
 
 import DB.Conexion;
-import Clases.Departamentos;
 import Clases.Estudiante;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,13 +28,12 @@ public class EstudiantesManager {
     
     public boolean insertarEstudiantes(Estudiante estudiantes){
         
-      String sql = "INSERT INTO estudiantes (grado, promedio, idUsuario) VALUES (?,?,?)";
+      String sql = "INSERT INTO estudiantes (idUsuario, grado) VALUES (?,?)";
       
       try(PreparedStatement stmt = conexion.prepareStatement(sql)){
           
-          stmt.setInt(1, estudiantes.getGrado());
-          stmt.setFloat(2, estudiantes.getPromedio());
-          stmt.setFloat(3, estudiantes.getidUsuario());
+          stmt.setInt(1, estudiantes.getIdUsuario());
+          stmt.setInt(2, estudiantes.getGrado());
           
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -59,10 +57,7 @@ public class EstudiantesManager {
                     return new Estudiante(
                             rs.getInt("idEstudiante"),
                             rs.getInt("idUsuario"),
-                            (int) rs.getFloat("promedio"),
-                            rs.getInt("grado")
-                            
-                           
+                            rs.getInt("grado")   
                     );
                 }
             
@@ -79,7 +74,7 @@ public class EstudiantesManager {
      
       public List<Estudiante> listarEstudiante(){
         
-         String sql = "SELECT * FROM Estudiantes";
+         String sql = "SELECT * FROM estudiantes";
        
          List<Estudiante> lista = new ArrayList<>();
         
@@ -91,9 +86,7 @@ public class EstudiantesManager {
                    Estudiante estudiante = new Estudiante(
                             rs.getInt("idEstudiante"),
                             rs.getInt("idUsuario"),
-                            rs.getInt("grado"),
-                            rs.getFloat("promedio")
-                           
+                            rs.getInt("grado")
                     );
                     
                     lista.add(estudiante);
@@ -109,13 +102,11 @@ public class EstudiantesManager {
     }
 
        public boolean actualizarEstudiante(Estudiante estudiante){
-               String sql = "UPDATE Estudiantes SET idUsuario = ?, grado = ?, promedio = ?,  WHERE idEstudiante = ?";
+               String sql = "UPDATE estudiantes SET grado = ?,  WHERE idEstudiante = ?";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
-             stmt.setInt(1, (int) estudiante.getidUsuario());
-             stmt.setInt(2, estudiante.getGrado());
-             stmt.setFloat(3, estudiante.getPromedio());
-             stmt.setInt(4, estudiante.getidEstudiante());
+             stmt.setInt(1, estudiante.getGrado());
+             stmt.setInt(2, estudiante.getIdEstudiante());
             
                     
             return stmt.executeUpdate() > 0;
@@ -125,7 +116,7 @@ public class EstudiantesManager {
         }
     }
         public boolean eliminarEstudiante(int id) {
-        String sql = "DELETE FROM Estudiantes WHERE idEstudiante = ?";
+        String sql = "DELETE FROM estudiantes WHERE idEstudiante = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;

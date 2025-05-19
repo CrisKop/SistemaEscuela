@@ -8,17 +8,19 @@ package Clases;
  *
  * @author SENA 21
  */
-public class Departamentos {
+public class Departamento {
     private int idDepartamento;
     private int idEscuela;
     private String Nombre;
     private int Jefe;
 
-    public Departamentos(int idDepartamento, int idEscuela, String Nombre, int Jefe) {
+    public Departamento(int idDepartamento, int idEscuela, String Nombre, int Jefe) {
         this.idDepartamento = idDepartamento;
         this.idEscuela = idEscuela;
         this.Nombre = Nombre;
-        this.Jefe = Jefe;
+        if(Jefe != 0){
+            this.Jefe = Jefe;
+        }
     }
 
     public int getIdDepartamentos() {
@@ -52,9 +54,10 @@ public class Departamentos {
     public void setJefe(int Jefe) {
         this.Jefe = Jefe;
     }
-
-    public int getidEscuela() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+            @Override
+    public String toString() {
+        return idDepartamento + " - " + Nombre;
     }
     
     

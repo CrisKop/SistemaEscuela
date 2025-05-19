@@ -2,10 +2,13 @@ package Managers;
 
 import Clases.Usuario;
 import DB.Conexion;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class UsuarioManager {
     
@@ -188,7 +191,7 @@ public class UsuarioManager {
             stmt.setString(6, usuario.getPassword());
             stmt.setBoolean(7, usuario.getEstado());
             
-            stmt.setInt(8, usuario.getIdusuario()); // Este es el idUsuario del WHERE
+            stmt.setInt(8, usuario.getIdUsuario()); // Este es el idUsuario del WHERE
                     
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -212,5 +215,92 @@ public class UsuarioManager {
             System.err.println("Error al eliminar usuario: " + e.getMessage());
             return false;
         }
+    }
+        
+        
+        
+          /*
+    =====================MET 6================================
+       MÉTODO PARA LISTAR USUARIOS FILTRADOS EN BASE A OTRA LISTA (ESTUDIANTES, PROFESORES Y ADMINISTRADORES)
+        (EXTRAE EL idUuario DE CADA OBJETO PARA BUSCARLO EN USUARIOS)
+    ==========================================================
+    */
+    public List<Usuario> listarUsuariosEnBaseAOtraLista(List<?> lista){
+        
+           if (lista == null || lista.isEmpty()) {
+               System.out.println("la lista secundaria está vacia");
+        return null;
+    }
+
+    // Obtener los ID de usuario usando reflexión
+    List<Integer> ids = new ArrayList<>();
+
+    try{
+            for (Object obj : lista) {
+        Method metodo = obj.getClass().getMethod("getIdUsuario");  // usa reflexión
+        int id = (int) metodo.invoke(obj);
+        ids.add(id);
+    }
+    } catch (IllegalAccessException | NoSuchMethodException | SecurityException | InvocationTargetException e){
+        System.out.println("Error en el método que tiene try-catch que obtiene el método getIdUsuario (listarUsuariosEnBaseAOtraLista method)");
+        System.out.println(e.getMessage());
+    }
+
+    // Construir los placeholders (?, ?, ?, ...)
+    String placeholders = ids.stream()
+            .map(id -> "?")
+            .collect(Collectors.joining(", "));
+
+    String sql = "SELECT * FROM usuarios WHERE idUsuario IN (" + placeholders + ")";
+    
+        System.out.println(sql);
+        System.out.println(ids);
+         
+         //LISTA VACIA QUE ALMACENARÁ LOS RESULTADOS
+         List<Usuario> listaTemporal = new ArrayList<>();
+        
+              //ZONA DE REEMPLAZO DE ? EN EL QUERY PREPARADO
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+                // Insertar los valores
+    for (int i = 0; i < ids.size(); i++) {
+        stmt.setInt(i + 1, ids.get(i));
+    }
+           
+            //ZONA DE OBTENCIÓN DE RESULTADO DE QUERY
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                /*
+                YA QUE HAY VARIOS RESULTADOS, UN WHILE POR CADA RESULTADO
+                CADA RESULTADO SE CONVIERTE EN UN OBJETO (.clases/Usuario.java)
+                Y SE AGREGA A 'listaTemporal'
+                */
+                while(rs.next()){
+                    Usuario usuario = new Usuario(
+                             rs.getInt("idUsuario"),
+                            rs.getInt("identificacion"),
+                            rs.getString("nombre"),
+                            rs.getString("apellido"),
+                            rs.getString("email"),
+                            rs.getString("telefono"),
+                            rs.getString("rol"),
+                            rs.getString("password"),
+                            rs.getBoolean("estado")
+                    );
+                    
+                    listaTemporal.add(usuario);
+                }
+                
+                //EL MÉTODO DEVUELVE EL LISTADO
+                return listaTemporal;
+            
+            }} catch (SQLException e){
+                /*
+                SI HAY ERROR DEVOLVER NULL
+                (ALTERNATIVA A UN ARRAYLIST PARA ERROR)
+                */
+                 System.err.println("Error al listar usuarios: " + e.getMessage());
+                return null;
+            }
     }
 }

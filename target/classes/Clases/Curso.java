@@ -5,6 +5,7 @@
 package Clases;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -15,12 +16,12 @@ public class Curso {
     private int idCurso;
     private int idDepartamento;
     private String nombre;
-    private Date horaInicial;
-    private Date horaFinal;
+    private Time horaInicial;
+    private Time horaFinal;
     private int maxEstudiantes;
     private int creditos;
     
-    public Curso (int idCurso, int idDepartamento, String nombre ,Date horaInicial , Date horaFinal , int maxEstudiantes , int creditos){
+    public Curso (int idCurso, int idDepartamento, String nombre ,Time horaInicial , Time horaFinal , int maxEstudiantes , int creditos){
         this.idCurso= idCurso;
         this.idDepartamento = idDepartamento;
         this.nombre= nombre;
@@ -46,11 +47,11 @@ public class Curso {
     public String getNombre() {
         return nombre;
     }
-    public Date gethoraInicial() {
+    public Time gethoraInicial() {
         return horaInicial;
     }
     
-    public Date gethoraFinal() {
+    public Time gethoraFinal() {
         return horaFinal;
     }
     
@@ -69,10 +70,10 @@ public class Curso {
         this.nombre = nombre;
     }
     
-    public void sethoraInicial(Date horaInicial) {
+    public void sethoraInicial(Time horaInicial) {
         this.horaInicial = horaInicial;
     }
-    public void sethoraFinal(Date horaFinal) {
+    public void sethoraFinal(Time horaFinal) {
         this.horaFinal = horaFinal;
     }
     
