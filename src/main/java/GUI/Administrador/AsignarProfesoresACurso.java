@@ -219,7 +219,6 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     
       private void cargarTablasNecesarias(){
         cargarTablaProfesoresFiltradaPorDepartamento(curso.getIdDepartamento());
-          System.out.println("Departamento de Curso: " + curso.getIdDepartamento());
   
     }
     
