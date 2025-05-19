@@ -2430,7 +2430,7 @@ private void limpiarCampos(JComponent[] inputs) {
         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEstudiante);
         if(inputsValidados == false) return;
         
-        int accionCrearUsuario = actionCreateUsuario(inputsList, "Estudiantes");
+        int accionCrearUsuario = actionCreateUsuario(inputsList, "Profesores");
         if(accionCrearUsuario == -1) return;
         
         boolean accionCrearEstudiante = actionCreateEstudiante(accionCrearUsuario);
