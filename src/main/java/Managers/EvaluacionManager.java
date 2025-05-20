@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class EvaluacionManager {
            this.conexion = Conexion.getConexion();
       }
       
+      
        public boolean insertarEvaluacion(Evaluacion evaluacion){
         
-      String sql = "INSERT INTO Evaluaciones (idCurso, idProfesor, titulo, fechaInicio, fechaFin, tipo) VALUES (?,?,?,?,?, ?)";
+      String sql = "INSERT INTO evaluaciones (idCurso, idProfesor, titulo, fechaInicio, fechaFin, tipo) VALUES (?,?,?,?,?, ?)";
       
       try(PreparedStatement stmt = conexion.prepareStatement(sql)){
           
@@ -38,8 +40,8 @@ public class EvaluacionManager {
            stmt.setInt (1, evaluacion.getIdCurso());
             stmt.setInt (2, evaluacion.getIdProfesor());
              stmt.setString (3, evaluacion.getTitulo());
-          stmt.setDate(4, (Date) evaluacion.getFechaInicio());
-          stmt.setDate(5, (Date) evaluacion.getFechaFin());
+          stmt.setTimestamp(4, (Timestamp) evaluacion.getFechaInicio());
+          stmt.setTimestamp(5, (Timestamp) evaluacion.getFechaFin());
           stmt.setString (6, evaluacion.getTipo());
           
             return stmt.executeUpdate() > 0;
@@ -52,7 +54,7 @@ public class EvaluacionManager {
        
         public Evaluacion obtenerEvaluacionPorID(int id){
               
-        String sql = "SELECT * FROM Evaluaciones WHERE idEvaluacion = ?";      
+        String sql = "SELECT * FROM evaluaciones WHERE idEvaluacion = ?";      
        
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             
@@ -66,8 +68,8 @@ public class EvaluacionManager {
                              rs.getInt("idCurso"),
                              rs.getInt("idProfesor"),
                             rs.getString("titulo"),
-                            rs.getDate("fechaInicio"),
-                            rs.getDate("fechaFin"),
+                            rs.getTimestamp("fechaInicio"),
+                            rs.getTimestamp("fechaFin"),
                             rs.getString("tipo")
                            
                     );
@@ -86,7 +88,7 @@ public class EvaluacionManager {
         
          public List<Evaluacion> listarEvaluacion (){
         
-         String sql = "SELECT * FROM evaluacion";
+         String sql = "SELECT * FROM evaluaciones";
        
          List<Evaluacion> lista = new ArrayList<>();
         
@@ -100,12 +102,12 @@ public class EvaluacionManager {
                              rs.getInt("idCurso"),
                              rs.getInt("idProfesor"),
                             rs.getString("titulo"),
-                            rs.getDate("fechaInicio"),
-                            rs.getDate("fechaFin"),
+                            rs.getTimestamp("fechaInicio"),
+                            rs.getTimestamp("fechaFin"),
                             rs.getString("tipo")
                            
                     );
-                    
+                         System.out.println("fechaInicio lista eval: " + evaluacion.getFechaInicio());
                     lista.add(evaluacion);
                 }
                
@@ -122,7 +124,7 @@ public class EvaluacionManager {
          
             public List<Evaluacion> listarEvaluacionesPorEstudiante (){
         
-         String sql = "SELECT * FROM evaluacion";
+         String sql = "SELECT * FROM evaluaciones";
        
          List<Evaluacion> lista = new ArrayList<>();
         
@@ -136,8 +138,8 @@ public class EvaluacionManager {
                              rs.getInt("idCurso"),
                              rs.getInt("idProfesor"),
                             rs.getString("titulo"),
-                            rs.getDate("fechaInicio"),
-                            rs.getDate("fechaFin"),
+                            rs.getTimestamp("fechaInicio"),
+                            rs.getTimestamp("fechaFin"),
                             rs.getString("tipo")
                            
                     );
@@ -159,7 +161,7 @@ public class EvaluacionManager {
             
                public List<Evaluacion> listarEvaluacionesPorProfesor (int idProfesor){
         
-         String sql = "SELECT * FROM evaluacion WHERE idProfesor = ?";
+         String sql = "SELECT * FROM evaluaciones WHERE idProfesor = ?";
        
          List<Evaluacion> lista = new ArrayList<>();
         
@@ -175,8 +177,8 @@ public class EvaluacionManager {
                              rs.getInt("idCurso"),
                              rs.getInt("idProfesor"),
                             rs.getString("titulo"),
-                            rs.getDate("fechaInicio"),
-                            rs.getDate("fechaFin"),
+                            rs.getTimestamp("fechaInicio"),
+                            rs.getTimestamp("fechaFin"),
                             rs.getString("tipo")
                            
                     );
@@ -194,14 +196,14 @@ public class EvaluacionManager {
     }
          
           public boolean actualizarEvaluacion(Evaluacion evaluacion){
-               String sql = "UPDATE Evaluacion SET idCurso = ?, idProfesor = ?, titulo = ?, fechaInicio = ?,fechaFin = ?, tipo = ? WHERE idEvaluacion = ?";
+               String sql = "UPDATE evaluaciones SET idCurso = ?, idProfesor = ?, titulo = ?, fechaInicio = ?,fechaFin = ?, tipo = ? WHERE idEvaluacion = ?";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             stmt.setInt(1, evaluacion.getIdCurso());
             stmt.setInt(2, evaluacion.getIdProfesor());
              stmt.setString(3, evaluacion.getTitulo());
-            stmt.setDate(4, (Date) evaluacion.getFechaInicio());
-            stmt.setDate(5, (Date) evaluacion.getFechaFin());
+            stmt.setTimestamp(4, (Timestamp) evaluacion.getFechaInicio());
+            stmt.setTimestamp(5, (Timestamp) evaluacion.getFechaFin());
             stmt.setString(6, evaluacion.getTipo());
                     
              stmt.setInt(7, evaluacion.getIdEvaluacion());
@@ -214,7 +216,7 @@ public class EvaluacionManager {
     } 
           
            public boolean eliminarEvaluacion(int id) {
-        String sql = "DELETE FROM Evaluacion WHERE idEvaluacion = ?";
+        String sql = "DELETE FROM evaluaciones WHERE idEvaluacion = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;

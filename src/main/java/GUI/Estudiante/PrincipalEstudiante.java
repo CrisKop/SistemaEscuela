@@ -8,6 +8,7 @@ import Clases.Usuario;
 import GUI.Login;
 import Managers.UsuarioManager;
 import java.awt.Color;
+import java.awt.Window;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import middlewares.CurrentSession;
@@ -76,16 +77,16 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
           // Limpia sesión antes que nada
     currentSession.logOut();
 
-    // Cierra esta ventana
-    this.dispose();
+      for (Window ventana : Window.getWindows()) {
+ 
+            ventana.dispose();  // Cierra la ventana
+
+    }
 
      Login login = new Login();
   
      login.setVisible(true);
   
-       
-      
-        
     }
 
     /**

@@ -18,6 +18,7 @@ import Managers.EstudiantesManager;
 import Managers.ProfesorManager;
 import Managers.UsuarioManager;
 import java.awt.Color;
+import java.awt.Window;
 import java.lang.reflect.Field;
 import java.sql.Time;
 import java.util.List;
@@ -53,8 +54,11 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
           // Limpia sesión antes que nada
     currentSession.logOut();
 
-    // Cierra esta ventana
-    this.setVisible(false);
+      for (Window ventana : Window.getWindows()) {
+ 
+            ventana.dispose();  // Cierra la ventana
+
+    }
 
      Login login = new Login();
   

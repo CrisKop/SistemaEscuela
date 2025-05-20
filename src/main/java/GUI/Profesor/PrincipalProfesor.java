@@ -12,6 +12,7 @@ import GUI.Login;
 import Managers.CursoManager;
 import Managers.UsuarioManager;
 import java.awt.Color;
+import java.awt.Window;
 import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JButton;
@@ -166,16 +167,16 @@ public class PrincipalProfesor extends javax.swing.JFrame {
           // Limpia sesión antes que nada
     currentSession.logOut();
 
-    // Cierra esta ventana
-    this.dispose();
+      for (Window ventana : Window.getWindows()) {
+ 
+            ventana.dispose();  // Cierra la ventana
+
+    }
 
      Login login = new Login();
   
      login.setVisible(true);
   
-       
-      
-        
     }
 
     /**

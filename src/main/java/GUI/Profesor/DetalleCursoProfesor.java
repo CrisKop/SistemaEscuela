@@ -7,13 +7,15 @@ package GUI.Profesor;
 import Clases.Curso;
 import Clases.Escuela;
 import Clases.Evaluacion;
+import Clases.Profesor;
 import Clases.Usuario;
-import static GUI.Administrador.PrincipalAdministrador.cargarTabla;
 import GUI.Calendar;
 import GUI.Login;
 import Managers.EvaluacionManager;
 import com.toedter.calendar.JCalendar;
 import java.awt.Color;
+import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.*;
@@ -31,11 +33,14 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    Curso currentCurso;
     
-    CurrentSession currentSession = CurrentSession.getInstance();
+      CurrentSession currentSession = CurrentSession.getInstance();
     Usuario currentUser = currentSession.getCurrentSessionData();
+    Profesor currentRole = (Profesor) currentSession.getCurrentRoleData();
    
     public DetalleCursoProfesor(Curso curso) {
+        this.currentCurso = curso;
         initComponents();
         welcomeMessageName.setText(curso.getNombre());
         cargarModeloTablas();
@@ -120,7 +125,6 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(970, 700));
-        setPreferredSize(new java.awt.Dimension(970, 700));
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
@@ -150,6 +154,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         jLabel5.setText("Detalles del curso");
         Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
+        tableCursoEvals.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCursoEvals.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -162,6 +167,8 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
             }
         ));
         tableCursoEvals.setFocusable(false);
+        tableCursoEvals.setRowHeight(40);
+        tableCursoEvals.setSelectionBackground(new java.awt.Color(0, 204, 51));
         jScrollPane1.setViewportView(tableCursoEvals);
 
         Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 890, 170));
@@ -246,6 +253,11 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         ));
         tableEvaluaciones.setRowHeight(40);
         tableEvaluaciones.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableEvaluaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableEvaluacionesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableEvaluaciones);
 
         EvaluacionManager.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 890, 170));
@@ -270,6 +282,11 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         btnApplyEvaluacion.setText("Aplicar");
         btnApplyEvaluacion.setBorder(null);
         btnApplyEvaluacion.setEnabled(false);
+        btnApplyEvaluacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyEvaluacionActionPerformed(evt);
+            }
+        });
         EvaluacionManager.add(btnApplyEvaluacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 590, 90, 60));
 
         btnCreateEvaluacion.setBackground(new java.awt.Color(4, 205, 4));
@@ -277,6 +294,11 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         btnCreateEvaluacion.setForeground(new java.awt.Color(255, 255, 255));
         btnCreateEvaluacion.setText("Crear nuevo");
         btnCreateEvaluacion.setBorder(null);
+        btnCreateEvaluacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateEvaluacionActionPerformed(evt);
+            }
+        });
         EvaluacionManager.add(btnCreateEvaluacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 130, 60));
 
         btnDeleteEvaluacion.setBackground(new java.awt.Color(242, 242, 242));
@@ -285,6 +307,11 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         btnDeleteEvaluacion.setText("Eliminar");
         btnDeleteEvaluacion.setBorder(null);
         btnDeleteEvaluacion.setEnabled(false);
+        btnDeleteEvaluacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteEvaluacionActionPerformed(evt);
+            }
+        });
         EvaluacionManager.add(btnDeleteEvaluacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 590, 90, 60));
 
         statusTextEvaluacion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -295,6 +322,11 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
         jButton1.setText("<");
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         EvaluacionManager.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 35, -1, -1));
 
         jLabel25.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -322,7 +354,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         EvaluacionManager.add(inputEvaluacionFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, 285, 40));
 
         jLabel26.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        jLabel26.setText("Fecha de Inicio *");
+        jLabel26.setText("Fecha de Entrega *");
         EvaluacionManager.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 360, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(4, 205, 4));
@@ -362,7 +394,8 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVerDetallesEval1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Calendar dialog = new Calendar(this, true);
+        String fechaSeleccionada = inputEvaluacionFechaInicio.getText();        
+        Calendar dialog = new Calendar(this, true, fechaSeleccionada);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         
@@ -372,7 +405,8 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-                Calendar dialog = new Calendar(this, true);
+        String fechaSeleccionada = inputEvaluacionFechaFin.getText();        
+        Calendar dialog = new Calendar(this, true, fechaSeleccionada);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         
@@ -380,6 +414,42 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         
         asignarFechaAInput(inputEvaluacionFechaFin, fecha);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tableEvaluacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEvaluacionesMouseClicked
+       JTable tabla = tableEvaluaciones;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+        
+        JButton[] buttons = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+        habilitarBotones(buttons);
+
+            Object titulo = tabla.getValueAt(fila, 3);
+            Object fechaInicio = tabla.getValueAt(fila, 4);
+              Object fechaFin = tabla.getValueAt(fila, 5);
+                 Object tipo = tabla.getValueAt(fila, 6);
+
+        inputEvaluacionTitulo.setText(titulo.toString());
+        inputEvaluacionFechaInicio.setText(fechaInicio.toString());
+        inputEvaluacionFechaFin.setText(fechaFin.toString());
+        inputEvaluacionTipo.setText(tipo.toString());
+    }
+    }//GEN-LAST:event_tableEvaluacionesMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cambiarTab(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnApplyEvaluacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyEvaluacionActionPerformed
+       updateEvaluacion();
+    }//GEN-LAST:event_btnApplyEvaluacionActionPerformed
+
+    private void btnCreateEvaluacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateEvaluacionActionPerformed
+       createNewEvaluacion();
+    }//GEN-LAST:event_btnCreateEvaluacionActionPerformed
+
+    private void btnDeleteEvaluacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEvaluacionActionPerformed
+        deleteEvaluacion();
+    }//GEN-LAST:event_btnDeleteEvaluacionActionPerformed
 
     
              /*
@@ -487,6 +557,7 @@ private void limpiarCampos(JComponent[] inputs) {
       private void cargarModeloTablas(){
         String[] columnasEvals = {"ID de evaluacion", "ID Del curso", "ID del Profesor", "Titulo", "Fecha de Inicio", "Plazo de entrega", "Tipo"};
         Crear_Modelo(columnasEvals, tableCursoEvals);
+            Crear_Modelo(columnasEvals, tableEvaluaciones);
         
            String[] columnasCalificaciones = {"ID de calificacion", "ID de evaluacion", "ID del estudiante", "Fecha de entrega", "Nota"};
         Crear_Modelo(columnasCalificaciones, tableCalificaciones);
@@ -495,6 +566,7 @@ private void limpiarCampos(JComponent[] inputs) {
    
      private void cargarTablasNecesarias(){
         cargarTablaEvaluaciones();
+        cargarTablaCursoEvals();
    
       
      
@@ -509,6 +581,230 @@ private void limpiarCampos(JComponent[] inputs) {
         }
     }
     
+      private void cargarTablaCursoEvals(){
+           List<Evaluacion> listaEvaluaciones = evaluacionManager.listarEvaluacion();
+        
+        if(listaEvaluaciones != null) {
+            cargarTabla(tableCursoEvals, listaEvaluaciones);
+        }
+    }
+    
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    
+    
+      public void cargarTabla(JTable tabla, List<?> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);  // Limpiar tabla
+
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        Object ejemplo = lista.get(0);
+        Field[] campos = ejemplo.getClass().getDeclaredFields();
+
+        for (Object obj : lista) {
+            Object[] fila = new Object[campos.length];
+            try {
+              for (int i = 0; i < campos.length; i++) {
+                campos[i].setAccessible(true);
+                Object valor = campos[i].get(obj);
+
+                // Si el valor es un Timestamp, lo convertimos a String sin milisegundos
+                if (valor instanceof Timestamp) {
+                    Timestamp timestamp = (Timestamp) valor;
+                    // Convertir el Timestamp a String sin milisegundos
+                    valor = formatoFecha.format(timestamp);
+                }
+
+                fila[i] = valor;
+                }
+                modelo.addRow(fila);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+      
+      
+      
+      
+      
+        /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE ESCUELAS (DAO1 DAOESCUELAS)
+    */
+    
+    //<editor-fold>
+
+    private void deleteEvaluacion(){
+        
+        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
+              boolean[] needed = {true, true, true, true};
+        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+        
+             boolean accion = actionDeleteEvaluacion();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextEvaluacion);
+    }
+    
+    
+    private void updateEvaluacion(){
+        
+        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
+              boolean[] needed = {true, true, true, true};
+        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEvaluacion);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateEvaluacion();
+        if(accion == false) return;
+                
+
+                desabilitarBotones(buttonsList);
+                   limpiarCampos(inputsList);
+                   successText(statusTextEvaluacion);
+
+    }
+    
+    private void createNewEvaluacion(){
+        
+        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
+              boolean[] needed = {true, true, true, true};
+        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+        
+        boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEvaluacion);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionCreateEvaluacion();
+        if(accion == false) return;
+        
+       
+           desabilitarBotones(buttonsList);
+           limpiarCampos(inputsList);
+           successText(statusTextEvaluacion);
+        
+    }
+    
+    
+        private boolean actionCreateEvaluacion(){
+
+    try {
+        // Obtener las fechas como Strings desde los inputs
+        String fechaInicioStr = inputEvaluacionFechaInicio.getText();
+        String fechaFinStr = inputEvaluacionFechaFin.getText();
+
+        // Convertir las cadenas a Timestamp (asumiendo que las fechas están en el formato adecuado)
+        Timestamp fechaInicioTimestamp = Timestamp.valueOf(fechaInicioStr);
+        Timestamp fechaFinTimestamp = Timestamp.valueOf(fechaFinStr);
+
+        // Crear el nuevo objeto Evaluacion con los Timestamps
+        Evaluacion nuevoObjeto = new Evaluacion(
+            0,
+            currentCurso.getIdCurso(),
+            currentRole.getIdProfesor(),
+            inputEvaluacionTitulo.getText(),
+            fechaInicioTimestamp,
+            fechaFinTimestamp,
+            inputEvaluacionTipo.getText()
+        );
+
+          boolean accion = evaluacionManager.insertarEvaluacion(nuevoObjeto);
+
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }
+
+                cargarTablasNecesarias();
+                return true;
+    } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+        // Manejo de error si el formato de la fecha no es válido
+    }
+
+        return false;
+        //FIN DEL METODO
+        }
+
+    private boolean actionUpdateEvaluacion(){
+           
+            int fila = tableEvaluaciones.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEvaluaciones.getValueAt(fila, 0);
+                 
+                 try {
+                    // Obtener las fechas como Strings desde los inputs
+                    String fechaInicioStr = inputEvaluacionFechaInicio.getText();
+                    String fechaFinStr = inputEvaluacionFechaFin.getText();
+
+                    // Convertir las cadenas a Timestamp (asumiendo que las fechas están en el formato adecuado)
+                    Timestamp fechaInicioTimestamp = Timestamp.valueOf(fechaInicioStr);
+                    Timestamp fechaFinTimestamp = Timestamp.valueOf(fechaFinStr);
+
+                    // Crear el nuevo objeto Evaluacion con los Timestamps
+                    Evaluacion nuevoObjeto = new Evaluacion(
+                        (int) id,
+                        currentCurso.getIdCurso(),
+                        currentRole.getIdProfesor(),
+                        inputEvaluacionTitulo.getText(),
+                        fechaInicioTimestamp,
+                        fechaFinTimestamp,
+                        inputEvaluacionTipo.getText()
+                    );
+                    
+                     boolean accion = evaluacionManager.actualizarEvaluacion(nuevoObjeto);
+                   
+                    
+                    if(accion == false){
+                        JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                        return false;
+                    }      
+                    
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    // Manejo de error si el formato de la fecha no es válido
+                }
+                  
+                  
+                  
+            }
+            
+            cargarTablasNecesarias();
+            return true;
+    }
+    
+    private boolean actionDeleteEvaluacion(){
+         int fila = tableEvaluaciones.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableEvaluaciones.getValueAt(fila, 0);
+                  
+                   boolean accion = evaluacionManager.eliminarEvaluacion((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablasNecesarias();
+            return true;
+    }
+    //</editor-fold>
+    
+       /*
+      ZONA DE GESTION DE ESCUELAS
+    =====================================================================
+    =====================================================================
+    */
+      
     /**
      * @param args the command line arguments
      */

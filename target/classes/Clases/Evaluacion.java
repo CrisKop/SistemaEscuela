@@ -4,6 +4,7 @@
  */
 package Clases;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,17 +16,18 @@ public class Evaluacion {
     private int idCurso;
     private int idProfesor;
     private String titulo;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private Timestamp fechaInicio;
+    private Timestamp fechaFin;
     private String tipo;
 
-    public Evaluacion(int idEvaluacion, int idCurso, int idProfesor, String titulo, Date fechaInicio, Date fechaFin, String tipo) {
+    public Evaluacion(int idEvaluacion, int idCurso, int idProfesor, String titulo, Timestamp fechaInicio, Timestamp fechaFin, String tipo) {
         this.idEvaluacion = idEvaluacion;
         this.idCurso = idCurso;
         this.idProfesor = idProfesor;
         this.titulo = titulo;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.tipo = tipo;
     }
 
     public String getTitulo() {
@@ -73,19 +75,19 @@ public class Evaluacion {
         this.idProfesor = idProfesor;
     }
 
-    public Date getFechaInicio() {
+    public Timestamp getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(Timestamp fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public Timestamp getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(Timestamp fechaFin) {
         this.fechaFin = fechaFin;
     }
 

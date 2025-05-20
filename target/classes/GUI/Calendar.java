@@ -5,7 +5,12 @@
 package GUI;
 
 import com.toedter.calendar.JCalendar;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,12 +20,34 @@ public class Calendar extends javax.swing.JDialog {
 
     
         private String fechaSeleccionada;
+        private String fecha;
     /**
      * Creates new form Calendar
      */
-    public Calendar(java.awt.Frame parent, boolean modal) {
+    public Calendar(java.awt.Frame parent, boolean modal, String fecha) {
         super(parent, modal);
         initComponents();
+  
+            this.fecha = fecha;
+            
+             establecerFecha();  // Establece la fecha una vez que el JDialog es visible
+     
+    }
+    
+ 
+    
+    public void establecerFecha(){
+        
+         String[] partesFechaHora = dividirFechaHora(fecha);
+         
+         System.out.println("Partes fecha: ");
+         System.out.println(Arrays.toString(partesFechaHora));
+         System.out.println("Fecha: " + fecha);
+         
+        if(fecha != null && !fecha.isEmpty()){
+                 establecerFechaEnCalendar(partesFechaHora[0], jCalendar);
+        establecerHoraEnInput(partesFechaHora[1], jCalendar);
+        }
     }
 
     /**
@@ -76,7 +103,7 @@ public class Calendar extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      fechaSeleccionada = obtenerFechaFormateada(jCalendar);
+      fechaSeleccionada = obtenerFechaFormateada(jCalendar, boxHora.getSelectedItem().toString());
       dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -88,16 +115,57 @@ public class Calendar extends javax.swing.JDialog {
         public String getFechaSeleccionada() {
         return fechaSeleccionada;
     }
+        
+            // Método para dividir el String en la parte de la fecha y la parte de la hora
+    public static String[] dividirFechaHora(String fechaString) {
+        // Dividir el String en dos partes usando el espacio como separador
+        String[] partes = fechaString.split(" ");
+        return partes; // Retorna un arreglo con la fecha y la hora
+    }
     
-          public String obtenerFechaFormateada(JCalendar calendario) {
-        if (calendario.getDate() == null) {
+      // Método para establecer solo la fecha en el JCalendar
+    public static void establecerFechaEnCalendar(String fechaParte, JCalendar calendario) {
+        try {
+            // Crear un SimpleDateFormat para convertir la fecha
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Parsear la fecha
+            Date fecha = formatoFecha.parse(fechaParte);
+
+            // Establecer la fecha en el JCalendar
+            calendario.setDate(fecha);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void establecerHoraEnInput(String fechaParte, JCalendar calendario){
+         // Crear un SimpleDateFormat para convertir la fecha
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("HH:mm:ss");
+
+            // Parsear la fecha
+            String fecha = fechaParte;
+           
+
+          for (int i = 0; i < boxHora.getItemCount(); i++) {
+                String hora = boxHora.getItemAt(i);
+                if (hora.equals(fecha.toString())) {
+                    boxHora.setSelectedIndex(i);
+                    break;
+                }
+            }
+    }
+    
+          public String obtenerFechaFormateada(JCalendar calendario, String hora) {
+        if (calendario == null || calendario.getDate() == null || hora == null || hora.isEmpty()) {
             return null; // o lanzar una excepción si prefieres
         }
 
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         
         String fechaFinal = formato.format(calendario.getDate()) + " " + boxHora.getSelectedItem().toString();
-        
+              System.out.println("Fecha final: "+ fechaFinal);
         return fechaFinal;
     }
     /**
@@ -130,7 +198,7 @@ public class Calendar extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Calendar dialog = new Calendar(new javax.swing.JFrame(), true);
+                Calendar dialog = new Calendar(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
