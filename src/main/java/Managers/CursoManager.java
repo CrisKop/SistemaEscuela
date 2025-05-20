@@ -219,4 +219,56 @@ public class CursoManager {
         }
         
     }
+      
+      
+      
+           /*
+    =====================MET 7================================
+        MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN CURSO
+    ==========================================================
+    */
+    
+    
+    public List <Curso> listarCursosDeProfesor (int idProfesor){
+        
+        String sql = """
+                     SELECT c.*
+                     FROM cursos c
+                     JOIN cursos_profesores cp ON c.idCurso = cp.idCurso
+                     WHERE cp.idProfesor = ?
+                     """;
+        
+        List<Curso> lista = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idProfesor);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                while(rs.next()){
+                    
+                    Curso curso = new Curso(
+                            rs.getInt("idCurso"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("nombre"),
+                            rs.getTime("horaInicial"),
+                            rs.getTime("horaFinal"),
+                            rs.getInt("maxEstudiantes"),
+                            rs.getInt("creditos")
+                            
+                    );
+                    
+                    lista.add(curso);
+                }
+                
+                return lista;
+            }
+        }catch (SQLException e){
+            
+            System.err.println("Error al listar cursos: " + e.getMessage());
+                return null;
+        }
+        
+    }
 }

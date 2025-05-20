@@ -17,7 +17,7 @@ import middlewares.CurrentSession;
  *
  * @author criskop
  */
-public class DetalleCurso extends javax.swing.JFrame {
+public class DetalleCursoEstudiante extends javax.swing.JFrame {
 
     /**
      * Creates new form Principal
@@ -26,7 +26,7 @@ public class DetalleCurso extends javax.swing.JFrame {
     CurrentSession currentSession = CurrentSession.getInstance();
     Usuario currentUser = currentSession.getCurrentSessionData();
    
-    public DetalleCurso(Curso curso) {
+    public DetalleCursoEstudiante(Curso curso) {
         initComponents();
         welcomeMessageName.setText(curso.getNombre());
         
@@ -73,12 +73,6 @@ public class DetalleCurso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LeftBar = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        TabBtnLogOut = new javax.swing.JButton();
-        TabBtn1 = new javax.swing.JButton();
-        TabBtn3 = new javax.swing.JButton();
-        TabBtn2 = new javax.swing.JButton();
         RightContainer = new javax.swing.JPanel();
         TabbedContainer = new javax.swing.JTabbedPane();
         Tab1Container = new javax.swing.JPanel();
@@ -98,80 +92,29 @@ public class DetalleCurso extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableCalificaciones = new javax.swing.JTable();
         BtnSalirCurso = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1200, 750));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(970, 750));
+        setPreferredSize(new java.awt.Dimension(970, 700));
         setResizable(false);
-
-        LeftBar.setBackground(new java.awt.Color(4, 206, 4));
-        LeftBar.setMinimumSize(new java.awt.Dimension(230, 750));
-        LeftBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        LeftBar.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, -1));
-
-        TabBtnLogOut.setBackground(new java.awt.Color(174, 197, 177));
-        TabBtnLogOut.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        TabBtnLogOut.setForeground(new java.awt.Color(255, 255, 255));
-        TabBtnLogOut.setText("Cerrar Sesion");
-        TabBtnLogOut.setBorder(null);
-        TabBtnLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TabBtnLogOutActionPerformed(evt);
-            }
-        });
-        LeftBar.add(TabBtnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 670, 210, 60));
-
-        TabBtn1.setBackground(new java.awt.Color(4, 205, 4));
-        TabBtn1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        TabBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        TabBtn1.setText("Principal");
-        TabBtn1.setBorder(null);
-        TabBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TabBtn1ActionPerformed(evt);
-            }
-        });
-        LeftBar.add(TabBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 166, 210, 60));
-
-        TabBtn3.setBackground(new java.awt.Color(4, 205, 4));
-        TabBtn3.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        TabBtn3.setForeground(new java.awt.Color(255, 255, 255));
-        TabBtn3.setText("Configuracion");
-        TabBtn3.setBorder(null);
-        TabBtn3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TabBtn3ActionPerformed(evt);
-            }
-        });
-        LeftBar.add(TabBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 210, 60));
-
-        TabBtn2.setBackground(new java.awt.Color(4, 205, 4));
-        TabBtn2.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        TabBtn2.setForeground(new java.awt.Color(255, 255, 255));
-        TabBtn2.setText("Cursos Disponibles");
-        TabBtn2.setBorder(null);
-        TabBtn2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TabBtn2ActionPerformed(evt);
-            }
-        });
-        LeftBar.add(TabBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 210, 60));
-
-        getContentPane().add(LeftBar, java.awt.BorderLayout.LINE_START);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         RightContainer.setBackground(new java.awt.Color(251, 251, 254));
+        RightContainer.setMinimumSize(new java.awt.Dimension(970, 700));
+        RightContainer.setPreferredSize(new java.awt.Dimension(970, 700));
         RightContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tab1Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab1Container.setMinimumSize(new java.awt.Dimension(940, 700));
         Tab1Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         welcomeMessageName.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         welcomeMessageName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcomeMessageName.setText("!");
-        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 540, -1));
+        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 370, -1));
 
         jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
-        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 360, 10));
+        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 360, 10));
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel4.setText("Evaluaciones del Curso");
@@ -179,7 +122,7 @@ public class DetalleCurso extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         jLabel5.setText("Detalles del curso");
-        Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, -1, -1));
+        Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         tableCursoEvals.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -239,7 +182,7 @@ public class DetalleCurso extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableCalificaciones);
 
-        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 910, 130));
+        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 670, 130));
 
         BtnSalirCurso.setBackground(new java.awt.Color(174, 197, 177));
         BtnSalirCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -251,42 +194,20 @@ public class DetalleCurso extends javax.swing.JFrame {
                 BtnSalirCursoActionPerformed(evt);
             }
         });
-        Tab1Container.add(BtnSalirCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 680, 210, 60));
-
-        jButton1.setBackground(new java.awt.Color(251, 251, 254));
-        jButton1.setFont(new java.awt.Font("SansSerif", 0, 40)); // NOI18N
-        jButton1.setText("<");
-        jButton1.setBorder(null);
-        Tab1Container.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 45, -1, -1));
+        Tab1Container.add(BtnSalirCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 210, 60));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
         RightContainer.add(TabbedContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 970, 790));
 
-        getContentPane().add(RightContainer, java.awt.BorderLayout.CENTER);
+        getContentPane().add(RightContainer);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TabBtnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtnLogOutActionPerformed
-       logout();
-    }//GEN-LAST:event_TabBtnLogOutActionPerformed
-
     private void BtnVerDetallesEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEvalActionPerformed
         
     }//GEN-LAST:event_BtnVerDetallesEvalActionPerformed
-
-    private void TabBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn1ActionPerformed
-          cambiarTab(0);
-    }//GEN-LAST:event_TabBtn1ActionPerformed
-
-    private void TabBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn3ActionPerformed
-        cambiarTab(2);
-    }//GEN-LAST:event_TabBtn3ActionPerformed
-
-    private void TabBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabBtn2ActionPerformed
-           cambiarTab(1);
-    }//GEN-LAST:event_TabBtn2ActionPerformed
 
     private void BtnSalirCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirCursoActionPerformed
         // TODO add your handling code here:
@@ -309,14 +230,24 @@ public class DetalleCurso extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetalleCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleCursoEstudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetalleCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleCursoEstudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetalleCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleCursoEstudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetalleCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleCursoEstudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -375,16 +306,9 @@ public class DetalleCurso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnSalirCurso;
     private javax.swing.JButton BtnVerDetallesEval;
-    private javax.swing.JPanel LeftBar;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
-    private javax.swing.JButton TabBtn1;
-    private javax.swing.JButton TabBtn2;
-    private javax.swing.JButton TabBtn3;
-    private javax.swing.JButton TabBtnLogOut;
     private javax.swing.JTabbedPane TabbedContainer;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

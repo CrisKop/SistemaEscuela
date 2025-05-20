@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,94,0,0,1,-112"/>
+  </AuxValues>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="calendarContainer">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="First"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
+      <SubComponents>
+        <Component class="com.toedter.calendar.JCalendar" name="jCalendar">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="SansSerif" size="20" style="0"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[400, 250]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[400, 250]"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="card2"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 100]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 100]"/>
+        </Property>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Last"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="false"/>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="jButton3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Aceptar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="40" width="400" height="60"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="boxHora">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="20" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="96">
+                <StringItem index="0" value="00:00:00"/>
+                <StringItem index="1" value="00:15:00"/>
+                <StringItem index="2" value="00:30:00"/>
+                <StringItem index="3" value="00:45:00"/>
+                <StringItem index="4" value="01:00:00"/>
+                <StringItem index="5" value="01:15:00"/>
+                <StringItem index="6" value="01:30:00"/>
+                <StringItem index="7" value="01:45:00"/>
+                <StringItem index="8" value="02:00:00"/>
+                <StringItem index="9" value="02:15:00"/>
+                <StringItem index="10" value="02:30:00"/>
+                <StringItem index="11" value="02:45:00"/>
+                <StringItem index="12" value="03:00:00"/>
+                <StringItem index="13" value="03:15:00"/>
+                <StringItem index="14" value="03:30:00"/>
+                <StringItem index="15" value="03:45:00"/>
+                <StringItem index="16" value="04:00:00"/>
+                <StringItem index="17" value="04:15:00"/>
+                <StringItem index="18" value="04:30:00"/>
+                <StringItem index="19" value="04:45:00"/>
+                <StringItem index="20" value="05:00:00"/>
+                <StringItem index="21" value="05:15:00"/>
+                <StringItem index="22" value="05:30:00"/>
+                <StringItem index="23" value="05:45:00"/>
+                <StringItem index="24" value="06:00:00"/>
+                <StringItem index="25" value="06:15:00"/>
+                <StringItem index="26" value="06:30:00"/>
+                <StringItem index="27" value="06:45:00"/>
+                <StringItem index="28" value="07:00:00"/>
+                <StringItem index="29" value="07:15:00"/>
+                <StringItem index="30" value="07:30:00"/>
+                <StringItem index="31" value="07:45:00"/>
+                <StringItem index="32" value="08:00:00"/>
+                <StringItem index="33" value="08:15:00"/>
+                <StringItem index="34" value="08:30:00"/>
+                <StringItem index="35" value="08:45:00"/>
+                <StringItem index="36" value="09:00:00"/>
+                <StringItem index="37" value="09:15:00"/>
+                <StringItem index="38" value="09:30:00"/>
+                <StringItem index="39" value="09:45:00"/>
+                <StringItem index="40" value="10:00:00"/>
+                <StringItem index="41" value="10:15:00"/>
+                <StringItem index="42" value="10:30:00"/>
+                <StringItem index="43" value="10:45:00"/>
+                <StringItem index="44" value="11:00:00"/>
+                <StringItem index="45" value="11:15:00"/>
+                <StringItem index="46" value="11:30:00"/>
+                <StringItem index="47" value="11:45:00"/>
+                <StringItem index="48" value="12:00:00"/>
+                <StringItem index="49" value="12:15:00"/>
+                <StringItem index="50" value="12:30:00"/>
+                <StringItem index="51" value="12:45:00"/>
+                <StringItem index="52" value="13:00:00"/>
+                <StringItem index="53" value="13:15:00"/>
+                <StringItem index="54" value="13:30:00"/>
+                <StringItem index="55" value="13:45:00"/>
+                <StringItem index="56" value="14:00:00"/>
+                <StringItem index="57" value="14:15:00"/>
+                <StringItem index="58" value="14:30:00"/>
+                <StringItem index="59" value="14:45:00"/>
+                <StringItem index="60" value="15:00:00"/>
+                <StringItem index="61" value="15:15:00"/>
+                <StringItem index="62" value="15:30:00"/>
+                <StringItem index="63" value="15:45:00"/>
+                <StringItem index="64" value="16:00:00"/>
+                <StringItem index="65" value="16:15:00"/>
+                <StringItem index="66" value="16:30:00"/>
+                <StringItem index="67" value="16:45:00"/>
+                <StringItem index="68" value="17:00:00"/>
+                <StringItem index="69" value="17:15:00"/>
+                <StringItem index="70" value="17:30:00"/>
+                <StringItem index="71" value="17:45:00"/>
+                <StringItem index="72" value="18:00:00"/>
+                <StringItem index="73" value="18:15:00"/>
+                <StringItem index="74" value="18:30:00"/>
+                <StringItem index="75" value="18:45:00"/>
+                <StringItem index="76" value="19:00:00"/>
+                <StringItem index="77" value="19:15:00"/>
+                <StringItem index="78" value="19:30:00"/>
+                <StringItem index="79" value="19:45:00"/>
+                <StringItem index="80" value="20:00:00"/>
+                <StringItem index="81" value="20:15:00"/>
+                <StringItem index="82" value="20:30:00"/>
+                <StringItem index="83" value="20:45:00"/>
+                <StringItem index="84" value="21:00:00"/>
+                <StringItem index="85" value="21:15:00"/>
+                <StringItem index="86" value="21:30:00"/>
+                <StringItem index="87" value="21:45:00"/>
+                <StringItem index="88" value="22:00:00"/>
+                <StringItem index="89" value="22:15:00"/>
+                <StringItem index="90" value="22:30:00"/>
+                <StringItem index="91" value="22:45:00"/>
+                <StringItem index="92" value="23:00:00"/>
+                <StringItem index="93" value="23:15:00"/>
+                <StringItem index="94" value="23:30:00"/>
+                <StringItem index="95" value="23:45:00"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boxHoraActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="0" width="400" height="40"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

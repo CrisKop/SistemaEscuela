@@ -205,6 +205,8 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         RightContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tab1Container.setBackground(new java.awt.Color(251, 251, 254));
+        Tab1Container.setMinimumSize(new java.awt.Dimension(970, 750));
+        Tab1Container.setPreferredSize(new java.awt.Dimension(970, 750));
         Tab1Container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         welcomeMessageName.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N

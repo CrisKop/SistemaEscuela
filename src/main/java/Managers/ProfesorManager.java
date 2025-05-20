@@ -266,7 +266,7 @@ public class ProfesorManager {
     
          /*
     =====================MET 7================================
-        MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN DEPARTAMENTO
+        MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN CURSO
     ==========================================================
     */
     
@@ -326,7 +326,7 @@ public class ProfesorManager {
     
     
       /*
-    =====================MET 7================================
+    =====================MET 8================================
         MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN DEPARTAMENTO
     ==========================================================
     */
@@ -387,6 +387,9 @@ public class ProfesorManager {
                 return null;
             }
     }
+    
+    
+    
     
     
 }

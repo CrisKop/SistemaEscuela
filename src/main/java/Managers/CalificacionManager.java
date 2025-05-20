@@ -98,7 +98,7 @@ public class CalificacionManager {
                             rs.getInt ("idCalificacion"),
                             rs.getInt ("idEvaluacion"),
                             rs.getInt ("idEstudiante"),
-                            rs.getDate ("fechaentrega"),
+                            rs.getDate ("fechaEntrega"),
                             rs.getFloat ("nota")
                     
                     
@@ -150,6 +150,48 @@ public class CalificacionManager {
         }
         
         
+    }
+    
+    
+      public List <Calificacion> listarCalificacionesPorEvaluacionDeProfesor (int idProfesor){
+        
+        String sql = """
+                     SELECT c.*
+                     FROM calificacion c
+                     JOIN evaluaciones e ON c.idEvaluacion = e.idEvaluacion
+                     WHERE e.idProfesor = ?;
+                     """;
+        
+        List <Calificacion> lista = new ArrayList<>();
+        
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idProfesor);
+            
+            try (ResultSet rs = stmt.executeQuery()){
+                
+                while (rs.next()) {
+                    
+                    Calificacion calificacion = new Calificacion (
+                    
+                            rs.getInt ("idCalificacion"),
+                            rs.getInt ("idEvaluacion"),
+                            rs.getInt ("idEstudiante"),
+                            rs.getDate ("fechaEntrega"),
+                            rs.getFloat ("nota")
+                    
+                    
+                    );
+                    
+                    lista.add(calificacion);
+                }
+                return lista;
+            
+            }} catch (SQLException e){
+                
+            System.err.println("Error al listar calificaciones: " + e.getMessage());
+            return null;
+        }
     }
 }
 

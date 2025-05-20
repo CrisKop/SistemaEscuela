@@ -153,6 +153,45 @@ public class EvaluacionManager {
                 return null;
             }
     }
+            
+            
+            
+            
+               public List<Evaluacion> listarEvaluacionesPorProfesor (int idProfesor){
+        
+         String sql = "SELECT * FROM evaluacion WHERE idProfesor = ?";
+       
+         List<Evaluacion> lista = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+     
+                stmt.setInt(1, idProfesor);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+             
+                while(rs.next()){
+                    Evaluacion evaluacion = new Evaluacion(
+                            rs.getInt("idEvaluacion"),
+                             rs.getInt("idCurso"),
+                             rs.getInt("idProfesor"),
+                            rs.getString("titulo"),
+                            rs.getDate("fechaInicio"),
+                            rs.getDate("fechaFin"),
+                            rs.getString("tipo")
+                           
+                    );
+                    
+                    lista.add(evaluacion);
+                }
+               
+                return lista;
+            
+            }} catch (SQLException e){
+               
+                 System.err.println("Error al listar evaluacion: " + e.getMessage());
+                return null;
+            }
+    }
          
           public boolean actualizarEvaluacion(Evaluacion evaluacion){
                String sql = "UPDATE Evaluacion SET idCurso = ?, idProfesor = ?, titulo = ?, fechaInicio = ?,fechaFin = ?, tipo = ? WHERE idEvaluacion = ?";
