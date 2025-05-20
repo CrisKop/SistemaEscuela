@@ -9,10 +9,14 @@ import Clases.Escuela;
 import Clases.Profesor;
 import Clases.Usuario;
 import static GUI.Administrador.PrincipalAdministrador.cargarTabla;
+import Managers.CursoManager;
 import Managers.ProfesorManager;
 import Managers.UsuarioManager;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -55,8 +59,10 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
         tableProfesoresDisponibles = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        btnApplyAsignacion = new javax.swing.JButton();
+        btnDeleteProfesorCurso = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        btnApplyAsignacion = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 500));
@@ -65,19 +71,20 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         AllContainer.setBackground(new java.awt.Color(251, 251, 254));
-        AllContainer.setMinimumSize(new java.awt.Dimension(700, 500));
+        AllContainer.setMinimumSize(new java.awt.Dimension(700, 600));
+        AllContainer.setPreferredSize(new java.awt.Dimension(700, 600));
         AllContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cursoTitle.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         cursoTitle.setText("!");
-        AllContainer.add(cursoTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, -1, -1));
+        AllContainer.add(cursoTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
 
         jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
-        AllContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 500, 10));
+        AllContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 500, 10));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         jLabel7.setText("Profesores pertenecientes al curso");
-        AllContainer.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        AllContainer.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
         tableCursoProfesores.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCursoProfesores.setModel(new javax.swing.table.DefaultTableModel(
@@ -100,11 +107,11 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableCursoProfesores);
 
-        AllContainer.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 630, 120));
+        AllContainer.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 630, 120));
 
         jLabel8.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jLabel8.setText("Gestion de profesores del curso");
-        AllContainer.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        AllContainer.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         tableProfesoresDisponibles.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableProfesoresDisponibles.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,30 +134,30 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableProfesoresDisponibles);
 
-        AllContainer.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 630, 120));
+        AllContainer.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 630, 120));
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         jLabel9.setText("Profesores disponibles para asignar");
-        AllContainer.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
+        AllContainer.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
 
         jLabel18.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(174, 197, 177));
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel18.setText("Click en uno para poder asignar");
-        AllContainer.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, -1, -1));
+        jLabel18.setText("Click en uno para poder eliminar");
+        AllContainer.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
 
-        btnApplyAsignacion.setBackground(new java.awt.Color(242, 242, 242));
-        btnApplyAsignacion.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        btnApplyAsignacion.setForeground(new java.awt.Color(255, 255, 255));
-        btnApplyAsignacion.setText("Asignar al Curso");
-        btnApplyAsignacion.setBorder(null);
-        btnApplyAsignacion.setEnabled(false);
-        btnApplyAsignacion.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteProfesorCurso.setBackground(new java.awt.Color(242, 242, 242));
+        btnDeleteProfesorCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnDeleteProfesorCurso.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteProfesorCurso.setText("Eliminar del Curso");
+        btnDeleteProfesorCurso.setBorder(null);
+        btnDeleteProfesorCurso.setEnabled(false);
+        btnDeleteProfesorCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnApplyAsignacionActionPerformed(evt);
+                btnDeleteProfesorCursoActionPerformed(evt);
             }
         });
-        AllContainer.add(btnApplyAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 630, 60));
+        AllContainer.add(btnDeleteProfesorCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 630, 60));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,7 +170,26 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
             .addGap(0, 10, Short.MAX_VALUE)
         );
 
-        AllContainer.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 540, 20, 10));
+        AllContainer.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 20, 10));
+
+        btnApplyAsignacion.setBackground(new java.awt.Color(242, 242, 242));
+        btnApplyAsignacion.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnApplyAsignacion.setForeground(new java.awt.Color(255, 255, 255));
+        btnApplyAsignacion.setText("Asignar al Curso");
+        btnApplyAsignacion.setBorder(null);
+        btnApplyAsignacion.setEnabled(false);
+        btnApplyAsignacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyAsignacionActionPerformed(evt);
+            }
+        });
+        AllContainer.add(btnApplyAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 630, 60));
+
+        jLabel19.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(174, 197, 177));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("Click en uno para poder asignar");
+        AllContainer.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 330, -1, -1));
 
         getContentPane().add(AllContainer);
 
@@ -171,33 +197,110 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableCursoProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoProfesoresMouseClicked
-       /*
+       
         JTable tabla = tableCursoProfesores;
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
 
-            JButton[] buttonsEscuela = {btnApplyAsignacion, btnCreateEscuela, btnDeleteEscuela};
-            habilitarBotones(buttonsEscuela);
+            JButton[] buttons = {btnDeleteProfesorCurso};
+            habilitarBotones(buttons);
 
-            Object nombre = tabla.getValueAt(fila, 1);
+            Object idProfesor = tabla.getValueAt(fila, 10);
 
-            inputEscuelaNombre.setText(nombre.toString());
+
        
         }
-        */
+        
     }//GEN-LAST:event_tableCursoProfesoresMouseClicked
 
     private void tableProfesoresDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProfesoresDisponiblesMouseClicked
-        // TODO add your handling code here:
+           JTable tabla = tableProfesoresDisponibles;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JButton[] buttons = {btnApplyAsignacion};
+            habilitarBotones(buttons);
+
+            Object idProfesor = tabla.getValueAt(fila, 10);
+
+
+       
+        }
     }//GEN-LAST:event_tableProfesoresDisponiblesMouseClicked
 
+    private void btnDeleteProfesorCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProfesorCursoActionPerformed
+         JTable tabla = tableCursoProfesores;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JButton[] buttons = {btnDeleteProfesorCurso};
+            desabilitarBotones(buttons);
+
+            Object idProfesor = tabla.getValueAt(fila, 8);
+            
+            eliminarProfesorDeCurso((int) idProfesor);
+
+        }
+    }//GEN-LAST:event_btnDeleteProfesorCursoActionPerformed
+
     private void btnApplyAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyAsignacionActionPerformed
-       
+               JTable tabla = tableProfesoresDisponibles;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JButton[] buttons = {btnApplyAsignacion};
+            desabilitarBotones(buttons);
+
+            Object idProfesor = tabla.getValueAt(fila, 8);
+            
+            asignarProfesorACurso((int) idProfesor);
+
+        }
     }//GEN-LAST:event_btnApplyAsignacionActionPerformed
 
     
     ProfesorManager profesorManager = new ProfesorManager();
     UsuarioManager usuarioManager = new UsuarioManager();
+    CursoManager cursoManager = new CursoManager();
+    
+    
+    
+    
+         private void desabilitarBotones(JButton[] botones){
+        
+         for(JButton btn : botones){
+             
+               if(!btn.getText().equals("Crear nuevo")){
+            btn.setBackground(new Color(242,242,242));
+            btn.setEnabled(false);
+               }
+        }
+         
+    }
+    
+    private void habilitarBotones(JButton[] botones){
+        
+        for(JButton btn : botones){
+            if(btn.getText().equals("Eliminar")){
+                btn.setBackground(new Color(255,51,51));
+                btn.setEnabled(true);
+            } else {
+                btn.setBackground(new Color(4,205,4));
+                btn.setEnabled(true);
+            }
+        }
+        
+    }
+    
+    
+       private void successText(JLabel statusLabel){
+         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
+     if(statusLabel != null){
+              statusLabel.setText("Aplicado con éxito");
+        statusLabel.setForeground(new Color(51, 153, 0)); // Verde
+     }
+    }
+    
     
                /*
     =====================================================================
@@ -209,7 +312,7 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     
       private void cargarModeloTablas(){
           
-           String[] columnasProfesor = {"ID de Usuario", "Identificacion", "Nombres", "Apellidos", "Email", "Teléfono", "Rol", "Estado", "Departamento", "Especialidad"};
+           String[] columnasProfesor = {"ID de Usuario", "Identificacion", "Nombres", "Apellidos", "Email", "Teléfono", "Rol", "Estado", "ID del Profesor", "Departamento", "Especialidad"};
         
            Crear_Modelo(columnasProfesor, tableProfesoresDisponibles);
            Crear_Modelo(columnasProfesor, tableCursoProfesores);
@@ -219,15 +322,25 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     
       private void cargarTablasNecesarias(){
         cargarTablaProfesoresFiltradaPorDepartamento(curso.getIdDepartamento());
-          System.out.println("Departamento de Curso: " + curso.getIdDepartamento());
+        cargarTablaProfesoresDeUnCurso(curso.getIdCurso());
   
     }
     
     private void cargarTablaProfesoresFiltradaPorDepartamento(int idDepartamento){
-           List<Profesor> listaEscuelas = profesorManager.listarProfesorPorDepartamento(idDepartamento);
+           List<Profesor> listaProfesores = profesorManager.listarProfesorDeUnCursoPorDepartamento(idDepartamento, curso.getIdCurso());
         
-        if(listaEscuelas != null) {
-            cargarTablaConDetallesDeUsuario(tableProfesoresDisponibles, listaEscuelas);
+        if(listaProfesores != null) {
+            cargarTablaConDetallesDeUsuario(tableProfesoresDisponibles, listaProfesores);
+        }
+    }
+    
+    
+    private void cargarTablaProfesoresDeUnCurso(int idCurso){
+        List<Profesor> listaProfesores = profesorManager.listarProfesorDeUnCurso(idCurso);
+        
+        System.out.println("Lista test:" + listaProfesores);
+             if(listaProfesores != null) {
+            cargarTablaConDetallesDeUsuario(tableCursoProfesores, listaProfesores);
         }
     }
     
@@ -311,7 +424,7 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
            columna = camposClaseUsuario.length - 1;
             int j = 0;
             for (Field campo : camposRolClase) {
-                    if (j < 2) { // Saltar los primeros dos campos (idUsuario y id)
+                    if (j == 1) { // Saltar los primeros dos campos (idUsuario y id)
                         j++;
                         continue;
                     }
@@ -379,6 +492,54 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     =====================================================================
     */
     
+ 
+ 
+ 
+ 
+  private void asignarProfesorACurso(int idProfesor){
+     
+      boolean accionAsignar = actionAsignarProfesorACurso(idProfesor);
+     if(accionAsignar) return;
+     
+ }
+ 
+ private boolean actionAsignarProfesorACurso(int idProfesor){
+     
+     boolean accion = cursoManager.asignarProfesorACurso(idProfesor, curso.getIdCurso());
+
+      if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+     
+     cargarTablasNecesarias();
+     successText(null);
+     return true;
+     
+ }
+ 
+ 
+ private void eliminarProfesorDeCurso(int idProfesor){
+     
+      boolean accionEliminar = actionEliminarProfesorDeCurso(idProfesor);
+     if(accionEliminar) return;
+     
+ }
+ 
+ private boolean actionEliminarProfesorDeCurso(int idProfesor){
+     
+     boolean accion = cursoManager.retirarProfesorDeCurso(idProfesor, curso.getIdCurso());
+
+      if(accion == false){
+                JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                return false;
+            }
+     
+     cargarTablasNecesarias();
+     successText(null);
+     return true;
+     
+ }
     
     
     
@@ -420,8 +581,10 @@ public class AsignarProfesoresACurso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AllContainer;
     private javax.swing.JButton btnApplyAsignacion;
+    private javax.swing.JButton btnDeleteProfesorCurso;
     private javax.swing.JLabel cursoTitle;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

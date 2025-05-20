@@ -262,4 +262,131 @@ public class ProfesorManager {
     }
     
     
+    
+    
+         /*
+    =====================MET 7================================
+        MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN DEPARTAMENTO
+    ==========================================================
+    */
+    
+    
+    public List<Profesor> listarProfesorDeUnCurso(int idCurso){
+        
+        //QUERY QUE SE EJECUTARÁ
+         String sql =   """
+                        SELECT p.*
+                        FROM profesores p
+                        JOIN cursos_profesores cp ON p.idProfesor = cp.idProfesor
+                        WHERE cp.idCurso = ?;
+                        """;
+         
+         //LISTA VACIA QUE ALMACENARÁ LOS RESULTADOS
+         List<Profesor> lista = new ArrayList<>();
+        
+         //(CREATESTATEMENT PORQUE NO HUBO UN PREPARESTATEMENT)
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idCurso);
+           
+            //ZONA DE OBTENCIÓN DE RESULTADO DE QUERY
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                /*
+                YA QUE HAY VARIOS RESULTADOS, UN WHILE POR CADA RESULTADO
+                CADA RESULTADO SE CONVIERTE EN UN OBJETO (.clases/Profesor.java)
+                Y SE AGREGA A 'lista'
+                */
+                while(rs.next()){
+                    Profesor profesor = new Profesor(
+                            rs.getInt("idProfesor"),
+                            rs.getInt("idUsuario"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("especialidad")
+                    );
+                    
+                    lista.add(profesor);
+                }
+                
+                //EL MÉTODO DEVUELVE EL LISTADO
+                System.out.println("Lista:" + lista);
+                System.out.println("Query: " + sql);
+                return lista;
+            
+            }} catch (SQLException e){
+                /*
+                SI HAY ERROR DEVOLVER NULL
+                (ALTERNATIVA A UN ARRAYLIST PARA ERROR)
+                */
+                 System.err.println("Error al listar profesores: " + e.getMessage());
+                return null;
+            }
+    }
+    
+    
+    
+      /*
+    =====================MET 7================================
+        MÉTODO PARA LISTAR LOS PROFESORES DENTRO DE UN DEPARTAMENTO
+    ==========================================================
+    */
+    
+    
+    public List<Profesor> listarProfesorDeUnCursoPorDepartamento(int idDepartamento, int idCurso){
+        
+        //QUERY QUE SE EJECUTARÁ
+         String sql =   """
+                        SELECT *
+                        FROM profesores
+                        WHERE idDepartamento = ?
+                        AND idProfesor NOT IN (
+                        SELECT idProfesor
+                        FROM cursos_profesores
+                        WHERE idCurso = ? );
+                        """;
+         
+         //LISTA VACIA QUE ALMACENARÁ LOS RESULTADOS
+         List<Profesor> lista = new ArrayList<>();
+        
+         //(CREATESTATEMENT PORQUE NO HUBO UN PREPARESTATEMENT)
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idDepartamento);
+            stmt.setInt(2, idCurso);
+           
+            //ZONA DE OBTENCIÓN DE RESULTADO DE QUERY
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                /*
+                YA QUE HAY VARIOS RESULTADOS, UN WHILE POR CADA RESULTADO
+                CADA RESULTADO SE CONVIERTE EN UN OBJETO (.clases/Profesor.java)
+                Y SE AGREGA A 'lista'
+                */
+                while(rs.next()){
+                    Profesor profesor = new Profesor(
+                            rs.getInt("idProfesor"),
+                            rs.getInt("idUsuario"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("especialidad")
+                    );
+                    
+                    lista.add(profesor);
+                }
+                
+                //EL MÉTODO DEVUELVE EL LISTADO
+                System.out.println("Lista:" + lista);
+                System.out.println("Query: " + sql);
+                return lista;
+            
+            }} catch (SQLException e){
+                /*
+                SI HAY ERROR DEVOLVER NULL
+                (ALTERNATIVA A UN ARRAYLIST PARA ERROR)
+                */
+                 System.err.println("Error al listar profesores: " + e.getMessage());
+                return null;
+            }
+    }
+    
+    
 }

@@ -164,4 +164,59 @@ public class CursoManager {
             return false;
         }
     }
+    
+    
+    public boolean retirarProfesorDeCurso (int profesorId, int cursoId){
+        
+        String sql = "DELETE FROM cursos_profesores WHERE idProfesor = ? AND idCurso = ?";
+        
+          try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            
+            stmt.setInt(1, profesorId);
+            stmt.setInt(2, cursoId);
+            
+            
+                    // Mejor para depuración
+        System.out.println("SQL: " + sql);
+        System.out.println("Parámetros -> idProfesor: " + profesorId + ", idCurso: " + cursoId);
+        
+        
+            return stmt.executeUpdate() > 0;
+            
+            
+        }catch (SQLException e) {
+            
+            System.err.println("Error al retirar profesor de curso: " + e.getMessage());
+            return false;
+        }
+        
+    }
+    
+    
+    
+      public boolean asignarProfesorACurso (int profesorId, int cursoId){
+        
+        String sql = "INSERT INTO cursos_profesores (idProfesor, idCurso) VALUES (?, ?)";
+        
+          try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            
+            stmt.setInt(1, profesorId);
+            stmt.setInt(2, cursoId);
+            
+            
+                    // Mejor para depuración
+        System.out.println("SQL: " + sql);
+        System.out.println("Parámetros -> idProfesor: " + profesorId + ", idCurso: " + cursoId);
+        
+        
+            return stmt.executeUpdate() > 0;
+            
+            
+        }catch (SQLException e) {
+            
+            System.err.println("Error al asignar profesor a curso: " + e.getMessage());
+            return false;
+        }
+        
+    }
 }
