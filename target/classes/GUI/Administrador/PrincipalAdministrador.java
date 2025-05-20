@@ -1579,7 +1579,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     
     
         private void ApplyFieldsOnlyNumbers(){
-    JTextField[] campos = {inputCursoMaxEstudiantes, inputCursoCreditos, inputEstudianteIdentificacion, inputEstudianteTelefono, inputProfesorIdentificacion, inputProfesorTelefono};
+    JTextField[] campos = {settingsInputTelefono, inputCursoMaxEstudiantes, inputCursoCreditos, inputEstudianteIdentificacion, inputEstudianteTelefono, inputProfesorIdentificacion, inputProfesorTelefono};
 
     for (JTextField campo : campos) {
         campo.addKeyListener(new java.awt.event.KeyAdapter() {

@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +137,23 @@ public class CalificacionManager {
         }
     }
     
+      public boolean actualizarNotaDeCalificacion(int idCalificacion, int nota){
+        
+        String sql = "UPDATE Calificacion SET nota = ? WHERE idCalificacion = ?";
+        
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, nota);
+            stmt.setInt(2, idCalificacion);
+            
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+             System.err.println("Error al actualizar calificacion: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    
     public boolean eliminarCalificacion (int id){
         
         String sql = "DELETE FROM Calificacion WHERE idCalificacion = ?";
@@ -193,6 +211,10 @@ public class CalificacionManager {
             return null;
         }
     }
+      
+      
+      
+      
 }
 
 

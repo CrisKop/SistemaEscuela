@@ -4,6 +4,7 @@
  */
 package GUI.Profesor;
 
+import Clases.Calificacion;
 import Clases.Curso;
 import Clases.Escuela;
 import Clases.Evaluacion;
@@ -11,6 +12,7 @@ import Clases.Profesor;
 import Clases.Usuario;
 import GUI.Calendar;
 import GUI.Login;
+import Managers.CalificacionManager;
 import Managers.EvaluacionManager;
 import com.toedter.calendar.JCalendar;
 import java.awt.Color;
@@ -45,6 +47,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         welcomeMessageName.setText(curso.getNombre());
         cargarModeloTablas();
         cargarTablasNecesarias();
+        ApplyFieldsOnlyFloat();
 
         
     
@@ -99,6 +102,8 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableCalificaciones = new javax.swing.JTable();
         BtnVerDetallesEval1 = new javax.swing.JButton();
+        inputCalificacionAsignarNota = new javax.swing.JTextField();
+        statusTextCalificacion = new javax.swing.JLabel();
         EvaluacionManager = new javax.swing.JPanel();
         jSeparator5 = new javax.swing.JSeparator();
         inputEvaluacionTitulo = new javax.swing.JTextField();
@@ -184,13 +189,14 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
                 BtnVerDetallesEvalActionPerformed(evt);
             }
         });
-        Tab1Container.add(BtnVerDetallesEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 210, 60));
+        Tab1Container.add(BtnVerDetallesEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 550, 210, 60));
         Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 890, 10));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel7.setText("Ultimas evaluaciones enviadas en el curso");
         Tab1Container.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, -1));
 
+        tableCalificaciones.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCalificaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -202,6 +208,13 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
 
             }
         ));
+        tableCalificaciones.setRowHeight(40);
+        tableCalificaciones.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        tableCalificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCalificacionesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableCalificaciones);
 
         Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 640, 130));
@@ -217,6 +230,14 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
             }
         });
         Tab1Container.add(BtnVerDetallesEval1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 890, 60));
+
+        inputCalificacionAsignarNota.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        inputCalificacionAsignarNota.setEnabled(false);
+        Tab1Container.add(inputCalificacionAsignarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 500, 210, 40));
+
+        statusTextCalificacion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextCalificacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Tab1Container.add(statusTextCalificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 620, 230, 15));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
@@ -386,7 +407,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnVerDetallesEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEvalActionPerformed
-        
+        updateCalificacionNota();
     }//GEN-LAST:event_BtnVerDetallesEvalActionPerformed
 
     private void BtnVerDetallesEval1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEval1ActionPerformed
@@ -450,6 +471,22 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
     private void btnDeleteEvaluacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEvaluacionActionPerformed
         deleteEvaluacion();
     }//GEN-LAST:event_btnDeleteEvaluacionActionPerformed
+
+    private void tableCalificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCalificacionesMouseClicked
+       JTable tabla = tableCalificaciones;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+        
+        JButton[] buttons = {BtnVerDetallesEval};
+        inputCalificacionAsignarNota.setEnabled(true);
+        habilitarBotones(buttons);
+
+                 Object nota = tabla.getValueAt(fila, 4);
+
+   
+        inputEvaluacionTipo.setText(nota.toString());
+    }
+    }//GEN-LAST:event_tableCalificacionesMouseClicked
 
     
              /*
@@ -551,7 +588,8 @@ private void limpiarCampos(JComponent[] inputs) {
    
    
    
-   EvaluacionManager evaluacionManager = new EvaluacionManager();   
+   EvaluacionManager evaluacionManager = new EvaluacionManager();  
+   CalificacionManager calificacionManager = new CalificacionManager();
    
    
       private void cargarModeloTablas(){
@@ -559,7 +597,7 @@ private void limpiarCampos(JComponent[] inputs) {
         Crear_Modelo(columnasEvals, tableCursoEvals);
             Crear_Modelo(columnasEvals, tableEvaluaciones);
         
-           String[] columnasCalificaciones = {"ID de calificacion", "ID de evaluacion", "ID del estudiante", "Fecha de entrega", "Nota"};
+           String[] columnasCalificaciones = {"ID de calificacion", "ID de evaluacion",  "ID del estudiante", "Fecha de entrega", "Nota"};
         Crear_Modelo(columnasCalificaciones, tableCalificaciones);
 
       }
@@ -567,7 +605,7 @@ private void limpiarCampos(JComponent[] inputs) {
      private void cargarTablasNecesarias(){
         cargarTablaEvaluaciones();
         cargarTablaCursoEvals();
-   
+        cargarTablaCalificacionesDeProfesor();
       
      
     }
@@ -588,6 +626,15 @@ private void limpiarCampos(JComponent[] inputs) {
             cargarTabla(tableCursoEvals, listaEvaluaciones);
         }
     }
+      
+      
+      private void cargarTablaCalificacionesDeProfesor(){
+            List<Calificacion> listaCalificaciones = calificacionManager.listarCalificacionesPorEvaluacionDeProfesor(currentRole.getIdProfesor());
+        
+        if(listaCalificaciones != null) {
+            cargarTabla(tableCalificaciones, listaCalificaciones);
+        }
+      }
     
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
@@ -626,6 +673,30 @@ private void limpiarCampos(JComponent[] inputs) {
         }
     }
     
+      
+     private void ApplyFieldsOnlyFloat() {
+    JTextField[] campos = {inputCalificacionAsignarNota};
+
+    for (JTextField campo : campos) {
+        campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+
+                // Si el carácter es un número o el punto decimal
+                if (!Character.isDigit(c) && c != '.') {
+                    evt.consume();  // Bloquea si NO es un número ni un punto
+                }
+                
+                // Verifica si el punto decimal ya está presente
+                String text = campo.getText();
+                if (c == '.' && text.contains(".")) {
+                    evt.consume();  // Bloquea si ya hay un punto en el texto
+                }
+            }
+        });
+    }
+}
+
       
       
       
@@ -800,6 +871,78 @@ private void limpiarCampos(JComponent[] inputs) {
     //</editor-fold>
     
        /*
+      ZONA DE GESTION DE CALIFICACIONES
+    =====================================================================
+    =====================================================================
+    */
+    
+    
+     private void updateCalificacionNota(){
+        
+        JComponent[] inputsList = {inputCalificacionAsignarNota};
+              boolean[] needed = {true};
+        JButton[] buttonsList = {BtnVerDetallesEval};
+    
+         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCalificacion);
+        if(inputsValidados == false) return;
+        
+        boolean accion = actionUpdateCalificacionNota();
+        if(accion == false) return;
+                
+                cargarTablaCalificacionesDeProfesor();
+                desabilitarBotones(buttonsList);
+                    inputCalificacionAsignarNota.setEnabled(false);
+                   limpiarCampos(inputsList);
+                   successText(statusTextCalificacion);
+
+    }
+    
+     private boolean actionUpdateCalificacionNota(){
+           
+            int fila = tableCalificaciones.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableCalificaciones.getValueAt(fila, 0);
+                 
+                 try {
+                    // Obtener las fechas como Strings desde los inputs
+                    String fechaEntrega = inputCalificacionAsignarNota.getText();
+
+                    
+                     boolean accion = calificacionManager.actualizarNotaDeCalificacion((int) id, Integer.parseInt(inputCalificacionAsignarNota.getText()));
+                   
+                    
+                    if(accion == false){
+                        JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                        return false;
+                    }      
+                    
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    // Manejo de error si el formato de la fecha no es válido
+                }
+                  
+                  
+                  
+            }
+            
+            cargarTablasNecesarias();
+            return true;
+    }
+    
+    
+            /*
+    =====================================================================
+    =====================================================================
+     ZONA DE GESTION DE ESCUELAS (DAO1 DAOESCUELAS)
+    */
+    
+    //<editor-fold>
+    
+    
+    
+        //</editor-fold>
+    
+       /*
       ZONA DE GESTION DE ESCUELAS
     =====================================================================
     =====================================================================
@@ -887,6 +1030,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JButton btnCreateEvaluacion;
     private javax.swing.JButton btnDeleteEvaluacion;
     private javax.swing.JLabel counterEvaluaciones;
+    private javax.swing.JTextField inputCalificacionAsignarNota;
     private javax.swing.JTextField inputEvaluacionFechaFin;
     private javax.swing.JTextField inputEvaluacionFechaInicio;
     private javax.swing.JTextField inputEvaluacionTipo;
@@ -910,6 +1054,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JLabel statusTextCalificacion;
     private javax.swing.JLabel statusTextEvaluacion;
     private javax.swing.JTable tableCalificaciones;
     private javax.swing.JTable tableCursoEvals;

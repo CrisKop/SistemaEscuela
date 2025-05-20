@@ -33,6 +33,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         welcomeMessageName.setText(currentUser.getNombre() + "!");
         cargarModeloTablas();
         loadCurrentInformation();
+        ApplyFieldsOnlyNumbers();
     }
     
     
@@ -532,6 +533,23 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
 
     } else {
         return true;
+    }
+}
+   
+   
+   
+    private void ApplyFieldsOnlyNumbers(){
+    JTextField[] campos = {settingsInputTelefono};
+
+    for (JTextField campo : campos) {
+        campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    evt.consume(); // Bloquea si NO es un número
+                }
+            }
+        });
     }
 }
 
