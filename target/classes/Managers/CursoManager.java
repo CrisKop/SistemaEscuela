@@ -401,6 +401,28 @@ public class CursoManager {
 
     return false;
 }
+   
+   
+    public boolean CantidadCursosEstudianteMayorA2(int idEstudiante) {
+    String sql = "SELECT COUNT(*) FROM cursos_estudiantes WHERE idEstudiante = ?";
+
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        stmt.setInt(1, idEstudiante);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int cantidad = rs.getInt(1);
+                System.out.println("Cantidad: " + cantidad);
+                return cantidad <= 2;
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al verificar cantidad de estudiantes: " + e.getMessage());
+    }
+
+    return false;
+}
     
     
      public boolean inscribirEstudiante (int idEstudiante, int idCurso, int maxEstudiantes) {
@@ -411,6 +433,12 @@ public class CursoManager {
 
         if (!verificacionDeMaxEstudiantes) {
             System.out.println("Curso lleno, no se puede inscribir");
+            return false;
+        }
+        
+         boolean verificacionDeMaxCursos = CantidadCursosEstudianteMayorA2(idEstudiante);
+             if (!verificacionDeMaxCursos) {
+            System.out.println("El estudiante llegó al limite de cursos");
             return false;
         }
 
