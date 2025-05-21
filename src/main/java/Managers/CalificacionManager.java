@@ -177,7 +177,7 @@ public class CalificacionManager {
                      SELECT c.*
                      FROM calificacion c
                      JOIN evaluaciones e ON c.idEvaluacion = e.idEvaluacion
-                     WHERE e.idProfesor = ?;
+                     WHERE e.idProfesor = ? ORDER BY c.fechaEntrega DESC;
                      """;
         
         List <Calificacion> lista = new ArrayList<>();

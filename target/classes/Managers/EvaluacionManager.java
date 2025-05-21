@@ -194,6 +194,49 @@ public class EvaluacionManager {
                 return null;
             }
     }
+               
+               
+                public List<Evaluacion> listarEvaluacionesPendientesCurso (int idCurso, int idEstudiante){
+        
+         String sql = """
+                      SELECT e.*
+                      FROM evaluaciones e
+                      LEFT JOIN calificacion c ON e.idEvaluacion = c.idEvaluacion
+                      WHERE e.idCurso = ? AND c.idEstudiante IS NULL;
+                      """;
+       
+         List<Evaluacion> lista = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+     
+                stmt.setInt(1, idCurso);
+                stmt.setInt(2, idEstudiante);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+             
+                while(rs.next()){
+                    Evaluacion evaluacion = new Evaluacion(
+                            rs.getInt("idEvaluacion"),
+                             rs.getInt("idCurso"),
+                             rs.getInt("idProfesor"),
+                            rs.getString("titulo"),
+                            rs.getTimestamp("fechaInicio"),
+                            rs.getTimestamp("fechaFin"),
+                            rs.getString("tipo")
+                           
+                    );
+                    
+                    lista.add(evaluacion);
+                }
+               
+                return lista;
+            
+            }} catch (SQLException e){
+               
+                 System.err.println("Error al listar evaluacion: " + e.getMessage());
+                return null;
+            }
+    }
          
           public boolean actualizarEvaluacion(Evaluacion evaluacion){
                String sql = "UPDATE evaluaciones SET idCurso = ?, idProfesor = ?, titulo = ?, fechaInicio = ?,fechaFin = ?, tipo = ? WHERE idEvaluacion = ?";

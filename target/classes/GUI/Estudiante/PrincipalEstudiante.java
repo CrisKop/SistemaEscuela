@@ -4,11 +4,18 @@
  */
 package GUI.Estudiante;
 
+import Clases.Curso;
+import Clases.Estudiante;
 import Clases.Usuario;
 import GUI.Login;
+import Managers.CursoManager;
 import Managers.UsuarioManager;
 import java.awt.Color;
 import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.Field;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import middlewares.CurrentSession;
@@ -25,27 +32,77 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
      * Creates new form Principal
      */
     
-    CurrentSession currentSession = CurrentSession.getInstance();
+       CurrentSession currentSession = CurrentSession.getInstance();
     Usuario currentUser = currentSession.getCurrentSessionData();
+    Estudiante currentRole = (Estudiante) currentSession.getCurrentRoleData();
+    CursoManager cursoManager = new CursoManager();
    
     public PrincipalEstudiante() {
         initComponents();
         welcomeMessageName.setText(currentUser.getNombre() + "!");
         cargarModeloTablas();
         loadCurrentInformation();
+        cargarTablasNecesarias();
         ApplyFieldsOnlyNumbers();
     }
     
     
     private void cargarModeloTablas(){
-           String[] columnasCursos = {"ID del curso", "Nombre del Curso"};
+            String[] columnasCursos = {"ID de curso", "Departamento", "Nombre", "Hora Inicial", "Hora Final", "Maximo de estudiantes", "Créditos"};
         Crear_Modelo(columnasCursos, tableCursos);
-        
-        String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
-        Crear_Modelo(columnasEvals, tableEvals);
-        
-     
         Crear_Modelo(columnasCursos, tableCursosDisponibles);
+    }
+    
+    
+    private void cargarTablasNecesarias(){
+          cargarTablaCursosDeEstudiante();
+     cargarTablaCursosDisponiblesEstudiante();
+    }
+    
+    
+      
+       private void cargarTablaCursosDeEstudiante(){
+           List<Curso> listaCursos = cursoManager.listarCursosDeEstudiante(currentRole.getIdEstudiante());
+        
+        if(listaCursos != null) {
+            cargarTabla(tableCursos, listaCursos);
+            counterCursosInscritos.setText(String.valueOf(listaCursos.size()));
+        }
+     }
+       
+             private void cargarTablaCursosDisponiblesEstudiante(){
+           List<Curso> listaCursos = cursoManager.listarCursosDisponiblesEstudiante(currentRole.getIdEstudiante());
+        
+        if(listaCursos != null) {
+            cargarTabla(tableCursosDisponibles, listaCursos);
+            counterCursosDisponibles.setText(String.valueOf(listaCursos.size()));
+        }
+     }
+       
+       
+        public static void cargarTabla(JTable tabla, List<?> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);  // Limpiar tabla
+
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        Object ejemplo = lista.get(0);
+        Field[] campos = ejemplo.getClass().getDeclaredFields();
+
+        for (Object obj : lista) {
+            Object[] fila = new Object[campos.length];
+            try {
+                for (int i = 0; i < campos.length; i++) {
+                    campos[i].setAccessible(true);
+                    fila[i] = campos[i].get(obj);
+                }
+                modelo.addRow(fila);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
   private void cambiarTab(int index) {
@@ -110,23 +167,21 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         Tab1Container = new javax.swing.JPanel();
         welcomeMessageName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
+        counterCursosInscritos = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCursos = new javax.swing.JTable();
-        BtnCursosVerDetalles = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableEvals = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
-        BtnCursosVerDetalles1 = new javax.swing.JButton();
+        btnCursosVerDetalles = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         Tab2Container = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
+        counterCursosDisponibles = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableCursosDisponibles = new javax.swing.JTable();
         btnInscribirse = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        statusTextInscripcion = new javax.swing.JLabel();
         Tab3Container = new javax.swing.JPanel();
         statusText = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -219,14 +274,15 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
         Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jLabel4.setText("Cursos Inscritos");
-        Tab1Container.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        counterCursosInscritos.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterCursosInscritos.setText("0");
+        Tab1Container.add(counterCursosInscritos, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         jLabel5.setText("Bienvenido");
         Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
+        tableCursos.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -239,53 +295,32 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
             }
         ));
         tableCursos.setRowHeight(40);
+        tableCursos.setSelectionBackground(new java.awt.Color(4, 205, 4));
+        tableCursos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCursosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCursos);
 
-        Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 660, 210));
+        Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 910, 470));
 
-        BtnCursosVerDetalles.setBackground(new java.awt.Color(4, 205, 4));
-        BtnCursosVerDetalles.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        BtnCursosVerDetalles.setForeground(new java.awt.Color(255, 255, 255));
-        BtnCursosVerDetalles.setText("Ver detalles");
-        BtnCursosVerDetalles.setBorder(null);
-        BtnCursosVerDetalles.addActionListener(new java.awt.event.ActionListener() {
+        btnCursosVerDetalles.setBackground(new java.awt.Color(242, 242, 242));
+        btnCursosVerDetalles.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCursosVerDetalles.setForeground(new java.awt.Color(255, 255, 255));
+        btnCursosVerDetalles.setText("Ver detalles");
+        btnCursosVerDetalles.setBorder(null);
+        btnCursosVerDetalles.setEnabled(false);
+        btnCursosVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCursosVerDetallesActionPerformed(evt);
+                btnCursosVerDetallesActionPerformed(evt);
             }
         });
-        Tab1Container.add(BtnCursosVerDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 560, 210, 60));
-        Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 910, 10));
+        Tab1Container.add(btnCursosVerDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 910, 60));
 
-        tableEvals.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane2.setViewportView(tableEvals);
-
-        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 660, 210));
-
-        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jLabel6.setText("Evaluaciones pendientes");
-        Tab1Container.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, -1, -1));
-
-        BtnCursosVerDetalles1.setBackground(new java.awt.Color(4, 205, 4));
-        BtnCursosVerDetalles1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        BtnCursosVerDetalles1.setForeground(new java.awt.Color(255, 255, 255));
-        BtnCursosVerDetalles1.setText("Ver detalles");
-        BtnCursosVerDetalles1.setBorder(null);
-        BtnCursosVerDetalles1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCursosVerDetalles1ActionPerformed(evt);
-            }
-        });
-        Tab1Container.add(BtnCursosVerDetalles1, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 210, 60));
+        jLabel9.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel9.setText("Cursos Inscritos:");
+        Tab1Container.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
@@ -299,10 +334,11 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         jSeparator3.setForeground(new java.awt.Color(62, 255, 59));
         Tab2Container.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
 
-        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jLabel8.setText("Cursos Disponibles");
-        Tab2Container.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        counterCursosDisponibles.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        counterCursosDisponibles.setText("0");
+        Tab2Container.add(counterCursosDisponibles, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
 
+        tableCursosDisponibles.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCursosDisponibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -314,21 +350,37 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
 
             }
         ));
+        tableCursosDisponibles.setRowHeight(40);
+        tableCursosDisponibles.setSelectionBackground(new java.awt.Color(4, 205, 4));
+        tableCursosDisponibles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCursosDisponiblesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableCursosDisponibles);
 
         Tab2Container.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 910, 470));
 
-        btnInscribirse.setBackground(new java.awt.Color(4, 205, 4));
+        btnInscribirse.setBackground(new java.awt.Color(242, 242, 242));
         btnInscribirse.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         btnInscribirse.setForeground(new java.awt.Color(255, 255, 255));
         btnInscribirse.setText("Inscribirse");
         btnInscribirse.setBorder(null);
+        btnInscribirse.setEnabled(false);
         btnInscribirse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInscribirseActionPerformed(evt);
             }
         });
         Tab2Container.add(btnInscribirse, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 680, 910, 60));
+
+        jLabel17.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel17.setText("Cursos Disponibles:");
+        Tab2Container.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        statusTextInscripcion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        statusTextInscripcion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Tab2Container.add(statusTextInscripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 650, 340, 15));
 
         TabbedContainer.addTab("Cursos disponibles", Tab2Container);
 
@@ -435,16 +487,36 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         cambiarTab(2);
     }//GEN-LAST:event_TabBtn3ActionPerformed
 
-    private void BtnCursosVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCursosVerDetallesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnCursosVerDetallesActionPerformed
+    private void btnCursosVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursosVerDetallesActionPerformed
+       JTable tabla = tableCursos;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
 
-    private void BtnCursosVerDetalles1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCursosVerDetalles1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnCursosVerDetalles1ActionPerformed
+          Curso cursoADetallar = cursoManager.obtenerCursoPorID((int) tabla.getValueAt(fila, 0));
+          
+          if(cursoADetallar != null){
+              JButton[] buttons = {btnCursosVerDetalles, btnInscribirse};
+           DetalleCursoEstudiante ventana = new DetalleCursoEstudiante(cursoADetallar);
+           ventana.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    cargarTablasNecesarias();
+                    desabilitarBotones(buttons);
+                    
+                    // aquí haces algo
+                }
+            });
+            ventana.setLocationRelativeTo(this);
+            ventana.setVisible(true);
+          } else {
+                JOptionPane.showMessageDialog(null, "Error en la acción");
+          }
+         
+        }
+    }//GEN-LAST:event_btnCursosVerDetallesActionPerformed
 
     private void btnInscribirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirseActionPerformed
-        // TODO add your handling code here:
+       inscribirEstudiante();
     }//GEN-LAST:event_btnInscribirseActionPerformed
 
     private void settingsBtnApplyChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnApplyChangesActionPerformed
@@ -455,6 +527,55 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         settingsNewPasswordInput.setEnabled(!settingsNewPasswordInput.isEnabled());
     }//GEN-LAST:event_changePasswordCheckBoxStateChanged
 
+    private void tableCursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursosMouseClicked
+         JTable tabla = tableCursos;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JButton[] buttons = {btnCursosVerDetalles};
+            habilitarBotones(buttons);
+
+        }
+    }//GEN-LAST:event_tableCursosMouseClicked
+
+    private void tableCursosDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursosDisponiblesMouseClicked
+            JTable tabla = tableCursosDisponibles;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+
+            JButton[] buttons = {btnInscribirse};
+            habilitarBotones(buttons);
+
+        }
+    }//GEN-LAST:event_tableCursosDisponiblesMouseClicked
+
+    
+    
+    private void desabilitarBotones(JButton[] botones){
+        
+         for(JButton btn : botones){
+             
+               if(!btn.getText().equals("Crear nuevo")){
+            btn.setBackground(new Color(242,242,242));
+            btn.setEnabled(false);
+               }
+        }
+         
+    }
+    
+    private void habilitarBotones(JButton[] botones){
+        
+        for(JButton btn : botones){
+            if(btn.getText().equals("Eliminar")){
+                btn.setBackground(new Color(255,51,51));
+                btn.setEnabled(true);
+            } else {
+                btn.setBackground(new Color(4,205,4));
+                btn.setEnabled(true);
+            }
+        }
+        
+    }
     
     UsuarioManager usuarioManager = new UsuarioManager();
     
@@ -552,6 +673,48 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         });
     }
 }
+    
+         private void successText(JLabel statusLabel){
+         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
+          statusLabel.setText("Aplicado con éxito");
+        statusLabel.setForeground(new Color(51, 153, 0)); // Verde
+    }
+    
+    
+    
+    
+      private void inscribirEstudiante(){
+        
+
+        JButton[] buttonsList = {btnInscribirse};
+        
+        
+             boolean accion = actionInscribirEstudiante();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones(buttonsList);
+                       
+                   successText(statusTextInscripcion);
+    }
+      
+       private boolean actionInscribirEstudiante(){
+         int fila = tableCursosDisponibles.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableCursosDisponibles.getValueAt(fila, 0);
+                  Object maxEstudiantes = tableCursosDisponibles.getValueAt(fila, 5);
+                  
+                   boolean accion = cursoManager.inscribirEstudiante(currentRole.getIdEstudiante() ,(int) id, (int) maxEstudiantes);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablasNecesarias();
+            return true;
+    }
 
     
     /**
@@ -618,7 +781,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
 
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+            return canEdit[columnIndex];
             }
         };
 
@@ -631,8 +794,6 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnCursosVerDetalles;
-    private javax.swing.JButton BtnCursosVerDetalles1;
     private javax.swing.JPanel LeftBar;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
@@ -643,8 +804,11 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     private javax.swing.JButton TabBtn3;
     private javax.swing.JButton TabBtnLogOut;
     private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JButton btnCursosVerDetalles;
     private javax.swing.JButton btnInscribirse;
     private javax.swing.JCheckBox changePasswordCheckBox;
+    private javax.swing.JLabel counterCursosDisponibles;
+    private javax.swing.JLabel counterCursosInscritos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -653,16 +817,13 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPasswordField settingsActualPasswordInput;
@@ -673,9 +834,9 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     private javax.swing.JTextField settingsInputTelefono;
     private javax.swing.JPasswordField settingsNewPasswordInput;
     private javax.swing.JLabel statusText;
+    private javax.swing.JLabel statusTextInscripcion;
     private javax.swing.JTable tableCursos;
     private javax.swing.JTable tableCursosDisponibles;
-    private javax.swing.JTable tableEvals;
     private javax.swing.JLabel welcomeMessageName;
     // End of variables declaration//GEN-END:variables
 }

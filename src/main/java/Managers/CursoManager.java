@@ -271,4 +271,185 @@ public class CursoManager {
         }
         
     }
+    
+    
+    
+           /*
+    =====================MET 8================================
+        MÉTODO PARA LISTAR LOS ESTUDIANTES DENTRO DE UN CURSO
+    ==========================================================
+    */
+    
+    
+    public List <Curso> listarCursosDeEstudiante (int idEstudiante){
+        
+        String sql = """
+                     SELECT c.*
+                     FROM cursos c
+                     JOIN cursos_estudiantes ce ON c.idCurso = ce.idCurso
+                     WHERE ce.idEstudiante = ?
+                     """;
+        
+        List<Curso> lista = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idEstudiante);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                while(rs.next()){
+                    
+                    Curso curso = new Curso(
+                            rs.getInt("idCurso"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("nombre"),
+                            rs.getTime("horaInicial"),
+                            rs.getTime("horaFinal"),
+                            rs.getInt("maxEstudiantes"),
+                            rs.getInt("creditos")
+                            
+                    );
+                    
+                    lista.add(curso);
+                }
+                
+                return lista;
+            }
+        }catch (SQLException e){
+            
+            System.err.println("Error al listar cursos: " + e.getMessage());
+                return null;
+        }
+        
+    }
+    
+    
+    
+          /*
+    =====================MET 8================================
+        MÉTODO PARA LISTAR LOS ESTUDIANTES DENTRO DE UN CURSO
+    ==========================================================
+    */
+    
+    
+    public List <Curso> listarCursosDisponiblesEstudiante (int idEstudiante){
+        
+        String sql = """
+                    SELECT c.*
+                     FROM cursos c
+                     WHERE NOT EXISTS (
+                         SELECT 1
+                         FROM cursos_estudiantes ce
+                         WHERE ce.idCurso = c.idCurso
+                           AND ce.idEstudiante = ?
+                     );
+                     """;
+        
+        List<Curso> lista = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idEstudiante);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                
+                while(rs.next()){
+                    
+                    Curso curso = new Curso(
+                            rs.getInt("idCurso"),
+                            rs.getInt("idDepartamento"),
+                            rs.getString("nombre"),
+                            rs.getTime("horaInicial"),
+                            rs.getTime("horaFinal"),
+                            rs.getInt("maxEstudiantes"),
+                            rs.getInt("creditos")
+                            
+                    );
+                    
+                    lista.add(curso);
+                }
+                
+                return lista;
+            }
+        }catch (SQLException e){
+            
+            System.err.println("Error al listar cursos: " + e.getMessage());
+                return null;
+        }
+        
+    }
+    
+    
+   public boolean CantidadEstudiantesEnCursoMayorAMax(int idCurso, int maxEstudiantes) {
+    String sql = "SELECT COUNT(*) FROM cursos_estudiantes WHERE idCurso = ?";
+
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        stmt.setInt(1, idCurso);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int cantidad = rs.getInt(1);
+                System.out.println("Cantidad: " + cantidad);
+                return cantidad <= maxEstudiantes;
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al verificar cantidad de estudiantes: " + e.getMessage());
+    }
+
+    return false;
+}
+    
+    
+     public boolean inscribirEstudiante (int idEstudiante, int idCurso, int maxEstudiantes) {
+    
+        String sql = "INSERT INTO cursos_estudiantes (idEstudiante, idCurso) VALUES (?, ?)";
+        
+        boolean verificacionDeMaxEstudiantes = CantidadEstudiantesEnCursoMayorAMax(idCurso, maxEstudiantes);
+
+        if (!verificacionDeMaxEstudiantes) {
+            System.out.println("Curso lleno, no se puede inscribir");
+            return false;
+        }
+
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idEstudiante);
+            stmt.setInt(2, idCurso);
+            
+            
+            return stmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+          
+            System.err.println("Error al inscribir estudiante: " + e.getMessage());
+            return false;
+        }
+}
+     
+     
+      public boolean retirarEstudiante (int idEstudiante, int idCurso) {
+    
+        String sql = "DELETE FROM cursos_estudiantes WHERE idEstudiante = ? AND idCurso = ?";
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idEstudiante);
+            stmt.setInt(2, idCurso);
+            
+            
+            return stmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+          
+            System.err.println("Error al inscribir estudiante: " + e.getMessage());
+            return false;
+        }
+}
+    
+    
+    
 }

@@ -96,7 +96,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCursoEvals = new javax.swing.JTable();
-        BtnVerDetallesEval = new javax.swing.JButton();
+        BtnCalificacionEliminar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -104,6 +104,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         BtnVerDetallesEval1 = new javax.swing.JButton();
         inputCalificacionAsignarNota = new javax.swing.JTextField();
         statusTextCalificacion = new javax.swing.JLabel();
+        btnCalificacionAsignarNota = new javax.swing.JButton();
         EvaluacionManager = new javax.swing.JPanel();
         jSeparator5 = new javax.swing.JSeparator();
         inputEvaluacionTitulo = new javax.swing.JTextField();
@@ -178,18 +179,18 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
 
         Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 890, 170));
 
-        BtnVerDetallesEval.setBackground(new java.awt.Color(242, 242, 242));
-        BtnVerDetallesEval.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        BtnVerDetallesEval.setForeground(new java.awt.Color(255, 255, 255));
-        BtnVerDetallesEval.setText("Asignar nota");
-        BtnVerDetallesEval.setBorder(null);
-        BtnVerDetallesEval.setEnabled(false);
-        BtnVerDetallesEval.addActionListener(new java.awt.event.ActionListener() {
+        BtnCalificacionEliminar.setBackground(new java.awt.Color(242, 242, 242));
+        BtnCalificacionEliminar.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        BtnCalificacionEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        BtnCalificacionEliminar.setText("Eliminar");
+        BtnCalificacionEliminar.setBorder(null);
+        BtnCalificacionEliminar.setEnabled(false);
+        BtnCalificacionEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnVerDetallesEvalActionPerformed(evt);
+                BtnCalificacionEliminarActionPerformed(evt);
             }
         });
-        Tab1Container.add(BtnVerDetallesEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 550, 210, 60));
+        Tab1Container.add(BtnCalificacionEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 600, 210, 60));
         Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 890, 10));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
@@ -217,7 +218,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableCalificaciones);
 
-        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 640, 130));
+        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 640, 160));
 
         BtnVerDetallesEval1.setBackground(new java.awt.Color(4, 205, 4));
         BtnVerDetallesEval1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -233,11 +234,24 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
 
         inputCalificacionAsignarNota.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         inputCalificacionAsignarNota.setEnabled(false);
-        Tab1Container.add(inputCalificacionAsignarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 500, 210, 40));
+        Tab1Container.add(inputCalificacionAsignarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 480, 210, 40));
 
         statusTextCalificacion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         statusTextCalificacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Tab1Container.add(statusTextCalificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 620, 230, 15));
+
+        btnCalificacionAsignarNota.setBackground(new java.awt.Color(242, 242, 242));
+        btnCalificacionAsignarNota.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnCalificacionAsignarNota.setForeground(new java.awt.Color(255, 255, 255));
+        btnCalificacionAsignarNota.setText("Asignar nota");
+        btnCalificacionAsignarNota.setBorder(null);
+        btnCalificacionAsignarNota.setEnabled(false);
+        btnCalificacionAsignarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalificacionAsignarNotaActionPerformed(evt);
+            }
+        });
+        Tab1Container.add(btnCalificacionAsignarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 530, 210, 60));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
@@ -406,9 +420,9 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnVerDetallesEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEvalActionPerformed
-        updateCalificacionNota();
-    }//GEN-LAST:event_BtnVerDetallesEvalActionPerformed
+    private void BtnCalificacionEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCalificacionEliminarActionPerformed
+        deleteCalificacion();
+    }//GEN-LAST:event_BtnCalificacionEliminarActionPerformed
 
     private void BtnVerDetallesEval1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEval1ActionPerformed
         cambiarTab(1);
@@ -477,7 +491,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
         
-        JButton[] buttons = {BtnVerDetallesEval};
+        JButton[] buttons = {BtnCalificacionEliminar};
         inputCalificacionAsignarNota.setEnabled(true);
         habilitarBotones(buttons);
 
@@ -487,6 +501,10 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         inputEvaluacionTipo.setText(nota.toString());
     }
     }//GEN-LAST:event_tableCalificacionesMouseClicked
+
+    private void btnCalificacionAsignarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificacionAsignarNotaActionPerformed
+         updateCalificacionNota();
+    }//GEN-LAST:event_btnCalificacionAsignarNotaActionPerformed
 
     
              /*
@@ -881,7 +899,12 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {inputCalificacionAsignarNota};
               boolean[] needed = {true};
-        JButton[] buttonsList = {BtnVerDetallesEval};
+        JButton[] buttonsList = {BtnCalificacionEliminar};
+        
+        if(!inputCalificacionAsignarNota.getText().isEmpty() || Integer.parseInt(inputCalificacionAsignarNota.getText()) < 0 || Integer.parseInt(inputCalificacionAsignarNota.getText()) > 5){
+            statusTextCalificacion.setText("Nota inválida");
+            return;
+        }
     
          boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextCalificacion);
         if(inputsValidados == false) return;
@@ -926,6 +949,41 @@ private void limpiarCampos(JComponent[] inputs) {
             }
             
             cargarTablasNecesarias();
+            return true;
+    }
+     
+     
+      private void deleteCalificacion(){
+        
+        JComponent[] inputsList = {inputCalificacionAsignarNota};
+              boolean[] needed = {true};
+        JButton[] buttonsList = {BtnCalificacionEliminar};
+        
+        
+             boolean accion = actionDeleteCalificacion();
+        if(accion == false) return;
+        
+        
+                    desabilitarBotones(buttonsList);
+                         inputCalificacionAsignarNota.setEnabled(false);
+                   limpiarCampos(inputsList);
+                   successText(statusTextCalificacion);
+    }
+      
+       private boolean actionDeleteCalificacion(){
+         int fila = tableCalificaciones.getSelectedRow();
+            if (fila != -1) {
+                  Object id = tableCalificaciones.getValueAt(fila, 0);
+                  
+                   boolean accion = calificacionManager.eliminarCalificacion((int) id);
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            }
+            
+            cargarTablaCalificacionesDeProfesor();
             return true;
     }
     
@@ -1020,13 +1078,14 @@ private void limpiarCampos(JComponent[] inputs) {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnVerDetallesEval;
+    private javax.swing.JButton BtnCalificacionEliminar;
     private javax.swing.JButton BtnVerDetallesEval1;
     private javax.swing.JPanel EvaluacionManager;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
     private javax.swing.JTabbedPane TabbedContainer;
     private javax.swing.JButton btnApplyEvaluacion;
+    private javax.swing.JButton btnCalificacionAsignarNota;
     private javax.swing.JButton btnCreateEvaluacion;
     private javax.swing.JButton btnDeleteEvaluacion;
     private javax.swing.JLabel counterEvaluaciones;

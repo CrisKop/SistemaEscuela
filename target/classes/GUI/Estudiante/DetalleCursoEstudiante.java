@@ -5,8 +5,13 @@
 package GUI.Estudiante;
 
 import Clases.Curso;
+import Clases.Estudiante;
 import Clases.Usuario;
 import GUI.Login;
+import Managers.CursoManager;
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import middlewares.CurrentSession;
@@ -18,23 +23,22 @@ import middlewares.CurrentSession;
  * @author criskop
  */
 public class DetalleCursoEstudiante extends javax.swing.JFrame {
-
+    Curso curso;
     /**
      * Creates new form Principal
      */
     
-    CurrentSession currentSession = CurrentSession.getInstance();
+      CurrentSession currentSession = CurrentSession.getInstance();
     Usuario currentUser = currentSession.getCurrentSessionData();
+    Estudiante currentRole = (Estudiante) currentSession.getCurrentRoleData();
+    CursoManager cursoManager = new CursoManager();
    
     public DetalleCursoEstudiante(Curso curso) {
         initComponents();
         welcomeMessageName.setText(curso.getNombre());
-        
-              String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
-        Crear_Modelo(columnasEvals, tableCursoEvals);
-        
-           String[] columnasCalificaciones = {"Curso", "Fecha de entrega", "Nota"};
-        Crear_Modelo(columnasCalificaciones, tableCalificaciones);
+        cargarModeloTablas();
+        this.curso = curso;
+
         
     
     }
@@ -63,6 +67,48 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
       
         
     }
+    
+    
+      private void cargarModeloTablas(){
+                        String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
+        Crear_Modelo(columnasEvals, tableCursoEvals);
+        
+           String[] columnasCalificaciones = {"Curso", "Fecha de entrega", "Nota"};
+        Crear_Modelo(columnasCalificaciones, tableCalificaciones);
+}
+      
+        private void cargarTablasNecesarias(){
+       
+     
+    }
+        
+       
+       
+       
+        public static void cargarTabla(JTable tabla, List<?> lista) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);  // Limpiar tabla
+
+        if (lista == null || lista.isEmpty()) {
+            return;
+        }
+
+        Object ejemplo = lista.get(0);
+        Field[] campos = ejemplo.getClass().getDeclaredFields();
+
+        for (Object obj : lista) {
+            Object[] fila = new Object[campos.length];
+            try {
+                for (int i = 0; i < campos.length; i++) {
+                    campos[i].setAccessible(true);
+                    fila[i] = campos[i].get(obj);
+                }
+                modelo.addRow(fila);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,11 +124,9 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         Tab1Container = new javax.swing.JPanel();
         welcomeMessageName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCursoEvals = new javax.swing.JTable();
-        BtnVerDetallesEval = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         labelPromedio = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -91,11 +135,11 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableCalificaciones = new javax.swing.JTable();
-        BtnSalirCurso = new javax.swing.JButton();
+        BtnSalirCurso1 = new javax.swing.JButton();
+        btnEvaluacionEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(970, 750));
-        setPreferredSize(new java.awt.Dimension(970, 700));
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
@@ -111,18 +155,14 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         welcomeMessageName.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         welcomeMessageName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcomeMessageName.setText("!");
-        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 50, 370, -1));
+        Tab1Container.add(welcomeMessageName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 370, -1));
 
         jSeparator1.setForeground(new java.awt.Color(62, 255, 59));
-        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 360, 10));
-
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jLabel4.setText("Evaluaciones del Curso");
-        Tab1Container.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        Tab1Container.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 360, 10));
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 32)); // NOI18N
         jLabel5.setText("Detalles del curso");
-        Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+        Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         tableCursoEvals.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,37 +177,25 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableCursoEvals);
 
-        Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 660, 170));
-
-        BtnVerDetallesEval.setBackground(new java.awt.Color(4, 205, 4));
-        BtnVerDetallesEval.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        BtnVerDetallesEval.setForeground(new java.awt.Color(255, 255, 255));
-        BtnVerDetallesEval.setText("Ver detalles");
-        BtnVerDetallesEval.setBorder(null);
-        BtnVerDetallesEval.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnVerDetallesEvalActionPerformed(evt);
-            }
-        });
-        Tab1Container.add(BtnVerDetallesEval, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 220, 210, 60));
-        Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 910, 10));
+        Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 130));
+        Tab1Container.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 910, 10));
 
         labelPromedio.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         labelPromedio.setText("0");
-        Tab1Container.add(labelPromedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 380, -1, -1));
+        Tab1Container.add(labelPromedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel3.setText("Promedio:");
-        Tab1Container.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
-        Tab1Container.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 910, 10));
+        Tab1Container.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
+        Tab1Container.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 910, 10));
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
-        jLabel6.setText("Evaluaciones del Curso");
-        Tab1Container.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        jLabel6.setText("Evaluaciones pendientes");
+        Tab1Container.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel7.setText("Tus calificaciones de este curso");
-        Tab1Container.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+        Tab1Container.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, -1, -1));
 
         tableCalificaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -182,19 +210,32 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableCalificaciones);
 
-        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 670, 130));
+        Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 910, 130));
 
-        BtnSalirCurso.setBackground(new java.awt.Color(174, 197, 177));
-        BtnSalirCurso.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        BtnSalirCurso.setForeground(new java.awt.Color(255, 255, 255));
-        BtnSalirCurso.setText("Salir del curso");
-        BtnSalirCurso.setBorder(null);
-        BtnSalirCurso.addActionListener(new java.awt.event.ActionListener() {
+        BtnSalirCurso1.setBackground(new java.awt.Color(174, 197, 177));
+        BtnSalirCurso1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        BtnSalirCurso1.setForeground(new java.awt.Color(255, 255, 255));
+        BtnSalirCurso1.setText("Salir del curso");
+        BtnSalirCurso1.setBorder(null);
+        BtnSalirCurso1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnSalirCursoActionPerformed(evt);
+                BtnSalirCurso1ActionPerformed(evt);
             }
         });
-        Tab1Container.add(BtnSalirCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 210, 60));
+        Tab1Container.add(BtnSalirCurso1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, 210, 60));
+
+        btnEvaluacionEnviar.setBackground(new java.awt.Color(242, 242, 242));
+        btnEvaluacionEnviar.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        btnEvaluacionEnviar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEvaluacionEnviar.setText("Enviar evaluacion");
+        btnEvaluacionEnviar.setBorder(null);
+        btnEvaluacionEnviar.setEnabled(false);
+        btnEvaluacionEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEvaluacionEnviarActionPerformed(evt);
+            }
+        });
+        Tab1Container.add(btnEvaluacionEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 890, 60));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
@@ -205,14 +246,80 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnVerDetallesEvalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVerDetallesEvalActionPerformed
+    private void BtnSalirCurso1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirCurso1ActionPerformed
+        retirarEstudianteDeCurso();
+    }//GEN-LAST:event_BtnSalirCurso1ActionPerformed
+
+    private void btnEvaluacionEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluacionEnviarActionPerformed
+        cambiarTab(1);
+    }//GEN-LAST:event_btnEvaluacionEnviarActionPerformed
+
+    
+    
+     private void desabilitarBotones(JButton[] botones){
         
-    }//GEN-LAST:event_BtnVerDetallesEvalActionPerformed
+         for(JButton btn : botones){
+             
+               if(!btn.getText().equals("Crear nuevo")){
+            btn.setBackground(new Color(242,242,242));
+            btn.setEnabled(false);
+               }
+        }
+         
+    }
+    
+    private void habilitarBotones(JButton[] botones){
+        
+        for(JButton btn : botones){
+            if(btn.getText().equals("Eliminar")){
+                btn.setBackground(new Color(255,51,51));
+                btn.setEnabled(true);
+            } else {
+                btn.setBackground(new Color(4,205,4));
+                btn.setEnabled(true);
+            }
+        }
+        
+    }
+    
+    
+      private void successText(JLabel statusLabel){
+         JOptionPane.showMessageDialog(null, "Accion efectuada con éxito");
+   
+         if(statusLabel != null){
+                    statusLabel.setText("Aplicado con éxito");
+        statusLabel.setForeground(new Color(51, 153, 0)); // Verde
+         }
+    }
+      
+      
+      
+      
+      
+       private void retirarEstudianteDeCurso(){
 
-    private void BtnSalirCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirCursoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnSalirCursoActionPerformed
-
+             boolean accion = actionRetirarEstudianteDeCurso();
+        if(accion == false) return;
+        
+                             this.dispose();
+                   successText(null);
+             
+    }
+      
+       private boolean actionRetirarEstudianteDeCurso(){
+   
+                  
+                   boolean accion = cursoManager.retirarEstudiante(currentRole.getIdEstudiante() ,(int) curso.getIdCurso());
+                   
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }       
+            
+            
+            cargarTablasNecesarias();
+            return true;
+    }
     /**
      * @param args the command line arguments
      */
@@ -239,28 +346,12 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DetalleCursoEstudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+   
 
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         
     }
+    
+    
     
     
     
@@ -304,13 +395,12 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnSalirCurso;
-    private javax.swing.JButton BtnVerDetallesEval;
+    private javax.swing.JButton BtnSalirCurso1;
     private javax.swing.JPanel RightContainer;
     private javax.swing.JPanel Tab1Container;
     private javax.swing.JTabbedPane TabbedContainer;
+    private javax.swing.JButton btnEvaluacionEnviar;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
