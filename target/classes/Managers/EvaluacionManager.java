@@ -64,7 +64,7 @@ public class EvaluacionManager {
         public boolean CantidadEvaluacionesMayorA4EnCurso(int idCurso) {
     String sql = """
                  SELECT COUNT(*)
-                 FROM evaluacion
+                 FROM evaluaciones
                  WHERE idCurso = ?;
                  """;
 
