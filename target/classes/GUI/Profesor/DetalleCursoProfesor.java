@@ -238,7 +238,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
 
         statusTextCalificacion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         statusTextCalificacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Tab1Container.add(statusTextCalificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 620, 230, 15));
+        Tab1Container.add(statusTextCalificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 670, 230, 15));
 
         btnCalificacionAsignarNota.setBackground(new java.awt.Color(242, 242, 242));
         btnCalificacionAsignarNota.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -491,7 +491,7 @@ public class DetalleCursoProfesor extends javax.swing.JFrame {
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
         
-        JButton[] buttons = {BtnCalificacionEliminar};
+        JButton[] buttons = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
         inputCalificacionAsignarNota.setEnabled(true);
         habilitarBotones(buttons);
 
@@ -647,7 +647,7 @@ private void limpiarCampos(JComponent[] inputs) {
       
       
       private void cargarTablaCalificacionesDeProfesor(){
-            List<Calificacion> listaCalificaciones = calificacionManager.listarCalificacionesPorEvaluacionDeProfesor(currentRole.getIdProfesor());
+            List<Calificacion> listaCalificaciones = calificacionManager.listarCalificacionesPorEvaluacionDeProfesor(currentCurso.getIdCurso(), currentRole.getIdProfesor());
         
         if(listaCalificaciones != null) {
             cargarTabla(tableCalificaciones, listaCalificaciones);
@@ -730,9 +730,9 @@ private void limpiarCampos(JComponent[] inputs) {
 
     private void deleteEvaluacion(){
         
-        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
-              boolean[] needed = {true, true, true, true};
-        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+        JComponent[] inputsList = {};
+              boolean[] needed = {};
+               JButton[] buttonsList = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
         
              boolean accion = actionDeleteEvaluacion();
         if(accion == false) return;
@@ -746,9 +746,9 @@ private void limpiarCampos(JComponent[] inputs) {
     
     private void updateEvaluacion(){
         
-        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
-              boolean[] needed = {true, true, true, true};
-        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+           JComponent[] inputsList = {};
+              boolean[] needed = {};
+               JButton[] buttonsList = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
     
          boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEvaluacion);
         if(inputsValidados == false) return;
@@ -765,9 +765,9 @@ private void limpiarCampos(JComponent[] inputs) {
     
     private void createNewEvaluacion(){
         
-        JComponent[] inputsList = {inputEvaluacionTitulo, inputEvaluacionFechaInicio, inputEvaluacionFechaFin, inputEvaluacionTipo};
-              boolean[] needed = {true, true, true, true};
-        JButton[] buttonsList = {btnApplyEvaluacion, btnCreateEvaluacion, btnDeleteEvaluacion};
+             JComponent[] inputsList = {};
+              boolean[] needed = {};
+               JButton[] buttonsList = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
         
         boolean inputsValidados = validateAdminCRUDInputs(inputsList, needed, statusTextEvaluacion);
         if(inputsValidados == false) return;
@@ -805,7 +805,7 @@ private void limpiarCampos(JComponent[] inputs) {
             inputEvaluacionTipo.getText()
         );
 
-          boolean accion = evaluacionManager.insertarEvaluacion(nuevoObjeto);
+          boolean accion = evaluacionManager.insertarEvaluacion(nuevoObjeto, currentCurso.getIdCurso());
 
                 if(accion == false){
                     JOptionPane.showMessageDialog(null, "Error al efectuar accion");
@@ -899,9 +899,9 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {inputCalificacionAsignarNota};
               boolean[] needed = {true};
-        JButton[] buttonsList = {BtnCalificacionEliminar};
+        JButton[] buttonsList = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
         
-        if(!inputCalificacionAsignarNota.getText().isEmpty() || Integer.parseInt(inputCalificacionAsignarNota.getText()) < 0 || Integer.parseInt(inputCalificacionAsignarNota.getText()) > 5){
+        if(inputCalificacionAsignarNota.getText().isEmpty() || Float.parseFloat(inputCalificacionAsignarNota.getText()) < 0 || Float.parseFloat(inputCalificacionAsignarNota.getText()) > 5){
             statusTextCalificacion.setText("Nota inválida");
             return;
         }
@@ -931,7 +931,7 @@ private void limpiarCampos(JComponent[] inputs) {
                     String fechaEntrega = inputCalificacionAsignarNota.getText();
 
                     
-                     boolean accion = calificacionManager.actualizarNotaDeCalificacion((int) id, Integer.parseInt(inputCalificacionAsignarNota.getText()));
+                     boolean accion = calificacionManager.actualizarNotaDeCalificacion((int) id, Float.parseFloat(inputCalificacionAsignarNota.getText()));
                    
                     
                     if(accion == false){
@@ -957,7 +957,7 @@ private void limpiarCampos(JComponent[] inputs) {
         
         JComponent[] inputsList = {inputCalificacionAsignarNota};
               boolean[] needed = {true};
-        JButton[] buttonsList = {BtnCalificacionEliminar};
+JButton[] buttonsList = {btnCalificacionAsignarNota, BtnCalificacionEliminar};
         
         
              boolean accion = actionDeleteCalificacion();

@@ -28,7 +28,15 @@ public class CalificacionManager {
     
     
     
-    public boolean InsertarCalificacion(Calificacion calificacion){
+    public boolean InsertarCalificacion(Calificacion calificacion, int idCurso){
+        
+        
+         boolean verificacionDeMaxCantidadDeCalificaciones = CantidadCalificacionesMayorA4(idCurso, calificacion.getIdEstudiante());
+
+        if (!verificacionDeMaxCantidadDeCalificaciones) {
+            System.out.println("Ya tiene 4 notas, es el máximo");
+            return false;
+        }
         
     String sql ="INSERT INTO calificacion (idEvaluacion, idEstudiante, fechaEntrega , nota ) VALUES (?,?,?,?)";
 
@@ -37,7 +45,7 @@ public class CalificacionManager {
             
             stmt.setInt  (1, calificacion.getIdEvaluacion());
             stmt.setInt  (2, calificacion.getIdEstudiante());
-            stmt.setDate (3, calificacion.getFechaEntrega());
+            stmt.setTimestamp (3, calificacion.getFechaEntrega());
             stmt.setFloat(4, calificacion.getNota());
           
             return stmt.executeUpdate() > 0 ;
@@ -47,6 +55,33 @@ public class CalificacionManager {
             return false;
     }    
   }
+    
+      public boolean CantidadCalificacionesMayorA4(int idCurso, int idEstudiante) {
+    String sql = """
+                 SELECT COUNT(*)
+                 FROM calificacion c
+                 JOIN evaluaciones e ON c.idEvaluacion = e.idEvaluacion
+                 WHERE e.idCurso = ? AND c.idEstudiante = ?;
+                 """;
+
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        stmt.setInt(1, idCurso);
+        stmt.setInt(2, idEstudiante);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int cantidad = rs.getInt(1);
+                System.out.println("Cantidad: " + cantidad);
+                return cantidad <= 4;
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al verificar cantidad de estudiantes: " + e.getMessage());
+    }
+
+    return false;
+}
     
     
     
@@ -67,7 +102,7 @@ public class CalificacionManager {
                             rs.getInt ("idCalificacion"),
                             rs.getInt ("idEvaluacion"),
                             rs.getInt ("idEstudiante"),
-                            rs.getDate ("fechaEntrega"),
+                            rs.getTimestamp ("fechaEntrega"),
                             rs.getFloat ("nota")
                 );
                     
@@ -99,7 +134,7 @@ public class CalificacionManager {
                             rs.getInt ("idCalificacion"),
                             rs.getInt ("idEvaluacion"),
                             rs.getInt ("idEstudiante"),
-                            rs.getDate ("fechaEntrega"),
+                            rs.getTimestamp ("fechaEntrega"),
                             rs.getFloat ("nota")
                     
                     
@@ -126,7 +161,7 @@ public class CalificacionManager {
             
             stmt.setInt  (1, calificacion.getIdEvaluacion());
             stmt.setInt  (2, calificacion.getIdEstudiante());
-            stmt.setDate (3, calificacion.getFechaEntrega());
+            stmt.setTimestamp (3, calificacion.getFechaEntrega());
             stmt.setFloat(4,calificacion.getNota());
             stmt.setInt(5, calificacion.getIdCalificacion());
             
@@ -137,13 +172,13 @@ public class CalificacionManager {
         }
     }
     
-      public boolean actualizarNotaDeCalificacion(int idCalificacion, int nota){
+      public boolean actualizarNotaDeCalificacion(int idCalificacion, Float nota){
         
         String sql = "UPDATE Calificacion SET nota = ? WHERE idCalificacion = ?";
         
         try (PreparedStatement stmt = conexion.prepareStatement(sql)){
             
-            stmt.setInt(1, nota);
+            stmt.setFloat(1, nota);
             stmt.setInt(2, idCalificacion);
             
             return stmt.executeUpdate() > 0;
@@ -171,20 +206,21 @@ public class CalificacionManager {
     }
     
     
-      public List <Calificacion> listarCalificacionesPorEvaluacionDeProfesor (int idProfesor){
+      public List <Calificacion> listarCalificacionesPorEvaluacionDeProfesor (int idCurso, int idProfesor){
         
         String sql = """
                      SELECT c.*
                      FROM calificacion c
                      JOIN evaluaciones e ON c.idEvaluacion = e.idEvaluacion
-                     WHERE e.idProfesor = ? ORDER BY c.fechaEntrega DESC;
+                     WHERE e.idCurso = ? AND e.idProfesor = ? ORDER BY c.fechaEntrega DESC;
                      """;
         
         List <Calificacion> lista = new ArrayList<>();
         
         try (PreparedStatement stmt = conexion.prepareStatement(sql)){
             
-            stmt.setInt(1, idProfesor);
+            stmt.setInt(1, idCurso);
+            stmt.setInt(2, idProfesor);
             
             try (ResultSet rs = stmt.executeQuery()){
                 
@@ -195,7 +231,51 @@ public class CalificacionManager {
                             rs.getInt ("idCalificacion"),
                             rs.getInt ("idEvaluacion"),
                             rs.getInt ("idEstudiante"),
-                            rs.getDate ("fechaEntrega"),
+                            rs.getTimestamp ("fechaEntrega"),
+                            rs.getFloat ("nota")
+                    
+                    
+                    );
+                    
+                    lista.add(calificacion);
+                }
+                return lista;
+            
+            }} catch (SQLException e){
+                
+            System.err.println("Error al listar calificaciones: " + e.getMessage());
+            return null;
+        }
+    }
+      
+      
+      
+         public List <Calificacion> listarCalificacionesDeEstudiante (int idCurso, int idEstudiante){
+        
+        String sql = """
+                     SELECT c.*
+                     FROM calificacion c
+                     JOIN evaluaciones e ON c.idEvaluacion = e.idEvaluacion
+                     WHERE e.idCurso = ? AND c.idEstudiante = ? ORDER BY c.fechaEntrega DESC;
+                     """;
+        
+        List <Calificacion> lista = new ArrayList<>();
+        
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, idCurso);
+            stmt.setInt(2, idEstudiante);
+            
+            try (ResultSet rs = stmt.executeQuery()){
+                
+                while (rs.next()) {
+                    
+                    Calificacion calificacion = new Calificacion (
+                    
+                            rs.getInt ("idCalificacion"),
+                            rs.getInt ("idEvaluacion"),
+                            rs.getInt ("idEstudiante"),
+                            rs.getTimestamp ("fechaEntrega"),
                             rs.getFloat ("nota")
                     
                     

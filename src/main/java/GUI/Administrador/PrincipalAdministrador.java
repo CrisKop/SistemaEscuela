@@ -80,6 +80,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         TabBtn1 = new javax.swing.JButton();
         TabBtn2 = new javax.swing.JButton();
         TabBtnLogOut = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         RightContainer = new javax.swing.JPanel();
         TabbedContainer = new javax.swing.JTabbedPane();
         Tab1Container = new javax.swing.JPanel();
@@ -275,6 +276,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
             }
         });
         LeftBar.add(TabBtnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 670, 210, 60));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/admin.png"))); // NOI18N
+        LeftBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 25, 120, 120));
 
         getContentPane().add(LeftBar, java.awt.BorderLayout.LINE_START);
 
@@ -1579,7 +1583,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     
     
         private void ApplyFieldsOnlyNumbers(){
-    JTextField[] campos = {settingsInputTelefono, inputCursoMaxEstudiantes, inputCursoCreditos, inputEstudianteIdentificacion, inputEstudianteTelefono, inputProfesorIdentificacion, inputProfesorTelefono};
+    JTextField[] campos = {settingsInputTelefono, inputCursoMaxEstudiantes, inputCursoCreditos, inputEstudianteIdentificacion, inputEstudianteTelefono, inputEstudianteGrado, inputProfesorIdentificacion, inputProfesorTelefono};
 
     for (JTextField campo : campos) {
         campo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -3058,6 +3062,7 @@ private void limpiarCampos(JComponent[] inputs) {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;

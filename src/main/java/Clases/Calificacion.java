@@ -5,6 +5,7 @@
 package Clases;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -14,11 +15,11 @@ public class Calificacion {
     private int idCalificacion;
     private int idEvaluacion;
     private  int idEstudiante;
-    private Date fechaEntrega;
+    private Timestamp fechaEntrega;
     private float nota;
     
     
-    public Calificacion (int idCalificacion , int idEvaluacion , int idEstudiante , Date fechaEntrega , float nota){
+    public Calificacion (int idCalificacion , int idEvaluacion , int idEstudiante , Timestamp fechaEntrega , float nota){
         this.idCalificacion = idCalificacion;
         this.idEvaluacion = idEvaluacion;
         this.idEstudiante = idEstudiante;
@@ -39,7 +40,7 @@ public class Calificacion {
         return idEstudiante;
     }
 
-    public Date getFechaEntrega() {
+    public Timestamp getFechaEntrega() {
         return fechaEntrega;
     }
 
@@ -59,7 +60,7 @@ public class Calificacion {
         this.idEstudiante = idEstudiante;
     }
 
-    public void setFechaEntrega(Date fechaEntrega) {
+    public void setFechaEntrega(Timestamp fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 

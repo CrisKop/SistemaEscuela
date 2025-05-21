@@ -4,13 +4,19 @@
  */
 package GUI.Estudiante;
 
+import Clases.Calificacion;
 import Clases.Curso;
 import Clases.Estudiante;
+import Clases.Evaluacion;
 import Clases.Usuario;
 import GUI.Login;
+import Managers.CalificacionManager;
 import Managers.CursoManager;
+import Managers.EvaluacionManager;
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +29,7 @@ import middlewares.CurrentSession;
  * @author criskop
  */
 public class DetalleCursoEstudiante extends javax.swing.JFrame {
-    Curso curso;
+    Curso currentCurso;
     /**
      * Creates new form Principal
      */
@@ -32,15 +38,16 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
     Usuario currentUser = currentSession.getCurrentSessionData();
     Estudiante currentRole = (Estudiante) currentSession.getCurrentRoleData();
     CursoManager cursoManager = new CursoManager();
+    EvaluacionManager evaluacionManager = new EvaluacionManager();
+    CalificacionManager calificacionManager = new CalificacionManager();
    
     public DetalleCursoEstudiante(Curso curso) {
         initComponents();
         welcomeMessageName.setText(curso.getNombre());
         cargarModeloTablas();
-        this.curso = curso;
+        this.currentCurso = curso;
+        cargarTablasNecesarias();
 
-        
-    
     }
     
     private void cambiarTab(int index){
@@ -63,24 +70,75 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
   
      login.setVisible(true);
   
-       
-      
-        
+
     }
     
     
+   private void calcularPromedio() {
+    List<Calificacion> listaCalificaciones = calificacionManager.listarCalificacionesDeEstudiante(
+        currentCurso.getIdCurso(), 
+        currentRole.getIdEstudiante()
+    );
+
+    float nota1 = 0, nota2 = 0, nota3 = 0, nota4 = 0;
+
+    if (listaCalificaciones != null && !listaCalificaciones.isEmpty()) {
+        if (listaCalificaciones.size() > 0) {
+            nota1 = listaCalificaciones.get(0).getNota();
+        }
+        if (listaCalificaciones.size() > 1) {
+            nota2 = listaCalificaciones.get(1).getNota();
+        }
+        if (listaCalificaciones.size() > 2) {
+            nota3 = listaCalificaciones.get(2).getNota();
+        }
+        if (listaCalificaciones.size() > 3) {
+            nota4 = listaCalificaciones.get(3).getNota();
+        }
+    }
+
+    // Opcional: calcular el promedio solo con las notas que existen
+    int cantidadNotas = Math.min(listaCalificaciones != null ? listaCalificaciones.size() : 0, 4);
+    float suma = ((nota1 + nota2 + nota3) / 3 * 0.7f) + (nota4 * 0.3f);
+    float promedio = cantidadNotas > 0 ? suma / cantidadNotas : 0;
+
+    System.out.println("Promedio: " + promedio);
+    labelPromedio.setText(String.valueOf(promedio));
+}
+
+    
+    
       private void cargarModeloTablas(){
-                        String[] columnasEvals = {"Titulo", "Plazo de entrega", "Tipo"};
+            String[] columnasEvals = {"ID de evaluacion", "ID Del curso", "ID del Profesor", "Titulo", "Fecha de Inicio", "Plazo de entrega", "Tipo"};
         Crear_Modelo(columnasEvals, tableCursoEvals);
         
-           String[] columnasCalificaciones = {"Curso", "Fecha de entrega", "Nota"};
+                String[] columnasCalificaciones = {"ID de calificacion", "ID de evaluacion",  "ID del estudiante", "Fecha de entrega", "Nota"};
         Crear_Modelo(columnasCalificaciones, tableCalificaciones);
 }
       
         private void cargarTablasNecesarias(){
-       
+       cargarTablaCursoEvalsPendientes();
+       cargarTablaCalificacionesDeEstudiante();
+       calcularPromedio();
      
     }
+        
+        
+          private void cargarTablaCursoEvalsPendientes(){
+           List<Evaluacion> listaEvaluaciones = evaluacionManager.listarEvaluacionesPendientesCurso(currentCurso.getIdCurso(), currentRole.getIdEstudiante());
+        
+        if(listaEvaluaciones != null) {
+            cargarTabla(tableCursoEvals, listaEvaluaciones);
+        }
+    }
+          
+           private void cargarTablaCalificacionesDeEstudiante(){
+            List<Calificacion> listaCalificaciones = calificacionManager.listarCalificacionesDeEstudiante(currentCurso.getIdCurso(), currentRole.getIdEstudiante());
+        
+        if(listaCalificaciones != null) {
+            cargarTabla(tableCalificaciones, listaCalificaciones);
+        }
+      }
         
        
        
@@ -164,6 +222,7 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         jLabel5.setText("Detalles del curso");
         Tab1Container.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
+        tableCursoEvals.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCursoEvals.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -175,6 +234,13 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
 
             }
         ));
+        tableCursoEvals.setRowHeight(40);
+        tableCursoEvals.setSelectionBackground(new java.awt.Color(4, 205, 4));
+        tableCursoEvals.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableCursoEvalsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCursoEvals);
 
         Tab1Container.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 910, 130));
@@ -197,6 +263,7 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         jLabel7.setText("Tus calificaciones de este curso");
         Tab1Container.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, -1, -1));
 
+        tableCalificaciones.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         tableCalificaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -208,6 +275,8 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
 
             }
         ));
+        tableCalificaciones.setRowHeight(40);
+        tableCalificaciones.setSelectionBackground(new java.awt.Color(4, 205, 4));
         jScrollPane2.setViewportView(tableCalificaciones);
 
         Tab1Container.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 910, 130));
@@ -215,7 +284,7 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
         BtnSalirCurso1.setBackground(new java.awt.Color(174, 197, 177));
         BtnSalirCurso1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         BtnSalirCurso1.setForeground(new java.awt.Color(255, 255, 255));
-        BtnSalirCurso1.setText("Salir del curso");
+        BtnSalirCurso1.setText("Retirarse del Curso");
         BtnSalirCurso1.setBorder(null);
         BtnSalirCurso1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,7 +304,7 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
                 btnEvaluacionEnviarActionPerformed(evt);
             }
         });
-        Tab1Container.add(btnEvaluacionEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 890, 60));
+        Tab1Container.add(btnEvaluacionEnviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 910, 60));
 
         TabbedContainer.addTab("Principal", Tab1Container);
 
@@ -251,8 +320,19 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnSalirCurso1ActionPerformed
 
     private void btnEvaluacionEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEvaluacionEnviarActionPerformed
-        cambiarTab(1);
+        createNewCalificacion();
     }//GEN-LAST:event_btnEvaluacionEnviarActionPerformed
+
+    private void tableCursoEvalsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoEvalsMouseClicked
+           JTable tabla = tableCursoEvals;
+        int fila = tabla.getSelectedRow();
+        if (fila != -1) {
+        
+        JButton[] buttons = {btnEvaluacionEnviar};
+        habilitarBotones(buttons);
+
+        }
+    }//GEN-LAST:event_tableCursoEvalsMouseClicked
 
     
     
@@ -309,7 +389,7 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
        private boolean actionRetirarEstudianteDeCurso(){
    
                   
-                   boolean accion = cursoManager.retirarEstudiante(currentRole.getIdEstudiante() ,(int) curso.getIdCurso());
+                   boolean accion = cursoManager.retirarEstudiante(currentRole.getIdEstudiante() ,(int) currentCurso.getIdCurso());
                    
                 if(accion == false){
                     JOptionPane.showMessageDialog(null, "Error al efectuar accion");
@@ -320,6 +400,89 @@ public class DetalleCursoEstudiante extends javax.swing.JFrame {
             cargarTablasNecesarias();
             return true;
     }
+       
+       
+       
+       
+       
+        private void createNewCalificacion(){
+        
+        JComponent[] inputsList = {};
+              boolean[] needed = {};
+        JButton[] buttonsList = {btnEvaluacionEnviar};
+   
+        
+        boolean accion = actionCreateCalificacion();
+        if(accion == false) return;
+        
+            cargarTablasNecesarias();
+           desabilitarBotones(buttonsList);
+           successText(null);
+        
+    }
+    
+    
+        private boolean actionCreateCalificacion(){
+
+            
+              int fila = tableCursoEvals.getSelectedRow();
+            if (fila != -1) {
+                  Object idEvaluacion = tableCursoEvals.getValueAt(fila, 0);
+                  
+    try {
+        // Obtener las fechas como Strings desde los inputs
+        String fechaInicioStr = tableCursoEvals.getValueAt(fila, 4).toString();
+        String fechaFinStr = tableCursoEvals.getValueAt(fila, 5).toString();
+
+        
+        Timestamp fechaActual = Timestamp.valueOf(LocalDateTime.now());
+
+        Timestamp fechaInicioTimestamp = Timestamp.valueOf(fechaInicioStr);
+        Timestamp fechaFinTimestamp = Timestamp.valueOf(fechaFinStr);
+
+        // Verifica si la fecha actual está fuera del rango (antes del inicio o después del fin)
+        if (fechaActual.before(fechaInicioTimestamp)) {
+            System.out.println("Aún no ha comenzado");
+            JOptionPane.showMessageDialog(null, "¡Estás enviando demasiado antes! ¡Todavia no es el inicio de la entrega!");
+            return false;
+            
+        }
+        
+        if (fechaActual.after(fechaFinTimestamp)) {
+            System.out.println("Ya terminó");
+            JOptionPane.showMessageDialog(null, "Ya se acabó el plazo de entrega de esta evaluación :(");
+            return false;
+        }
+      
+
+        // Crear el nuevo objeto Evaluacion con los Timestamps
+        Calificacion nuevoObjeto = new Calificacion(
+            0,
+            (int) idEvaluacion,
+            currentRole.getIdEstudiante(),
+            fechaActual,
+            0
+        );
+
+          boolean accion = calificacionManager.InsertarCalificacion(nuevoObjeto, currentCurso.getIdCurso());
+
+                if(accion == false){
+                    JOptionPane.showMessageDialog(null, "Error al efectuar accion");
+                    return false;
+                }
+
+                cargarTablasNecesarias();
+                return true;
+    } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+        // Manejo de error si el formato de la fecha no es válido
+    }
+
+       
+        //FIN DEL METODO
+        }
+             return false;
+       }
     /**
      * @param args the command line arguments
      */

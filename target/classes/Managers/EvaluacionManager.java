@@ -30,9 +30,17 @@ public class EvaluacionManager {
       }
       
       
-       public boolean insertarEvaluacion(Evaluacion evaluacion){
+       public boolean insertarEvaluacion(Evaluacion evaluacion, int idCurso){
         
       String sql = "INSERT INTO evaluaciones (idCurso, idProfesor, titulo, fechaInicio, fechaFin, tipo) VALUES (?,?,?,?,?, ?)";
+      
+      
+       boolean verificacionDeMaxCantidadDeEvaluaciones = CantidadEvaluacionesMayorA4EnCurso(idCurso);
+
+        if (!verificacionDeMaxCantidadDeEvaluaciones) {
+            System.out.println("Ya tiene 4 notas, es el máximo");
+            return false;
+        }
       
       try(PreparedStatement stmt = conexion.prepareStatement(sql)){
           
@@ -51,6 +59,32 @@ public class EvaluacionManager {
             return false;
         }  
       }
+       
+       
+        public boolean CantidadEvaluacionesMayorA4EnCurso(int idCurso) {
+    String sql = """
+                 SELECT COUNT(*)
+                 FROM evaluacion
+                 WHERE idCurso = ?;
+                 """;
+
+    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+        stmt.setInt(1, idCurso);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int cantidad = rs.getInt(1);
+                System.out.println("Cantidad: " + cantidad);
+                return cantidad <= 4;
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al verificar cantidad de estudiantes: " + e.getMessage());
+    }
+
+    return false;
+}
        
         public Evaluacion obtenerEvaluacionPorID(int id){
               
@@ -202,7 +236,8 @@ public class EvaluacionManager {
                       SELECT e.*
                       FROM evaluaciones e
                       LEFT JOIN calificacion c ON e.idEvaluacion = c.idEvaluacion
-                      WHERE e.idCurso = ? AND c.idEstudiante IS NULL;
+                      WHERE e.idCurso = ?
+                      AND (c.idEstudiante IS NULL OR c.idEstudiante <> ?);
                       """;
        
          List<Evaluacion> lista = new ArrayList<>();

@@ -162,6 +162,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
         TabBtn1 = new javax.swing.JButton();
         TabBtn2 = new javax.swing.JButton();
         TabBtn3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         RightContainer = new javax.swing.JPanel();
         TabbedContainer = new javax.swing.JTabbedPane();
         Tab1Container = new javax.swing.JPanel();
@@ -255,6 +256,9 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
             }
         });
         LeftBar.add(TabBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 210, 60));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/student.png"))); // NOI18N
+        LeftBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 25, 120, 120));
 
         getContentPane().add(LeftBar, java.awt.BorderLayout.LINE_START);
 
@@ -818,6 +822,7 @@ public class PrincipalEstudiante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
